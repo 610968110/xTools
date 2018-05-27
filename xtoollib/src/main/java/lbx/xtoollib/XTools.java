@@ -3,6 +3,7 @@ package lbx.xtoollib;
 import android.app.Application;
 import android.content.Context;
 
+import lbx.xtoollib.app.ApkUtil;
 import lbx.xtoollib.app.AppUtil;
 import lbx.xtoollib.e.UncaughtExceptionHandler;
 import lbx.xtoollib.net.HttpUtil;
@@ -19,6 +20,7 @@ import lbx.xtoollib.phone.ObjUtil;
 import lbx.xtoollib.phone.PermissionUtil;
 import lbx.xtoollib.phone.SoftInputUtil;
 import lbx.xtoollib.phone.TimeUtil;
+import lbx.xtoollib.phone.VibratorUtil;
 import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtoollib.res.BitmapUtil;
 import lbx.xtoollib.res.DrawableUtil;
@@ -57,6 +59,7 @@ public class XTools {
     private static HttpUtil mHttpUtil;
     private static IOUtils mIOUtils;
     private static xLogUtil mLogUtil;
+    private static ApkUtil mApkUtil;
     private static MD5Utils mMD5Utils;
     private static MeatDataUtil mMeatDataUtil;
     private static NetConnectUtil mNetConnectTypeUtil;
@@ -67,6 +70,7 @@ public class XTools {
     private static TimeUtil mTimeUtil;
     private static CloseUtil mCloseUtil;
     private static UriUtil mUriUtil;
+    private static VibratorUtil mVibratorUtil;
     private static UncaughtExceptionHandler mUncaughtExceptionHandler;
 
     private XTools(Builder builder, Application app) {
@@ -210,6 +214,10 @@ public class XTools {
         return mDrawableUtil == null ? mDrawableUtil = DrawableUtil.getInstance() : mDrawableUtil;
     }
 
+    public static ApkUtil ApkUtil() {
+        return mApkUtil == null ? mApkUtil = ApkUtil.getInstance() : mApkUtil;
+    }
+
     public static FileUtil FileUtil() {
         return mFileUtil == null ? mFileUtil = FileUtil.getInstance() : mFileUtil;
     }
@@ -264,6 +272,10 @@ public class XTools {
 
     public static UriUtil UriUtil() {
         return mUriUtil == null ? mUriUtil = UriUtil.getInstance() : mUriUtil;
+    }
+
+    public static VibratorUtil VibratorUtil() {
+        return mVibratorUtil == null ? mVibratorUtil = VibratorUtil.getInstance() : mVibratorUtil;
     }
 
     private UncaughtExceptionHandler getUncaughtExceptionHandler(Context context) {

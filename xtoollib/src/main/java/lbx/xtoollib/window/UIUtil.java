@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
@@ -16,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import lbx.xtoollib.XTools;
 import lbx.xtoollib.R;
+import lbx.xtoollib.XTools;
 
 
 public class UIUtil {
@@ -29,6 +30,7 @@ public class UIUtil {
     private static Toast emptyToast;
     private static Toast toast;
     private static Dialog dialog = null;
+    private long[] mHits = new long[2];
 
     public static UIUtil getInstance() {
         if (INSTANCE == null) {
@@ -47,6 +49,24 @@ public class UIUtil {
     public void init(Application app) {
         mApp = app;
         mHandler = new Handler(Looper.getMainLooper());
+    }
+
+    public void doubleClick(int time, OnClickListener listener) {
+        System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
+        mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+        if (listener != null) {
+            if (mHits[0] >= (SystemClock.uptimeMillis() - time)) {
+                listener.accord();
+            } else {
+                listener.disaccord();
+            }
+        }
+    }
+
+    public interface OnClickListener {
+        void accord();
+
+        void disaccord();
     }
 
     public Toast showToast(String text) {
