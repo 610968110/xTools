@@ -58,24 +58,24 @@ module的build文件添加：
         //初始化           
         xTools.init();          
 ```     
-=======
+```Java
     //这里注意，因为和dataBinding冲突，所以不能用apt
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'com.android.support:recyclerview-v7:26+'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'io.reactivex:rxjava:1.0.14'
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
-    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    com.android.support:design
-
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'        
+    compile 'com.android.support:recyclerview-v7:26+'       
+    compile 'com.google.code.gson:gson:2.7'     
+    compile 'io.reactivex:rxjava:1.0.14'        
+    compile 'io.reactivex:rxandroid:1.0.1'      
+    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'      
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'        
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'      
+    com.android.support:design      
+```
     android标签下：
-
+```Java
     dataBinding {
         enabled = true
     }
-
+```
 二、初始化
 ====
 
