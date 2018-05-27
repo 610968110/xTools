@@ -51,16 +51,10 @@ public class UIUtil {
         mHandler = new Handler(Looper.getMainLooper());
     }
 
-    public void doubleClick(int time, OnClickListener listener) {
+    public  boolean doubleClick(int time) {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
         mHits[mHits.length - 1] = SystemClock.uptimeMillis();
-        if (listener != null) {
-            if (mHits[0] >= (SystemClock.uptimeMillis() - time)) {
-                listener.accord();
-            } else {
-                listener.disaccord();
-            }
-        }
+        return mHits[0] >= (SystemClock.uptimeMillis() - time);
     }
 
     public interface OnClickListener {
