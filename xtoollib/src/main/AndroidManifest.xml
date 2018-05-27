@@ -1,0 +1,36 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="lbx.xtoollib">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+        <activity
+            android:name=".view.WebPhotoActivity"
+            android:configChanges="keyboard|orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme_WindowTranslucent" />
+
+        <!--&lt;!&ndash; 定义FileProvider &ndash;&gt;-->
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="@string/filepath"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/file_provider" />-->
+        <!--</provider>-->
+
+    </application>
+
+</manifest>
+
+
+

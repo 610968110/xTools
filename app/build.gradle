@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    lintOptions {
+        abortOnError false
+    }
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        applicationId "lbx.xtools"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    compile project(':xtoollib')
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.android.support:recyclerview-v7:26+'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+}

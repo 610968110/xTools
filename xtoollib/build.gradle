@@ -1,0 +1,65 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    dataBinding {
+        enabled = true
+    }
+    lintOptions {
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+publish {
+    def android = rootProject.ext
+    userOrg = '610968110'//bintray.com的用户名
+    repoName = 'Maven'//远程仓库名字,不指明，默认是上传到maven
+    artifactId = 'xTools'//项目名称
+    groupId = 'com.lbx'//jcenter上的路径
+    publishVersion = android.versionName//版本号
+    desc = 'xTools'//描述，不重要
+    website = 'https://github.com/610968110/xTools'//项目主页
+}
+tasks.withType(Javadoc) {//防止编码问题
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:26.+'
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.android.support:design:26.+'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.android.support:recyclerview-v7:26+'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
+    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+}

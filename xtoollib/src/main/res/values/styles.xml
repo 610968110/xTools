@@ -1,0 +1,36 @@
+<resources>
+
+    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="AppTheme_TranslucentBar" parent="AppThemeNoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+    </style>
+
+    <style name="AppTheme_TranslucentBarWithBottomBar" parent="AppTheme_TranslucentBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="AppTheme_FullScreen" parent="AppThemeNoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppTheme_WindowTranslucent" parent="AppTheme_TranslucentBar">
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <style name="Theme_MyDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+</resources>
