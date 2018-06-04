@@ -20,7 +20,7 @@ import lbx.xtoollib.phone.ObjUtil;
 import lbx.xtoollib.phone.PermissionUtil;
 import lbx.xtoollib.phone.SoftInputUtil;
 import lbx.xtoollib.phone.TimeUtil;
-import lbx.xtoollib.phone.VibratorUtil;
+import lbx.xtoollib.phone.PhoneUtil;
 import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtoollib.res.BitmapUtil;
 import lbx.xtoollib.res.DrawableUtil;
@@ -70,7 +70,7 @@ public class XTools {
     private static TimeUtil mTimeUtil;
     private static CloseUtil mCloseUtil;
     private static UriUtil mUriUtil;
-    private static VibratorUtil mVibratorUtil;
+    private static PhoneUtil mPhoneUtil;
     private static UncaughtExceptionHandler mUncaughtExceptionHandler;
 
     private XTools(Builder builder, Application app) {
@@ -274,8 +274,8 @@ public class XTools {
         return mUriUtil == null ? mUriUtil = UriUtil.getInstance() : mUriUtil;
     }
 
-    public static VibratorUtil VibratorUtil() {
-        return mVibratorUtil == null ? mVibratorUtil = VibratorUtil.getInstance() : mVibratorUtil;
+    public static PhoneUtil PhoneUtil() {
+        return mPhoneUtil == null ? mPhoneUtil = PhoneUtil.getInstance() : mPhoneUtil;
     }
 
     private UncaughtExceptionHandler getUncaughtExceptionHandler(Context context) {

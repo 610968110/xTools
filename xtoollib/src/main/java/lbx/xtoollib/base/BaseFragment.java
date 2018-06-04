@@ -1,5 +1,7 @@
 package lbx.xtoollib.base;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,13 +17,17 @@ public abstract class BaseFragment extends Fragment {
     private View view;
     protected String mFragmentName = "";
     private Bundle mArguments;
+    private ViewDataBinding mViewDataBinding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(getLayoutID(), container, false);
+        int layoutID = getLayoutID();
+        mViewDataBinding = DataBindingUtil.inflate(inflater, layoutID, container, false);
+        view = mViewDataBinding == null ? inflater.inflate(layoutID, container, false) : mViewDataBinding.getRoot();
         ButterKnife.bind(this, view);
         getBaseArguments();
+        getDataBinding(mViewDataBinding);
         initView(view);
         initData();
         initListener();
@@ -41,11 +47,15 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    public void getDataBinding(ViewDataBinding binding) {
+
+    }
+
     public abstract void initView(View view);
 
     public abstract void initData();
 
-    public  void initListener(){
+    public void initListener() {
 
     }
 

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context="lbx.xtools.MainActivity">
 
-    <lbx.xtoollib.view.web.XWebView
-        android:id="@+id/webView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </lbx.xtoollib.view.web.XWebView>
+        <lbx.xtoollib.view.web.XWebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        </lbx.xtoollib.view.web.XWebView>
 
-</FrameLayout>
+    </FrameLayout>
+
+</layout>

@@ -33,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         ButterKnife.bind(this);
         View view = findViewById(android.R.id.content);
         getBaseIntent();
+        getDataBinding(mViewDataBinding);
         initView(view);
         initData();
         initListener();
@@ -63,6 +64,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     }
 
+    public void getDataBinding(ViewDataBinding binding) {
+
+    }
+
     public abstract void initView(View view);
 
     public abstract void initData();
@@ -90,9 +95,4 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         XTools.ActivityUtil().removeActivity(this);
         XTools.UiUtil().closeProgressDialog();
     }
-
-    protected ViewDataBinding getViewDataBinding() {
-        return mViewDataBinding;
-    }
-
 }

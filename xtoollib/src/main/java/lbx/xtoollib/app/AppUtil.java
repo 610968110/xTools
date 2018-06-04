@@ -2,6 +2,7 @@ package lbx.xtoollib.app;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
@@ -158,5 +159,28 @@ public class AppUtil {
         context = context.getApplicationContext();
         ApplicationInfo applicationInfo = context.getApplicationInfo();
         return applicationInfo.sourceDir;
+    }
+
+    public boolean openApp(Context context, String pkn) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(pkn);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (intent.resolveActivity(packageManager) != null) {
+            context.startActivity(intent);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Intent getApp(Context context, String pkn) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(pkn);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
     }
 }

@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.CallSuper;
 import android.util.AttributeSet;
+import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.view.WebPhotoActivity;
@@ -24,6 +24,10 @@ import lbx.xtoollib.view.WebPhotoActivity;
 public class XWebView extends WebView implements XWebChromeClient.OnWebChromeClientListener, DownloadListener {
 
     public ValueCallback mFilePathCallback;
+    private View mErrorView;
+    private String mLoadUrl;
+    private String mLoadUrlWithoutEmpty;
+    public static final String EMPTY_URL = "about:blank";
 
     public XWebView(Context context) {
         super(context);
@@ -44,7 +48,6 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
     }
 
     private void init() {
-        setWebViewClient(mClient);
         //启用支持Javascript
         WebSettings settings = getSettings();
         settings.setJavaScriptEnabled(true);
@@ -81,15 +84,6 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
         }
         super.setWebChromeClient(client);
     }
-
-
-    private WebViewClient mClient = new WebViewClient() {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-    };
 
     private void start() {
         WebPhotoActivity.start(getContext());
@@ -179,5 +173,30 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
         } else {
             XTools.UiUtil().toastInUI("下载失败");
         }
+    }
+
+    public View getErrorView() {
+        return mErrorView;
+    }
+
+    public void setErrorView(View errorView) {
+        this.mErrorView = errorView;
+    }
+
+    public String getLoadUrl() {
+        return mLoadUrl;
+    }
+
+
+    public void setLoadUrl(String loadUrl) {
+        this.mLoadUrl = loadUrl;
+    }
+
+    public String getLoadUrlWithoutEmpty() {
+        return mLoadUrlWithoutEmpty;
+    }
+
+    public void setLoadUrlWithoutEmpty(String loadUrlWithoutEmpty) {
+        this.mLoadUrlWithoutEmpty = loadUrlWithoutEmpty;
     }
 }

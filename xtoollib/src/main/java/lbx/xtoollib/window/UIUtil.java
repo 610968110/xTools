@@ -1,6 +1,7 @@
 package lbx.xtoollib.window;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
@@ -51,16 +52,10 @@ public class UIUtil {
         mHandler = new Handler(Looper.getMainLooper());
     }
 
-    public  boolean doubleClick(int time) {
+    public boolean doubleClick(int time) {
         System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
         mHits[mHits.length - 1] = SystemClock.uptimeMillis();
         return mHits[0] >= (SystemClock.uptimeMillis() - time);
-    }
-
-    public interface OnClickListener {
-        void accord();
-
-        void disaccord();
     }
 
     public Toast showToast(String text) {
@@ -97,6 +92,10 @@ public class UIUtil {
         }
     }
 
+    public boolean textIsEmpty(String s, @StringRes int id) {
+        return textIsEmpty(s, XTools.ResUtil().getString(id));
+    }
+
     public boolean textIsEmpty(String s, String toast) {
         if (TextUtils.isEmpty(s)) {
             if (emptyToast == null && !TextUtils.isEmpty(toast)) {
@@ -106,6 +105,19 @@ public class UIUtil {
             return true;
         }
         return false;
+    }
+
+    public AlertDialog.Builder getSystemDialog(Activity activity,
+                                               String title,
+                                               String text,
+                                               DialogInterface.OnClickListener sure,
+                                               DialogInterface.OnClickListener cancel) {
+        return new AlertDialog.Builder(activity, R.style.Theme_MyDialog)
+                .setCancelable(false)
+                .setTitle(title)
+                .setMessage(text)
+                .setPositiveButton("确定", sure)
+                .setNegativeButton("取消", cancel);
     }
 
     public Context getContext() {

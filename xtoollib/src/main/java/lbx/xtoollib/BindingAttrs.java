@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-public class ImageViewAttrAdapter {
+public class BindingAttrs {
 
     @BindingAdapter("android:src")
     public static void setSrc(ImageView view, Bitmap bitmap) {
