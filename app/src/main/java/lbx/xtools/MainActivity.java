@@ -4,9 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.view.View;
 
 import butterknife.BindView;
-import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
-import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtoollib.view.web.XWebView;
 
 /**
@@ -34,13 +32,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        xLogUtil.e("XTools.AppUtil().getMainThreadId():" + XTools.AppUtil().getMainThreadId());
-        xLogUtil.e("XTools.AppUtil().isRunOnUIThread:" + XTools.AppUtil().isRunOnUIThread());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                xLogUtil.e("XTools.AppUtil().isRunOnUIThread Thread:" + XTools.AppUtil().isRunOnUIThread());
-            }
-        }).start();
+
     }
 }

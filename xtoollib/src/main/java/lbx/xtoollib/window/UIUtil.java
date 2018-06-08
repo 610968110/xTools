@@ -112,12 +112,35 @@ public class UIUtil {
                                                String text,
                                                DialogInterface.OnClickListener sure,
                                                DialogInterface.OnClickListener cancel) {
-        return new AlertDialog.Builder(activity, R.style.Theme_MyDialog)
+        return new AlertDialog.Builder(activity)
                 .setCancelable(false)
                 .setTitle(title)
                 .setMessage(text)
                 .setPositiveButton("确定", sure)
                 .setNegativeButton("取消", cancel);
+    }
+
+    public AlertDialog.Builder getSystemDialog(Activity activity, int style,
+                                               String title,
+                                               String text,
+                                               DialogInterface.OnClickListener sure,
+                                               DialogInterface.OnClickListener cancel) {
+        AlertDialog.Builder builder;
+        if (style != -1) {
+            builder = new AlertDialog.Builder(activity, style);
+        } else {
+            builder = new AlertDialog.Builder(activity);
+        }
+        if (sure != null) {
+            builder.setPositiveButton("确定", sure);
+        }
+        if (cancel != null) {
+            builder.setNegativeButton("取消", sure);
+        }
+        return builder.setCancelable(false)
+                .setTitle(title)
+                .setMessage(text);
+
     }
 
     public Context getContext() {
