@@ -112,12 +112,7 @@ public class UIUtil {
                                                String text,
                                                DialogInterface.OnClickListener sure,
                                                DialogInterface.OnClickListener cancel) {
-        return new AlertDialog.Builder(activity)
-                .setCancelable(false)
-                .setTitle(title)
-                .setMessage(text)
-                .setPositiveButton("确定", sure)
-                .setNegativeButton("取消", cancel);
+        return getSystemDialog(activity, -1, title, text, sure, null);
     }
 
     public AlertDialog.Builder getSystemDialog(Activity activity, int style,
