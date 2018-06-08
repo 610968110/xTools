@@ -1,10 +1,11 @@
-package com.telecomyt.lzpolice.listener;
+package lbx.xtoollib.listener;
 
 import android.support.design.widget.AppBarLayout;
 
 /**
  * @author lbx
- *         AppBarLayout 开/管回调
+ *         AppBarLayout 开/关回调
+ *         addOnOffsetChangedListener
  */
 public abstract class BaseAppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
 

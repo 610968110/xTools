@@ -21,9 +21,6 @@ public class XWebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         XWebView webView = (XWebView) view;
         webView.setLoadUrl(url);
-        if (!EMPTY_URL.equals(url)) {
-            webView.setLoadUrlWithoutEmpty(url);
-        }
         view.loadUrl(url);
         return true;
     }

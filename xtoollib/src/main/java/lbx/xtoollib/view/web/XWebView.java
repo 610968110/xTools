@@ -190,13 +190,16 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
 
     public void setLoadUrl(String loadUrl) {
         this.mLoadUrl = loadUrl;
+        setLoadUrlWithoutEmpty(loadUrl);
     }
 
     public String getLoadUrlWithoutEmpty() {
         return mLoadUrlWithoutEmpty;
     }
 
-    public void setLoadUrlWithoutEmpty(String loadUrlWithoutEmpty) {
-        this.mLoadUrlWithoutEmpty = loadUrlWithoutEmpty;
+    private void setLoadUrlWithoutEmpty(String loadUrlWithoutEmpty) {
+        if (!EMPTY_URL.equals(loadUrlWithoutEmpty)) {
+            this.mLoadUrlWithoutEmpty = loadUrlWithoutEmpty;
+        }
     }
 }

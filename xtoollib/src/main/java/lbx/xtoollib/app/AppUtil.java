@@ -164,10 +164,10 @@ public class AppUtil {
     public boolean openApp(Context context, String pkn) {
         PackageManager packageManager = context.getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(pkn);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        if (intent.resolveActivity(packageManager) != null) {
+        if (intent != null && intent.resolveActivity(packageManager) != null) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
             return true;
         } else {
@@ -178,9 +178,11 @@ public class AppUtil {
     public Intent getApp(Context context, String pkn) {
         PackageManager packageManager = context.getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(pkn);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (intent != null) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
         return intent;
     }
 }

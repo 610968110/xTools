@@ -91,8 +91,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         XTools.ActivityUtil().removeActivity(this);
         XTools.UiUtil().closeProgressDialog();
+        super.onDestroy();
     }
 }
