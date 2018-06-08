@@ -112,7 +112,7 @@ public class UIUtil {
                                                String text,
                                                DialogInterface.OnClickListener sure,
                                                DialogInterface.OnClickListener cancel) {
-        return getSystemDialog(activity, -1, title, text, sure, null);
+        return getSystemDialog(activity, -1, title, text, sure, cancel);
     }
 
     public AlertDialog.Builder getSystemDialog(Activity activity, int style,
