@@ -2,6 +2,7 @@ package lbx.xtoollib;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Process;
 
 import lbx.xtoollib.app.ApkUtil;
 import lbx.xtoollib.app.AppUtil;
@@ -72,6 +73,7 @@ public class XTools {
     private static UriUtil mUriUtil;
     private static PhoneUtil mPhoneUtil;
     private static UncaughtExceptionHandler mUncaughtExceptionHandler;
+    private static int mainThreadId;
 
     private XTools(Builder builder, Application app) {
         mApp = app;
@@ -160,6 +162,7 @@ public class XTools {
 
     public void init() {
         UiUtil().init(mApp);
+        mainThreadId = Process.myTid();
     }
 
     public static Application getApplication() {
@@ -187,7 +190,7 @@ public class XTools {
     }
 
     public static AppUtil AppUtil() {
-        return APP_UTIL == null ? APP_UTIL = AppUtil.getInstance() : APP_UTIL;
+        return APP_UTIL == null ? APP_UTIL = AppUtil.getInstance(mainThreadId) : APP_UTIL;
     }
 
     public static ActivityUtil ActivityUtil() {

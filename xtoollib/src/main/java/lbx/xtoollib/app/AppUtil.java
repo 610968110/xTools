@@ -22,18 +22,19 @@ public class AppUtil {
 
     private static int mMainThreadId;
 
-    public static AppUtil getInstance() {
+    public static AppUtil getInstance(int minThreadId) {
         if (INSTANCE == null) {
             synchronized (AppUtil.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new AppUtil();
+                    INSTANCE = new AppUtil(minThreadId);
                 }
             }
         }
         return INSTANCE;
     }
 
-    private AppUtil() {
+    private AppUtil(int minThreadId) {
+        mMainThreadId = minThreadId;
     }
 
     public String getApplicationName() {
