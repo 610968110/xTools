@@ -65,9 +65,6 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
         DEFAULT_PRINT = isPrint;
     }
 
-    public static void setDefaultPrint(boolean defaultPrint) {
-    }
-
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         ex.printStackTrace();

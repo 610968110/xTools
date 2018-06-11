@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Process;
 
+import java.io.File;
+
 import lbx.xtoollib.app.ApkUtil;
 import lbx.xtoollib.app.AppUtil;
 import lbx.xtoollib.e.UncaughtExceptionHandler;
@@ -19,9 +21,9 @@ import lbx.xtoollib.phone.MathUtil;
 import lbx.xtoollib.phone.MeatDataUtil;
 import lbx.xtoollib.phone.ObjUtil;
 import lbx.xtoollib.phone.PermissionUtil;
+import lbx.xtoollib.phone.PhoneUtil;
 import lbx.xtoollib.phone.SoftInputUtil;
 import lbx.xtoollib.phone.TimeUtil;
-import lbx.xtoollib.phone.PhoneUtil;
 import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtoollib.res.BitmapUtil;
 import lbx.xtoollib.res.DrawableUtil;
@@ -123,6 +125,13 @@ public class XTools {
 
         public Builder errLogFilePath(String path) {
             errLogFilePath = path;
+            return this;
+        }
+
+        public Builder logPrintFile(boolean isPrint, String path, String desKey) {
+            xLogUtil.setIsPrintFile(isPrint);
+            xLogUtil.setDefaultFilePath(XTools.FileUtil().getDefaultPath() + File.separator + path);
+            xLogUtil.setKey(desKey);
             return this;
         }
 

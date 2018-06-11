@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
@@ -63,6 +64,14 @@ public class xLogUtil {
 
     private static final int MAX = 3000;
 
+    private static SecurityUtil mSecurityUtil;
+    private static String DEFAULT_FILE_PATH = "xTools";
+
+    /**
+     * log是否打印到文件
+     */
+    private static boolean isPrintFile;
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({LEVEL_NONE, LEVEL_ERROR, LEVEL_WARN, LEVEL_INFO, LEVEL_DEBUG, LEVEL_VERBOSE})
     public @interface LogPrintLevel {
@@ -93,6 +102,20 @@ public class xLogUtil {
         xLogUtil.mDebuggable = debuggable;
     }
 
+    public static void setDefaultFilePath(String defaultFilePath) {
+        DEFAULT_FILE_PATH = defaultFilePath;
+    }
+
+    public static void setIsPrintFile(boolean isPrintFile) {
+        xLogUtil.isPrintFile = isPrintFile;
+    }
+
+    public static void setKey(String key) {
+        if (!TextUtils.isEmpty(key)) {
+            mSecurityUtil = new SecurityUtil(key);
+        }
+    }
+
     /**
      * 以级别为 d 的形式输出LOG
      */
@@ -102,6 +125,9 @@ public class xLogUtil {
             for (String s : cut) {
                 Log.v(mTag, s);
             }
+        }
+        if (isPrintFile) {
+            writeInFilePath("** v **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
         }
     }
 
@@ -115,6 +141,9 @@ public class xLogUtil {
                 Log.d(mTag, s);
             }
         }
+        if (isPrintFile) {
+            writeInFilePath("** d **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+        }
     }
 
     /**
@@ -126,6 +155,9 @@ public class xLogUtil {
             for (String s : cut) {
                 Log.i(mTag, s);
             }
+        }
+        if (isPrintFile) {
+            writeInFilePath("** i **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
         }
     }
 
@@ -139,6 +171,9 @@ public class xLogUtil {
                 Log.w(mTag, s);
             }
         }
+        if (isPrintFile) {
+            writeInFilePath("** w **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+        }
     }
 
     /**
@@ -150,6 +185,9 @@ public class xLogUtil {
             for (String s : cut) {
                 Log.e(mTag, s);
             }
+        }
+        if (isPrintFile) {
+            writeInFilePath("** e **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
         }
     }
 
@@ -195,6 +233,13 @@ public class xLogUtil {
         }
     }
 
+    /**
+     * log写入data文件夹
+     *
+     * @param c        context
+     * @param fileName 文件名
+     * @param log      需要存储的log
+     */
     public static void writeInDataPath(Context c, String fileName, String log) {
         try {
             FileOutputStream fout = c.openFileOutput(fileName, MODE_PRIVATE);
@@ -206,6 +251,12 @@ public class xLogUtil {
         }
     }
 
+    /**
+     * log写入SD卡
+     *
+     * @param log      需要存储的log
+     * @param fileName 文件名
+     */
     public static String writeInSDCardPath(String log, String fileName) {
         String path;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -236,21 +287,67 @@ public class xLogUtil {
         return "success";
     }
 
-    public static String writeInFilePath(String data, String tag, String path) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+    /**
+     * 将log写入 自定义路径下的文件 文件名自动生成
+     *
+     * @param log  需要存储的log
+     * @param tag  标签
+     * @param path 路径
+     * @return 存储结果
+     */
+    public static String writeInFilePath(String log, String tag, String path) {
+        return writeInFilePath(log, tag, path, false);
+    }
+
+    /**
+     * 将log写入 自定义路径下的文件 文件名自动生成
+     *
+     * @param log  需要存储的log
+     * @param tag  标签
+     * @param path 路径
+     * @param des  是否des加密
+     * @return 存储结果
+     */
+    private static String writeInFilePath(String log, String tag, String path, boolean des) {
+        return writeInFilePath(log, tag, path, des ? mSecurityUtil : null);
+    }
+
+
+    /**
+     * 将log写入 自定义路径下的文件 文件名自动生成
+     *
+     * @param log  需要存储的log
+     * @param tag  标签
+     * @param path 路径
+     * @return 存储结果
+     */
+    private static String writeInFilePath(String log, String tag, String path, SecurityUtil securityUtil) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH", Locale.CHINA);
         String name = format.format(new Date());
         File pathF = new File(path);
-        if (!pathF.exists()||!pathF.isDirectory()) {
+        if (!pathF.exists() || !pathF.isDirectory()) {
             pathF.mkdirs();
         }
         File file = new File(path, name);
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         String logTime = format.format(new Date());
-        String log = logTime + File.separator + tag + File.separator + data;
+        String logs = logTime + File.separator + tag + File.separator + log;
+        if (securityUtil != null) {
+            try {
+                //des加密
+                logs = new String(securityUtil.encrypt(logs.getBytes()), "utf-8");
+                Log.e("xys", "加密" + logs);
+                Log.e("xys", "解密" + new String(securityUtil.decrypt(logs.getBytes()), "utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         FileWriter s = null;
         try {
             s = new FileWriter(file, true);
-            s.write("\n" + log);
+            s.write("\n" + logs);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return "FileNotFoundException:" + e.toString();

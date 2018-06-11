@@ -14,7 +14,7 @@ import java.util.Locale;
  * @date 2017/12/5.
  */
 
-public class DateEntity implements Parcelable,Serializable {
+public class DateEntity implements Parcelable, Serializable {
 
     private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
 
@@ -28,6 +28,10 @@ public class DateEntity implements Parcelable,Serializable {
     public long millis;
 
     public DateEntity() {
+        this(System.currentTimeMillis());
+    }
+
+    public DateEntity(String format) {
         this(System.currentTimeMillis());
     }
 
@@ -72,10 +76,6 @@ public class DateEntity implements Parcelable,Serializable {
         calendar.set(Calendar.MILLISECOND, 0);
         millis = calendar.getTimeInMillis();
         timeFormat = formatString(millis, format);
-    }
-
-    public DateEntity(String data) {
-        this(data, FORMAT);
     }
 
     public DateEntity(String data, String fomart) {

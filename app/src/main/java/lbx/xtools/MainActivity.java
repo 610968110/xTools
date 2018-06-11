@@ -1,10 +1,13 @@
 package lbx.xtools;
 
 import android.databinding.ViewDataBinding;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import butterknife.BindView;
 import lbx.xtoollib.base.BaseActivity;
+import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtoollib.view.web.XWebView;
 
 /**
@@ -30,8 +33,9 @@ public class MainActivity extends BaseActivity {
         mWebView.loadUrl("file:///android_asset/testimg.html");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void initData() {
-
+        xLogUtil.e("哈哈哈/123abc:。");
     }
 }
