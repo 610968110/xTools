@@ -336,8 +336,6 @@ public class xLogUtil {
             try {
                 //des加密
                 logs = new String(securityUtil.encrypt(logs.getBytes()), "utf-8");
-                Log.e("xys", "加密" + logs);
-                Log.e("xys", "解密" + new String(securityUtil.decrypt(logs.getBytes()), "utf-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (Exception e) {
