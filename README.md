@@ -17,7 +17,7 @@
 module的build文件添加：
 
     //本包的引入
-    compile "com.lbx:xTools:1.0.0"
+    compile "com.lbx:xTools:1.0.3"
     compile 'com.jakewharton:butterknife:8.5.1'
     //这里注意，因为和dataBinding冲突，所以不能用apt        
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'            
@@ -155,8 +155,5 @@ module的build文件添加：
                 app:tabTextColor="@color/news_two_level_normal_color">
 
             </lbx.xtoollib.view.tablayout.XTabLayout>
-
->>>>>>> fix dialog bug      
-=======
->>>>>>> eecea851812b5899a822dfe743033419d02b8b14        
+     
 ```
