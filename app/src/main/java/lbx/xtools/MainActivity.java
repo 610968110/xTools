@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
                     }
                     Uri uri = data.getData();
                     File file = XTools.UriUtil().uriToFile(MainActivity.this, uri);
-                    StringBuilder builder = new SecurityUtil("lbx").decryptFile(file);
+                    StringBuilder builder = new SecurityUtil(key).decryptFile(file);
                     Log.e("xys", builder.toString());
                     break;
                 default:
