@@ -110,6 +110,7 @@ module的build文件添加：
 ````
 
 五、关于log解密
+====
 仅需要一行代码：
 ````Java
 StringBuilder builder = new SecurityUtil(key).decryptFile(file);
