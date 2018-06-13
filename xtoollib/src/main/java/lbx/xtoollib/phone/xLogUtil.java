@@ -321,7 +321,7 @@ public class xLogUtil {
      * @param path 路径
      * @return 存储结果
      */
-    private static String writeInFilePath(String log, String tag, String path, SecurityUtil securityUtil) {
+    private static synchronized String writeInFilePath(String log, String tag, String path, SecurityUtil securityUtil) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH", Locale.CHINA);
         String name = format.format(new Date());
         File pathF = new File(path);
@@ -336,6 +336,9 @@ public class xLogUtil {
             try {
                 //des加密
                 logs = new String(securityUtil.encrypt(logs.getBytes()), "utf-8");
+                Log.e("xys", "加密：" + logs);
+                byte[] decrypt = securityUtil.decrypt(logs.getBytes());
+                Log.e("xys", "解密：" + new String(decrypt, "utf-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -345,7 +348,7 @@ public class xLogUtil {
         FileWriter s = null;
         try {
             s = new FileWriter(file, true);
-            s.write("\n" + logs);
+            s.write("\n" + logs + "#lbx.xTools#");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return "FileNotFoundException:" + e.toString();

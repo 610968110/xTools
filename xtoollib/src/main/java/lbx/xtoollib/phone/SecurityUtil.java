@@ -1,10 +1,15 @@
 package lbx.xtoollib.phone;
 
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Base64;
 
+import java.io.File;
 import java.security.Key;
 
 import javax.crypto.Cipher;
+
+import lbx.xtoollib.XTools;
 
 public class SecurityUtil {
 
@@ -23,6 +28,7 @@ public class SecurityUtil {
      * 使用自定义key
      */
     public SecurityUtil(String strKey) {
+        strDefaultKey = strKey;
         Key key;
         try {
             key = getKey(strKey.getBytes());
@@ -44,30 +50,49 @@ public class SecurityUtil {
         // 按单部分操作加密或解密数据，或者结束一个多部分操作。数据将被加密或解密（具体取决于此 Cipher 的初始化方式）。
         byte[] des = encryptCipher.doFinal(arrB);
         //base64加密
-        return Base64.encode(des, Base64.NO_WRAP);
+        return Base64.encode(des, Base64.DEFAULT);
     }
 
     /**
      * 使用默认解密算法，与encrypt(byte[] arrB)对应
      */
     public byte[] decrypt(byte[] arrB) throws Exception {
-        byte[] decode = Base64.decode(arrB, Base64.NO_WRAP);
+        byte[] decode = Base64.decode(arrB, Base64.DEFAULT);
         return decryptCipher.doFinal(decode);
     }
 
-    /**
-     * 使用自定义加密算法
-     */
-    public String encrypt(String strIn) throws Exception {
-        return byteArr2HexStr(encrypt(strIn.getBytes()));
+    @NonNull
+    public StringBuilder decryptFile(File file) {
+        String fileLog = XTools.FileUtil().file2String(file);
+        String[] logOne = fileLog.split("#lbx.xTools#");
+        StringBuilder b = new StringBuilder();
+        for (String s : logOne) {
+            if (TextUtils.isEmpty(s)) {
+                continue;
+            }
+            try {
+                byte[] doc = new SecurityUtil(strDefaultKey).decrypt(s.getBytes());
+                b.append(new String(doc, "utf-8") + "\n");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return b;
     }
 
-    /**
-     * 使用自定义加密解密算法，与encrypt(String strIn)对应
-     */
-    public String decrypt(String strIn) throws Exception {
-        return new String(decrypt(hexStr2ByteArr(strIn)));
-    }
+//    /**
+//     * 使用自定义加密算法
+//     */
+//    public String encrypt(String strIn) throws Exception {
+//        return byteArr2HexStr(encrypt(strIn.getBytes()));
+//    }
+//
+//    /**
+//     * 使用自定义加密解密算法，与encrypt(String strIn)对应
+//     */
+//    public String decrypt(String strIn) throws Exception {
+//        return new String(decrypt(hexStr2ByteArr(strIn)));
+//    }
 
     /**
      * 生成密钥

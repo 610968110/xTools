@@ -30,7 +30,7 @@ public class App extends Application {
                 .errLogFile(false, true)
                 //log是否打印到文件  设置打印路径
                 // 第三个参数:加密的key，打印到file的log是否加密(des+base64对称加密) null为不加密
-                .logPrintFile(true, "xTools", "lbx")
+                .logPrintFile(true, "00000", "lbx")
                 .build(this);
         //初始化
         xTools.init();

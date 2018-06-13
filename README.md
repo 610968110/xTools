@@ -55,7 +55,7 @@ module的build文件添加：
         
 三、XWebView相关配置：
 ===
-
+````Xml
         <!-- 定义FileProvider -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -66,10 +66,10 @@ module的build文件添加：
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
         </provider>
-
+````
 四、XTabLayout的相关属性：
 ===
-
+````Xml
  <!--底部分隔栏的颜色-->
         <attr name="bottomLineColor" format="color" />
         <!--竖直分隔线的颜色-->
@@ -107,5 +107,10 @@ module的build文件添加：
                 app:tabTextColor="@color/news_two_level_normal_color">
 
             </lbx.xtoollib.view.tablayout.XTabLayout>
-     
-```
+````
+
+五、关于log解密
+仅需要一行代码：
+````Java
+StringBuilder builder = new SecurityUtil(key).decryptFile(file);
+````

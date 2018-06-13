@@ -12,6 +12,7 @@ import android.support.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -49,16 +50,70 @@ public class FileUtil {
     private FileUtil() {
     }
 
-    public  FileSizeUtil getFileSizeUtil() {
+    public FileSizeUtil getFileSizeUtil() {
         return FILE_SIZE_UTIL == null ? FILE_SIZE_UTIL = FileSizeUtil.getInstance() : FILE_SIZE_UTIL;
     }
 
-    public  CopyFileUtils getCopyFileUtils() {
+    public CopyFileUtils getCopyFileUtils() {
         return COPY_FILE_UTILS == null ? COPY_FILE_UTILS = CopyFileUtils.getInstance() : COPY_FILE_UTILS;
     }
 
-    public  OpenFileUtil getOpenFileUtil() {
+    public OpenFileUtil getOpenFileUtil() {
         return OPEN_FILE_UTIL == null ? OPEN_FILE_UTIL = OpenFileUtil.getInstance() : OPEN_FILE_UTIL;
+    }
+
+    public String file2String(File file) {
+        // 需要读取的文件，参数是文件的路径名加文件名
+        if (file.isFile()) {
+            // 以字节流方法读取文件
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+                // 设置一个，每次 装载信息的容器
+                byte[] buffer = new byte[1024];
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                // 开始读取数据
+                int len = 0;// 每次读取到的数据的长度
+                while ((len = fis.read(buffer)) != -1) {// len值为-1时，表示没有数据了
+                    // append方法往sb对象里面添加数据
+                    outputStream.write(buffer, 0, len);
+                }
+                // 输出字符串
+                return new String(outputStream.toByteArray(), "utf-8");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("文件不存在！");
+        }
+        return null;
+    }
+
+    public byte[] file2ByteArray(File file) {
+        // 需要读取的文件，参数是文件的路径名加文件名
+        if (file.isFile()) {
+            // 以字节流方法读取文件
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+                // 设置一个，每次 装载信息的容器
+                byte[] buffer = new byte[1024];
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                // 开始读取数据
+                int len = 0;// 每次读取到的数据的长度
+                while ((len = fis.read(buffer)) != -1) {// len值为-1时，表示没有数据了
+                    // append方法往sb对象里面添加数据
+                    outputStream.write(buffer, 0, len);
+                }
+                // 输出字符串
+                return outputStream.toByteArray();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("文件不存在！");
+        }
+        return null;
     }
 
     public String getDefaultPath() {

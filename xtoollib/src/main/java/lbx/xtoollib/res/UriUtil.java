@@ -1,14 +1,17 @@
 package lbx.xtoollib.res;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import lbx.xtoollib.XTools;
 
@@ -35,7 +38,59 @@ public class UriUtil {
     private UriUtil() {
     }
 
-    public String uriToFilePath(final Context context, final Uri uri) {
+    public File uriToFile(Context context, Uri uri) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return uriToFile70(context, uri);
+        } else {
+            return uriToFile44(context, uri);
+        }
+    }
+
+    /**
+     * 7.0以上
+     *
+     * @param context
+     * @param uri
+     * @return
+     */
+    private File uriToFile70(Context context, Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        FileInputStream input = null;
+        FileOutputStream output = null;
+        try {
+            ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "r");
+            if (pfd == null) {
+                return null;
+            }
+            input = new FileInputStream(pfd.getFileDescriptor());
+            String tempFilename = File.createTempFile("image", "tmp", context.getCacheDir()).getAbsolutePath();
+            output = new FileOutputStream(tempFilename);
+            int read;
+            byte[] bytes = new byte[4096];
+            while ((read = input.read(bytes)) != -1) {
+                output.write(bytes, 0, read);
+            }
+            return new File(tempFilename);
+        } catch (Exception ignored) {
+
+            ignored.getStackTrace();
+        } finally {
+            XTools.CloseUtil().close(input);
+            XTools.CloseUtil().close(output);
+        }
+        return null;
+    }
+
+    /**
+     * 4.4以上
+     *
+     * @param context
+     * @param uri
+     * @return
+     */
+    private File uriToFile44(final Context context, final Uri uri) {
         if (null == uri) {
             return null;
         }
@@ -59,21 +114,7 @@ public class UriUtil {
                 }
             }
         }
-        return data;
-    }
-
-    public File uri2File(Activity ac, Uri uri) {
-        File file = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor actualimagecursor = ac.managedQuery(uri, proj, null,
-                null, null);
-        int actual_image_column_index = actualimagecursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        actualimagecursor.moveToFirst();
-        String img_path = actualimagecursor
-                .getString(actual_image_column_index);
-        file = new File(img_path);
-        return file;
+        return new File(data);
     }
 
     public Bitmap uri2Bitmap(Context context, Uri uri) {

@@ -4,17 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="lbx.xtools.MainActivity">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <lbx.xtoollib.view.web.XWebView
-            android:id="@+id/webView"
+        <EditText
+            android:id="@+id/et_key"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:text="lbx"
+            android:hint="key" />
 
-        </lbx.xtoollib.view.web.XWebView>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="choose"
+            android:text="选择加密文件" />
 
-    </FrameLayout>
+
+
+    </LinearLayout>
 
 </layout>
