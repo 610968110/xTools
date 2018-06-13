@@ -3,6 +3,7 @@ package lbx.xtoollib;
 import android.app.Application;
 import android.content.Context;
 import android.os.Process;
+import android.text.TextUtils;
 
 import java.io.File;
 
@@ -22,6 +23,7 @@ import lbx.xtoollib.phone.MeatDataUtil;
 import lbx.xtoollib.phone.ObjUtil;
 import lbx.xtoollib.phone.PermissionUtil;
 import lbx.xtoollib.phone.PhoneUtil;
+import lbx.xtoollib.phone.SecurityUtil;
 import lbx.xtoollib.phone.SoftInputUtil;
 import lbx.xtoollib.phone.TimeUtil;
 import lbx.xtoollib.phone.xLogUtil;
@@ -76,6 +78,7 @@ public class XTools {
     private static PhoneUtil mPhoneUtil;
     private static UncaughtExceptionHandler mUncaughtExceptionHandler;
     private static int mainThreadId;
+    private static SecurityUtil mSecurity;
 
     private XTools(Builder builder, Application app) {
         mApp = app;
@@ -93,6 +96,7 @@ public class XTools {
         getUncaughtExceptionHandler(app).setErrFileName(builder.errLogFileName);
         getUncaughtExceptionHandler(app).setErrPrintTag(builder.logTag);
         getUncaughtExceptionHandler(app).log(builder.errLogFile, builder.errLogCat);
+        getUncaughtExceptionHandler(app).setSecurityUtil(mSecurity);
     }
 
 
@@ -131,7 +135,10 @@ public class XTools {
         public Builder logPrintFile(boolean isPrint, String path, String desKey) {
             xLogUtil.setIsPrintFile(isPrint);
             xLogUtil.setDefaultFilePath(XTools.FileUtil().getDefaultPath() + File.separator + path);
-            xLogUtil.setKey(desKey);
+            if (!TextUtils.isEmpty(desKey)) {
+                mSecurity = new SecurityUtil(desKey);
+                xLogUtil.setSecurity(mSecurity);
+            }
             return this;
         }
 

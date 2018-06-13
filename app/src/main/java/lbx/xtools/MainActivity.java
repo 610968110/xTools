@@ -55,6 +55,7 @@ public class MainActivity extends BaseActivity {
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent, CHOOSE);
+//        throw new NullPointerException("hahaha");
     }
 
     @Override

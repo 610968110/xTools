@@ -16,6 +16,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.phone.SecurityUtil;
 
 
 /**
@@ -32,6 +33,7 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
     private static String DEFAULT_ERR_TAG = "xys";
     private static boolean DEFAULT_SAVE = false;
     private static boolean DEFAULT_PRINT = false;
+    private SecurityUtil mSecurityUtil;
 
     public static UncaughtExceptionHandler getInstance(Context context) {
         if (mHandler == null) {
@@ -54,6 +56,10 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
 
     public void setErrFilePath(String defaultFilePath) {
         DEFAULT_FILE_PATH = File.separator + defaultFilePath;
+    }
+
+    public void setSecurityUtil(SecurityUtil mSecurityUtil) {
+        this.mSecurityUtil = mSecurityUtil;
     }
 
     public void setErrPrintTag(String errTag) {
@@ -91,7 +97,18 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
                 file.mkdirs();
             }
             stream = new FileOutputStream(new File(path, "crash_" + time + fileName + ".txt"));
-            stream.write(info.getBytes());
+            byte[] encrypt;
+            if (mSecurityUtil != null) {
+                try {
+                    encrypt = mSecurityUtil.encrypt(info.getBytes());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    encrypt = info.getBytes();
+                }
+            } else {
+                encrypt = info.getBytes();
+            }
+            stream.write(encrypt);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

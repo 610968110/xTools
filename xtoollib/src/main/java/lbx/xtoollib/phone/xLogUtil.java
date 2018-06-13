@@ -110,10 +110,8 @@ public class xLogUtil {
         xLogUtil.isPrintFile = isPrintFile;
     }
 
-    public static void setKey(String key) {
-        if (!TextUtils.isEmpty(key)) {
-            mSecurityUtil = new SecurityUtil(key);
-        }
+    public static void setSecurity(SecurityUtil security) {
+        mSecurityUtil = security;
     }
 
     /**
