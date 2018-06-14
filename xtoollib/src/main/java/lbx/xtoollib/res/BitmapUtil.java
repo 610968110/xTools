@@ -104,8 +104,8 @@ public class BitmapUtil {
         }
     }
 
-    public String Bitmap2StrByBase64(Bitmap bit, double width) {
-        return Bitmap2StrByBase64(bit, 100);
+    public String Bitmap2StrByBase64(Bitmap bit) {
+        return Bitmap2StrByBase64(bit, 100, Bitmap.CompressFormat.JPEG);
     }
 
     public String Bitmap2StrByBase64(Bitmap bit, int percent, Bitmap.CompressFormat f) {

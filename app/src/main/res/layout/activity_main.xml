@@ -4,17 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="lbx.xtools.MainActivity">
 
+    <data>
+
+        <variable
+            name="log"
+            type="lbx.xtools.LogBean" />
+
+    </data>
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_key"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="lbx"
-            android:hint="key" />
+            android:hint="key"
+            android:text="lbx" />
 
         <Button
             android:layout_width="match_parent"
@@ -22,7 +30,17 @@
             android:onClick="choose"
             android:text="选择加密文件" />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={log.log.get()}"
+                android:textSize="12dp" />
+
+        </ScrollView>
 
     </LinearLayout>
 

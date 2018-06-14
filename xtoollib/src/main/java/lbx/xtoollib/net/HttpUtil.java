@@ -75,6 +75,7 @@ public class HttpUtil {
                     @Override
                     public void onError(Throwable e) {
                         finalListener.onError(e);
+                        finalListener.onCompleted();
                     }
 
                     @Override

@@ -17,6 +17,7 @@ import java.io.File;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
 import lbx.xtoollib.phone.SecurityUtil;
+import lbx.xtools.databinding.ActivityMainBinding;
 
 /**
  * @author lbx
@@ -27,9 +28,15 @@ public class MainActivity extends BaseActivity {
 
     private EditText mKey;
 
+    private ActivityMainBinding mBinding;
+    private LogBean mLog;
+
+
     @Override
     public void getDataBinding(ViewDataBinding binding) {
-
+        mBinding = (ActivityMainBinding) binding;
+        mLog = new LogBean();
+        mBinding.setLog(mLog);
     }
 
     @Override
@@ -55,7 +62,6 @@ public class MainActivity extends BaseActivity {
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent, CHOOSE);
-//        throw new NullPointerException("hahaha");
     }
 
     @Override
@@ -72,7 +78,9 @@ public class MainActivity extends BaseActivity {
                     Uri uri = data.getData();
                     File file = XTools.UriUtil().uriToFile(MainActivity.this, uri);
                     StringBuilder builder = new SecurityUtil(key).decryptFile(file);
-                    Log.e("xys", builder.toString());
+                    String log = builder.toString();
+                    this.mLog.getLog().set(log);
+                    Log.e("xys", log);
                     break;
                 default:
                     break;
