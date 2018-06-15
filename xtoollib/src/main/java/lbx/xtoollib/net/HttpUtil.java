@@ -1,13 +1,21 @@
 package lbx.xtoollib.net;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import lbx.xtoollib.listener.OnHttpFlowableCallBack;
+import lbx.xtoollib.listener.OnHttpObservableCallBack;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author lbx
@@ -32,56 +40,79 @@ public class HttpUtil {
     private HttpUtil() {
     }
 
-    public static abstract class OnCallListener<T> {
-        public abstract void onNext(T t);
-
-        public void onError(Throwable e) {
-        }
-
-        public void onCompleted() {
-        }
-    }
-
-    public static OnCallListener DEFAULT_LISTENER = new OnCallListener() {
-
-        @Override
-        public void onNext(Object o) {
-
-        }
-    };
-
-    public  <T> T getRetrofit(String baseUrl, Class<T> clazz) {
+    public <T> T getRetrofit(String baseUrl, Class<T> clazz) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(clazz);
     }
 
-    public  <T> Subscription call(Observable<T> observable, OnCallListener<T> listener) {
+    public <T> Flowable send(Flowable<T> flowable, OnHttpFlowableCallBack<T> listener) {
         if (listener == null) {
-            listener = DEFAULT_LISTENER;
+            listener = OnHttpFlowableCallBack.DEFAULT_CALLBACK;
         }
-        final OnCallListener<T> finalListener = listener;
-        return observable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<T>() {
-                    @Override
-                    public void onCompleted() {
-                        finalListener.onCompleted();
-                    }
+        final OnHttpFlowableCallBack<T> finalListener = listener;
+        Flowable<T> tFlowable = flowable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        tFlowable.subscribe(new Subscriber<T>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                s.request(Long.MAX_VALUE);
+                finalListener.onSubscribe(s);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        finalListener.onError(e);
-                        finalListener.onCompleted();
-                    }
+            @Override
+            public void onNext(T t) {
+                finalListener.onSuccess(t);
+                finalListener.onFinish(true);
+            }
 
-                    @Override
-                    public void onNext(T t) {
-                        finalListener.onNext(t);
-                    }
-                });
+            @Override
+            public void onError(Throwable t) {
+                finalListener.onFailure(t);
+                finalListener.onFinish(false);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+        return tFlowable;
+    }
+
+    public <T> Observable send(Observable<T> observable, OnHttpObservableCallBack<T> listener) {
+        if (listener == null) {
+            listener = OnHttpObservableCallBack.DEFAULT_CALLBACK;
+        }
+        final OnHttpObservableCallBack<T> finalListener = listener;
+        Observable<T> tObservable = observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+        tObservable.subscribe(new Observer<T>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                finalListener.onSubscribe(d);
+            }
+
+            @Override
+            public void onNext(T t) {
+                finalListener.onSuccess(t);
+                finalListener.onFinish(true);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                finalListener.onFailure(e);
+                finalListener.onFinish(false);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+        return tObservable;
     }
 }

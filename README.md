@@ -9,17 +9,17 @@
 module的build文件添加：
 
     //本包的引入
-    compile "com.lbx:xTools:1.0.5"
+    compile "com.lbx:xTools:1.1.0"
     compile 'com.jakewharton:butterknife:8.5.1'
     //这里注意，因为和dataBinding冲突，所以不能用apt        
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'            
     compile 'com.android.support:recyclerview-v7:26+'           
     compile 'com.google.code.gson:gson:2.7'             
-    compile 'io.reactivex:rxjava:1.0.14'                
-    compile 'io.reactivex:rxandroid:1.0.1'              
-    compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'          
-    compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'                
-    compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     com.android.support:design      
     
     android标签下：  
