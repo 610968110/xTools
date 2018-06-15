@@ -42,28 +42,28 @@ public class BitmapUtil {
     /**
      * 图片允许最大空间   单位：KB
      */
-    public Bitmap imageZoom(Bitmap bitMap, double maxSize) {
+    public Bitmap zoomBmp(Bitmap bitMap, double maxKb) {
         Bitmap bitmap = null;
         //将bitmap放至数组中，意在bitmap的大小（与实际读取的原文件要大）
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitMap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         //将字节换成KB
         double mid = b.length / 1024;
         //判断bitmap占用空间是否大于允许最大空间  如果大于则压缩 小于则不压缩
-        if (mid > maxSize) {
+        if (mid > maxKb) {
             //获取bitmap大小 是允许最大大小的多少倍
-            double i = mid / maxSize;
+            double i = mid / maxKb;
             //开始压缩  此处用到平方根 将宽带和高度压缩掉对应的平方根倍
             //（1.保持刻度和高度和原bitmap比率一致，压缩后也达到了最大大小占用空间的大小）
-            bitmap = zoomImage(bitMap, bitMap.getWidth() / Math.sqrt(i),
-                    bitMap.getHeight() / Math.sqrt(i));
+            bitmap = zoomBmp(bitMap, (int) (bitMap.getWidth() / Math.sqrt(i)),
+                    (int) (bitMap.getHeight() / Math.sqrt(i)));
             return bitmap;
         }
         return bitMap;
     }
 
-    public Bitmap zoomImage(Bitmap bitmap, double newWidth, double newHeight) {
+    public Bitmap zoomBmp(Bitmap bitmap, int newWidth, int newHeight) {
         // 获取这个图片的宽和高
         float width = bitmap.getWidth();
         float height = bitmap.getHeight();
@@ -78,7 +78,7 @@ public class BitmapUtil {
                 (int) height, matrix, true);
     }
 
-    public Bitmap zoomImage(Bitmap bitmap, double newWidth) {
+    public Bitmap zoomBmp(Bitmap bitmap, int newWidth) {
         // 获取这个图片的宽和高
         float width = bitmap.getWidth();
         float height = bitmap.getHeight();
@@ -94,7 +94,7 @@ public class BitmapUtil {
                 (int) height, matrix, true);
     }
 
-    public Bitmap getBitmapFromUri(Uri uri, Context context) {
+    public Bitmap uri2Bmp(Uri uri, Context context) {
         try {
             // 读取uri所在的图片
             return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
@@ -104,16 +104,21 @@ public class BitmapUtil {
         }
     }
 
-    public String Bitmap2StrByBase64(Bitmap bit) {
-        return Bitmap2StrByBase64(bit, 100, Bitmap.CompressFormat.JPEG);
+    public String bitmap2StrByBase64(Bitmap bit) {
+        return bitmap2StrByBase64(bit, 100);
     }
 
-    public String Bitmap2StrByBase64(Bitmap bit, int percent, Bitmap.CompressFormat f) {
+    public String bitmap2StrByBase64(Bitmap bit, int percent) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         //参数100表示不压缩
-        bit.compress(f, percent, bos);
+        bit.compress(Bitmap.CompressFormat.PNG, percent, bos);
         byte[] bytes = bos.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    public Bitmap bitmap2StrByBase64(String bmp) {
+        byte[] bytes = Base64.decode(bmp.getBytes(), Base64.DEFAULT);
+        return byte2Bmp(bytes);
     }
 
     /**
@@ -121,9 +126,13 @@ public class BitmapUtil {
      *
      * @return byte[]
      */
-    public byte[] getBitmapByte(Bitmap bitmap) {
+    public byte[] bmp2byte(Bitmap bitmap) {
+        return bmp2byte(bitmap, 100);
+    }
+
+    public byte[] bmp2byte(Bitmap bitmap, int quality) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, out);
+        bitmap.compress(Bitmap.CompressFormat.PNG, quality, out);
         try {
             out.flush();
             out.close();
@@ -133,7 +142,7 @@ public class BitmapUtil {
         return out.toByteArray();
     }
 
-    public static Bitmap getBitmapFromByte(byte[] temp) {
+    public Bitmap byte2Bmp(byte[] temp) {
         if (temp != null) {
             return BitmapFactory.decodeByteArray(temp, 0, temp.length);
         } else {

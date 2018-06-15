@@ -33,6 +33,7 @@ public abstract class BaseDataAdapter<M, N extends ViewDataBinding, T extends Ba
     public void onBindViewHolder(T holder, int position) {
         ViewDataBinding binding = holder.getBinding();
         dataBinding((N) binding, position, mList.get(position), holder);
+        binding.executePendingBindings();
     }
 
     @Override
