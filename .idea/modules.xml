@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/xTools.iml" filepath="$PROJECT_DIR$/xTools.iml" />
-      <module fileurl="file://$PROJECT_DIR$/xtoollib/xtoollib.iml" filepath="$PROJECT_DIR$/xtoollib/xtoollib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xTools/xTools.iml" filepath="$PROJECT_DIR$/xTools/xTools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xToolsLib.iml" filepath="$PROJECT_DIR$/xToolsLib.iml" />
     </modules>
   </component>
 </project>
