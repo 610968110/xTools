@@ -40,6 +40,12 @@ public class HttpUtil {
     private HttpUtil() {
     }
 
+    public Retrofit getRetrofitString(String baseUrl) {
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .build();
+    }
+
     public <T> T getRetrofit(String baseUrl, Class<T> clazz) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)

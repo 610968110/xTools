@@ -65,7 +65,7 @@ def siteUrl = 'https://github.com/610968110/xTools'
 def gitUrl = 'https://github.com/610968110/xTools.git'
 //compile引用时的第1部分
 group = "com.lbx"
-//发布到JCenter上的项目名字，compile引用时的第2部分项目名
+//项目名
 def libName = "xTools"
 // 版本号，compile引用时的最后部分项目名，下次更新是只需要更改版本号即可
 version = rootProject.ext.versionName
