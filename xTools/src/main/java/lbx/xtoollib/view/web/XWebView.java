@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.CallSuper;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -198,8 +199,17 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
     }
 
     private void setLoadUrlWithoutEmpty(String loadUrlWithoutEmpty) {
-        if (!EMPTY_URL.equals(loadUrlWithoutEmpty)) {
+        if (!EMPTY_URL.equals(loadUrlWithoutEmpty) && !TextUtils.isEmpty(loadUrlWithoutEmpty)) {
             this.mLoadUrlWithoutEmpty = loadUrlWithoutEmpty;
         }
+    }
+
+    @Override
+    public void loadUrl(String url) {
+        if (!TextUtils.isEmpty(url) && url.startsWith("javascript:")) {
+            return;
+        }
+        setLoadUrl(url);
+        super.loadUrl(url);
     }
 }
