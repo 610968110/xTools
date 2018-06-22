@@ -130,7 +130,7 @@ public class UIUtil {
             builder.setPositiveButton("确定", sure);
         }
         if (cancel != null) {
-            builder.setNegativeButton("取消", sure);
+            builder.setNegativeButton("取消", cancel);
         }
         return builder.setCancelable(false)
                 .setTitle(title)
