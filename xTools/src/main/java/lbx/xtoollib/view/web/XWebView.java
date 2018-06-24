@@ -206,10 +206,10 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
 
     @Override
     public void loadUrl(String url) {
+        super.loadUrl(url);
         if (!TextUtils.isEmpty(url) && url.startsWith("javascript:")) {
             return;
         }
         setLoadUrl(url);
-        super.loadUrl(url);
     }
 }
