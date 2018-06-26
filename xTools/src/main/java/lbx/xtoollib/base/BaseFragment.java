@@ -9,7 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.reactivestreams.Subscription;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import io.reactivex.disposables.Disposable;
 import lbx.xtoollib.XTools;
 
 public abstract class BaseFragment extends Fragment {
@@ -18,13 +25,18 @@ public abstract class BaseFragment extends Fragment {
     protected String mFragmentName = "";
     private Bundle mArguments;
     private ViewDataBinding mViewDataBinding;
+    private List<Disposable> mDisposables;
+    private List<Subscription> mSubscriptions;
+    private Unbinder mBind;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mDisposables = new ArrayList<>();
+        mSubscriptions = new ArrayList<>();
         int layoutID = getLayoutID();
         inflate(inflater, layoutID, container, savedInstanceState, false);
-        ButterKnife.bind(this, view);
+        mBind = ButterKnife.bind(this, view);
         getBaseArguments();
         getDataBinding(mViewDataBinding);
         initView(view);
@@ -80,9 +92,46 @@ public abstract class BaseFragment extends Fragment {
         return mArguments;
     }
 
+    public List<Disposable> addDisposable(Disposable disposable) {
+        mDisposables.add(disposable);
+        return mDisposables;
+    }
+
+    public List<Disposable> removeDisposable(Disposable disposable) {
+        if (mDisposables.contains(disposable)) {
+            mDisposables.remove(disposable);
+        }
+        return mDisposables;
+    }
+
+    public List<Subscription> addSubscription(Subscription subscription) {
+        mSubscriptions.add(subscription);
+        return mSubscriptions;
+    }
+
+    public List<Subscription> removeSubscription(Subscription subscription) {
+        if (mSubscriptions.contains(subscription)) {
+            mSubscriptions.remove(subscription);
+        }
+        return mSubscriptions;
+    }
+
     @Override
     public void onDestroy() {
-        super.onDestroy();
         XTools.UiUtil().closeProgressDialog();
+        for (Disposable disposable : mDisposables) {
+            if (disposable != null && !disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
+        for (Subscription subscription : mSubscriptions) {
+            if (subscription != null) {
+                subscription.cancel();
+            }
+        }
+        if (mBind != null) {
+            mBind.unbind();
+        }
+        super.onDestroy();
     }
 }

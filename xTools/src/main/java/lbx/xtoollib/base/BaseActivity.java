@@ -121,7 +121,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         return mSubscriptions;
     }
 
-
     @Override
     protected void onDestroy() {
         XTools.ActivityUtil().removeActivity(this);
