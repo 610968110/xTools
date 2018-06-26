@@ -40,10 +40,11 @@ public class HttpUtil {
     private HttpUtil() {
     }
 
-    public Retrofit getRetrofitString(String baseUrl) {
+    public <T> T getRetrofitString(String baseUrl, Class<T> clazz) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .build();
+                .build()
+                .create(clazz);
     }
 
     public <T> T getRetrofit(String baseUrl, Class<T> clazz) {
@@ -55,70 +56,70 @@ public class HttpUtil {
                 .create(clazz);
     }
 
-    public <T> Flowable send(Flowable<T> flowable, OnHttpFlowableCallBack<T> listener) {
+    public <T> void send(Flowable<T> flowable, OnHttpFlowableCallBack<T> listener) {
         if (listener == null) {
             listener = OnHttpFlowableCallBack.DEFAULT_CALLBACK;
         }
         final OnHttpFlowableCallBack<T> finalListener = listener;
-        Flowable<T> tFlowable = flowable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
-        tFlowable.subscribe(new Subscriber<T>() {
-            @Override
-            public void onSubscribe(Subscription s) {
-                s.request(Long.MAX_VALUE);
-                finalListener.onSubscribe(s);
-            }
+        flowable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onTerminateDetach()
+                .subscribe(new Subscriber<T>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        s.request(Long.MAX_VALUE);
+                        finalListener.onSubscribe(s);
+                    }
 
-            @Override
-            public void onNext(T t) {
-                finalListener.onSuccess(t);
-                finalListener.onFinish(true);
-            }
+                    @Override
+                    public void onNext(T t) {
+                        finalListener.onSuccess(t);
+                        finalListener.onFinish(true);
+                    }
 
-            @Override
-            public void onError(Throwable t) {
-                finalListener.onFailure(t);
-                finalListener.onFinish(false);
-            }
+                    @Override
+                    public void onError(Throwable t) {
+                        finalListener.onFailure(t);
+                        finalListener.onFinish(false);
+                    }
 
-            @Override
-            public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-            }
-        });
-        return tFlowable;
+                    }
+                });
     }
 
-    public <T> Observable send(Observable<T> observable, OnHttpObservableCallBack<T> listener) {
+    public <T> void send(Observable<T> observable, OnHttpObservableCallBack<T> listener) {
         if (listener == null) {
             listener = OnHttpObservableCallBack.DEFAULT_CALLBACK;
         }
         final OnHttpObservableCallBack<T> finalListener = listener;
-        Observable<T> tObservable = observable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
-        tObservable.subscribe(new Observer<T>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                finalListener.onSubscribe(d);
-            }
+        observable.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onTerminateDetach()
+                .subscribe(new Observer<T>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        finalListener.onSubscribe(d);
+                    }
 
-            @Override
-            public void onNext(T t) {
-                finalListener.onSuccess(t);
-                finalListener.onFinish(true);
-            }
+                    @Override
+                    public void onNext(T t) {
+                        finalListener.onSuccess(t);
+                        finalListener.onFinish(true);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                finalListener.onFailure(e);
-                finalListener.onFinish(false);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        finalListener.onFailure(e);
+                        finalListener.onFinish(false);
+                    }
 
-            @Override
-            public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-            }
-        });
-        return tObservable;
+                    }
+                });
     }
 }

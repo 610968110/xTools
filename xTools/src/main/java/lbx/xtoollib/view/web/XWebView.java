@@ -26,9 +26,9 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
 
     public ValueCallback mFilePathCallback;
     private View mErrorView;
-    private String mLoadUrl;
-    private String mLoadUrlWithoutEmpty;
     public static final String EMPTY_URL = "about:blank";
+    private String mLoadUrl = EMPTY_URL;
+    private String mLoadUrlWithoutEmpty = EMPTY_URL;
 
     public XWebView(Context context) {
         super(context);
@@ -199,17 +199,25 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
     }
 
     private void setLoadUrlWithoutEmpty(String loadUrlWithoutEmpty) {
-        if (!EMPTY_URL.equals(loadUrlWithoutEmpty) && !TextUtils.isEmpty(loadUrlWithoutEmpty)) {
+        if (!EMPTY_URL.equals(loadUrlWithoutEmpty)) {
             this.mLoadUrlWithoutEmpty = loadUrlWithoutEmpty;
         }
     }
 
     @Override
     public void loadUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            url = EMPTY_URL;
+        }
         super.loadUrl(url);
-        if (!TextUtils.isEmpty(url) && url.startsWith("javascript:")) {
+        if (url.startsWith("javascript:")) {
             return;
         }
         setLoadUrl(url);
+    }
+
+    public boolean canGoBack(String firstUrl) {
+        String urlWithoutEmpty = getLoadUrlWithoutEmpty();
+        return TextUtils.isEmpty(urlWithoutEmpty) || urlWithoutEmpty.equals(firstUrl);
     }
 }

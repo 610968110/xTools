@@ -7,7 +7,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import org.reactivestreams.Subscription;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import io.reactivex.disposables.Disposable;
 import lbx.xtoollib.XTools;
 
 /**
@@ -18,10 +25,15 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected Intent baseIntent;
     private ViewDataBinding mViewDataBinding;
+    private List<Disposable> mDisposables;
+    private List<Subscription> mSubscriptions;
+    private Unbinder mBind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDisposables = new ArrayList<>();
+        mSubscriptions = new ArrayList<>();
         beforeLayout();
         int layoutID = getLayoutID();
         if (layoutID != -1) {
@@ -30,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             setContentView(getLayout());
         }
         XTools.ActivityUtil().addActivity(this);
-        ButterKnife.bind(this);
+        mBind = ButterKnife.bind(this);
         View view = findViewById(android.R.id.content);
         getBaseIntent();
         getDataBinding(mViewDataBinding);
@@ -85,14 +97,51 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         onClick(v, v.getId());
     }
 
-    public void saveFinish() {
-        super.onBackPressed();
+    public List<Disposable> addDisposable(Disposable disposable) {
+        mDisposables.add(disposable);
+        return mDisposables;
     }
+
+    public List<Disposable> removeDisposable(Disposable disposable) {
+        if (mDisposables.contains(disposable)) {
+            mDisposables.remove(disposable);
+        }
+        return mDisposables;
+    }
+
+    public List<Subscription> addSubscription(Subscription subscription) {
+        mSubscriptions.add(subscription);
+        return mSubscriptions;
+    }
+
+    public List<Subscription> removeSubscription(Subscription subscription) {
+        if (mSubscriptions.contains(subscription)) {
+            mSubscriptions.remove(subscription);
+        }
+        return mSubscriptions;
+    }
+
 
     @Override
     protected void onDestroy() {
         XTools.ActivityUtil().removeActivity(this);
         XTools.UiUtil().closeProgressDialog();
+        for (Disposable disposable : mDisposables) {
+            if (disposable != null && !disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
+        for (Subscription subscription : mSubscriptions) {
+            if (subscription != null) {
+                subscription.cancel();
+            }
+        }
+        if (mBind != null) {
+            mBind.unbind();
+        }
         super.onDestroy();
+    }
+    public void saveFinish() {
+        super.onBackPressed();
     }
 }

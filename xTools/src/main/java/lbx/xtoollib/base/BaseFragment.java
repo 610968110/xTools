@@ -23,8 +23,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int layoutID = getLayoutID();
-        mViewDataBinding = DataBindingUtil.inflate(inflater, layoutID, container, false);
-        view = mViewDataBinding == null ? inflater.inflate(layoutID, container, false) : mViewDataBinding.getRoot();
+        inflate(inflater, layoutID, container, savedInstanceState, false);
         ButterKnife.bind(this, view);
         getBaseArguments();
         getDataBinding(mViewDataBinding);
@@ -32,6 +31,11 @@ public abstract class BaseFragment extends Fragment {
         initData();
         initListener();
         return view;
+    }
+
+    public void inflate(LayoutInflater inflater, int layoutID, ViewGroup container, Bundle savedInstanceState, boolean b) {
+        mViewDataBinding = DataBindingUtil.inflate(inflater, layoutID, container, b);
+        view = mViewDataBinding == null ? inflater.inflate(layoutID, container, b) : mViewDataBinding.getRoot();
     }
 
     public abstract int getLayoutID();
