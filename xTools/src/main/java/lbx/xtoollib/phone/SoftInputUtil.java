@@ -3,8 +3,11 @@ package lbx.xtoollib.phone;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import lbx.xtoollib.XTools;
 
 /**
  * @author lbx
@@ -14,6 +17,7 @@ import android.widget.EditText;
 public class SoftInputUtil {
 
     private static SoftInputUtil INSTANCE;
+    private final InputMethodManager imm;
 
     public static SoftInputUtil getInstance() {
         if (INSTANCE == null) {
@@ -27,6 +31,7 @@ public class SoftInputUtil {
     }
 
     private SoftInputUtil() {
+        imm = (InputMethodManager) XTools.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
 
@@ -44,8 +49,10 @@ public class SoftInputUtil {
 
     public void showSoftInput(EditText editText) {
         //弹出软键盘
-        editText.requestFocus();
-        InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+    }
+
+    public boolean isActive(Activity activity) {
+        return activity.getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED;
     }
 }

@@ -9,7 +9,7 @@
 module的build文件添加：
 
     //本包的引入
-    compile "com.lbx:xtoolslib:2.0.0"
+    compile "com.lbx:xtoolslib:2.0.1"
     compile 'com.jakewharton:butterknife:8.5.1'
     //这里注意，因为和dataBinding冲突，所以不能用apt        
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'            
@@ -18,12 +18,13 @@ module的build文件添加：
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     compile 'com.android.support:design:26.+'
     compile 'com.google.dagger:dagger:2.+'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.+'
-    //compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     
     android标签下：  
 

@@ -1,9 +1,10 @@
 package lbx.xtools;
 
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 
@@ -14,10 +15,12 @@ import retrofit2.http.POST;
  */
 
 public interface SnsScores {
+    @Headers(value = {"HeadersName1:HeadersValues1", "HeadersName2:HeadersValues2"})
     @FormUrlEncoded
-    @POST("api/check_rank")
-    Flowable<ScoresBean> initSign(@Field("version") String version,
-                                  @Field("type") String type,
-                                  @Field("access_token") String accessToken,
-                                  @Field("method") String method);
+    @POST("lzjw/login")
+    Observable<Result<LoginMainBean>> loginMain(@Field("gzbUserName") String gzbUserName,
+                                                @Field("gzbPassword") String gzbPassword,
+                                                @Field("imei") String imei,
+                                                @Field("versionName") String versionName,
+                                                @Field("versionCode") int versionCode);
 }

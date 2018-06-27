@@ -50,6 +50,20 @@ public class MainActivity extends BaseActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
+
+//        XTools.HttpUtil().send(XTools.HttpUtil().getRetrofit("http://20.124.143.141:8866/", SnsScores.class, "登录拉")
+//                        .loginMain("110101199910101234", "101234", "", "0", 0),
+//                new OnHttpObservableCallBack<Result<LoginMainBean>>() {
+//                    @Override
+//                    public void onSuccess(Result<LoginMainBean> bean) {
+//                        xLogUtil.e("onSuccess");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable t) {
+//                        xLogUtil.e("onFailure:" + t);
+//                    }
+//                });
     }
 
     @Override
