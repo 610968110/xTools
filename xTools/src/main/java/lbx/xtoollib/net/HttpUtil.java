@@ -8,6 +8,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -31,9 +32,13 @@ import io.reactivex.schedulers.Schedulers;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.listener.OnHttpFlowableCallBack;
 import lbx.xtoollib.listener.OnHttpObservableCallBack;
+import lbx.xtoollib.listener.OnUploadCallBack;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -61,13 +66,6 @@ public class HttpUtil {
 
     private HttpUtil() {
     }
-
-    public <T> T getRetrofitString(String baseUrl, Class<T> clazz, String tag, String[]... headers) {
-        return makeRetrofitBuilder(baseUrl, false, tag, headers)
-                .build()
-                .create(clazz);
-    }
-
 
     public <T> T getRetrofit(String baseUrl, Class<T> clazz, String[]... headers) {
         return getRetrofit(baseUrl, clazz, null, headers);
@@ -209,4 +207,46 @@ public class HttpUtil {
                     }
                 });
     }
+
+    public <T extends IFileUploadService> void upLoad(String url, Class<T> clazz, File file, String key, String desc, OnUploadCallBack<T> callBack) {
+        if (callBack == null) {
+            callBack = OnUploadCallBack.DEFAULT_CALLBACK;
+        }
+        // 创建 RequestBody，用于封装构建RequestBody
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        // MultipartBody.Part 和后端约定好Key
+        MultipartBody.Part body = MultipartBody.Part.createFormData(key, file.getName(), requestFile);
+        // 添加描述
+        RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), desc);
+        IFileUploadService service = getRetrofit(url, clazz);
+        Observable<T> upload = service.upload(description, body);
+        final OnUploadCallBack<T> finalCallBack = callBack;
+        upload.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .onTerminateDetach()
+                .subscribe(new Observer<T>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        finalCallBack.onSubscribe(d);
+                    }
+
+                    @Override
+                    public void onNext(T t) {
+                        finalCallBack.onSuccess(t);
+                        finalCallBack.onFinish(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        finalCallBack.onFailure(e);
+                        finalCallBack.onFinish(false);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
 }

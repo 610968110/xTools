@@ -15,6 +15,13 @@ public class XWebChromeClient extends WebChromeClient {
         return true;
     }
 
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+        if (onWebChromeClientListener != null) {
+            onWebChromeClientListener.onProgressChanged(view, newProgress);
+        }
+    }
+
     public void openFileChooser(ValueCallback<Uri> upLoadMsg) {
         if (onWebChromeClientListener != null) {
             onWebChromeClientListener.openFileChooser(upLoadMsg);
@@ -23,19 +30,21 @@ public class XWebChromeClient extends WebChromeClient {
 
     public void openFileChooser(ValueCallback<Uri> upLoadMsg, String type) {
         if (onWebChromeClientListener != null) {
-            onWebChromeClientListener.openFileChooser(upLoadMsg,type);
+            onWebChromeClientListener.openFileChooser(upLoadMsg, type);
         }
     }
 
     public void openFileChooser(ValueCallback<Uri> upLoadMsg, String type, String capture) {
         if (onWebChromeClientListener != null) {
-            onWebChromeClientListener.openFileChooser(upLoadMsg,type,capture);
+            onWebChromeClientListener.openFileChooser(upLoadMsg, type, capture);
         }
     }
 
     private OnWebChromeClientListener onWebChromeClientListener;
 
     public interface OnWebChromeClientListener {
+        void onProgressChanged(WebView webView, int progress);
+
         void onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams);
 
         void openFileChooser(ValueCallback<Uri> upLoadMsg);

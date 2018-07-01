@@ -67,9 +67,7 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
          */
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
 
-        XWebChromeClient client = new XWebChromeClient();
-        client.setOnWebChromeClientListener(this);
-        setWebChromeClient(client);
+        setWebChromeClient(new XWebChromeClient());
         setWebViewClient(new XWebViewClient());
         setDownloadListener(this);
     }
@@ -133,6 +131,14 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
             cancelFilePathCallback();
         }
     };
+
+    @CallSuper
+    @Override
+    public void onProgressChanged(WebView webView, int progress) {
+        if (progress == 100) {
+            setLoadUrl(getUrl());
+        }
+    }
 
     @Override
     public void onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
@@ -218,6 +224,6 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
 
     public boolean canGoBack(String firstUrl) {
         String urlWithoutEmpty = getLoadUrlWithoutEmpty();
-        return TextUtils.isEmpty(urlWithoutEmpty) || urlWithoutEmpty.equals(firstUrl);
+        return !TextUtils.isEmpty(urlWithoutEmpty) && !urlWithoutEmpty.equals(firstUrl);
     }
 }

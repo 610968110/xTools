@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import lbx.xtoollib.XTools;
 
@@ -47,9 +46,12 @@ public class SoftInputUtil {
         }
     }
 
-    public void showSoftInput(EditText editText) {
+    public void showSoftInput(View view) {
+        view.setFocusable(true);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
         //弹出软键盘
-        imm.showSoftInput(editText, InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
     }
 
     public boolean isActive(Activity activity) {
