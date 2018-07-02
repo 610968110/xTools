@@ -16,6 +16,7 @@ import lbx.xtoollib.phone.BluetoothUtil;
 import lbx.xtoollib.phone.ChineseDateUtil;
 import lbx.xtoollib.phone.CloseUtil;
 import lbx.xtoollib.phone.FileUtil;
+import lbx.xtoollib.phone.FingerPrintUtil;
 import lbx.xtoollib.phone.IOUtils;
 import lbx.xtoollib.phone.MD5Utils;
 import lbx.xtoollib.phone.MathUtil;
@@ -79,6 +80,7 @@ public class XTools {
     private static UncaughtExceptionHandler mUncaughtExceptionHandler;
     private static int mainThreadId;
     private static SecurityUtil mSecurity;
+    private static FingerPrintUtil mFingerPrintUtil;
 
     private XTools(Builder builder, Application app) {
         mApp = app;
@@ -295,6 +297,10 @@ public class XTools {
 
     public static PhoneUtil PhoneUtil() {
         return mPhoneUtil == null ? mPhoneUtil = PhoneUtil.getInstance() : mPhoneUtil;
+    }
+
+    public static FingerPrintUtil FingerPrintUtil() {
+        return mFingerPrintUtil == null ? mFingerPrintUtil = FingerPrintUtil.getInstance() : mFingerPrintUtil;
     }
 
     private UncaughtExceptionHandler getUncaughtExceptionHandler(Context context) {

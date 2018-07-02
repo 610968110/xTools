@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,9 @@ import java.io.File;
 
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
+import lbx.xtoollib.listener.FingerPrintCallback;
 import lbx.xtoollib.phone.SecurityUtil;
+import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtools.databinding.ActivityMainBinding;
 
 /**
@@ -68,7 +71,28 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        //指纹识别
+        XTools.FingerPrintUtil().check(new FingerPrintCallback() {
+            @Override
+            public void onSuccess(FingerprintManagerCompat.AuthenticationResult result) {
+                xLogUtil.e("onSuccess:" + result.getCryptoObject());
+            }
 
+            @Override
+            public void onFailed() {
+                xLogUtil.e("onFailed");
+            }
+
+            @Override
+            public void onErr(int errMsgId, CharSequence errString) {
+                xLogUtil.e("onErr:" + errMsgId + "   " + errString.toString());
+            }
+
+            @Override
+            public void onHelp(int helpMsgId, CharSequence helpString) {
+                xLogUtil.e("onHelp:" + helpMsgId + "   " + helpString.toString());
+            }
+        });
     }
 
     public void choose(View view) {

@@ -1,6 +1,16 @@
 
 一、依赖包和相关配置
 ====
+        
+        
+需要权限：
+````Xml
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+````
                 
 项目的build文件添加：
 
@@ -9,7 +19,7 @@
 module的build文件添加：
 
     //本包的引入
-    compile "com.lbx:xtoolslib:2.0.1"
+    compile "com.lbx:xtoolslib:2.0.2"
     compile 'com.jakewharton:butterknife:8.5.1'
     //这里注意，因为和dataBinding冲突，所以不能用apt        
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'            
