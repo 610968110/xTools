@@ -7,7 +7,6 @@ import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,9 +16,7 @@ import java.io.File;
 
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
-import lbx.xtoollib.listener.FingerPrintCallback;
 import lbx.xtoollib.phone.SecurityUtil;
-import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtools.databinding.ActivityMainBinding;
 
 /**
@@ -28,18 +25,15 @@ import lbx.xtools.databinding.ActivityMainBinding;
 public class MainActivity extends BaseActivity {
 
     public static final int CHOOSE = 0x010;
-
     private EditText mKey;
-
-    private ActivityMainBinding mBinding;
     private LogBean mLog;
 
 
     @Override
     public void getDataBinding(ViewDataBinding binding) {
-        mBinding = (ActivityMainBinding) binding;
+        ActivityMainBinding mainBinding = (ActivityMainBinding) binding;
         mLog = new LogBean();
-        mBinding.setLog(mLog);
+        mainBinding.setLog(mLog);
     }
 
     @Override
@@ -50,52 +44,22 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView(View view) {
         mKey = (EditText) findViewById(R.id.et_key);
+        //申请权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
-
-//        XTools.HttpUtil().send(XTools.HttpUtil().getRetrofit("http://20.124.143.141:8866/", SnsScores.class, "登录拉")
-//                        .loginMain("110101199910101234", "101234", "", "0", 0),
-//                new OnHttpObservableCallBack<Result<LoginMainBean>>() {
-//                    @Override
-//                    public void onSuccess(Result<LoginMainBean> bean) {
-//                        xLogUtil.e("onSuccess");
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable t) {
-//                        xLogUtil.e("onFailure:" + t);
-//                    }
-//                });
     }
 
     @Override
     public void initData() {
         //指纹识别
-        XTools.FingerPrintUtil().check(new FingerPrintCallback() {
-            @Override
-            public void onSuccess(FingerprintManagerCompat.AuthenticationResult result) {
-                xLogUtil.e("onSuccess:" + result.getCryptoObject());
-            }
-
-            @Override
-            public void onFailed() {
-                xLogUtil.e("onFailed");
-            }
-
-            @Override
-            public void onErr(int errMsgId, CharSequence errString) {
-                xLogUtil.e("onErr:" + errMsgId + "   " + errString.toString());
-            }
-
-            @Override
-            public void onHelp(int helpMsgId, CharSequence helpString) {
-                xLogUtil.e("onHelp:" + helpMsgId + "   " + helpString.toString());
-            }
-        });
+//        Util.fingerCheck();
+        //post请求
+//        Util.post();
     }
 
     public void choose(View view) {
+        //选择文件
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -115,6 +79,7 @@ public class MainActivity extends BaseActivity {
                     }
                     Uri uri = data.getData();
                     File file = XTools.UriUtil().uriToFile(MainActivity.this, uri);
+                    //log解密
                     StringBuilder builder = new SecurityUtil(key).decryptFile(file);
                     String log = builder.toString();
                     this.mLog.getLog().set(log);
