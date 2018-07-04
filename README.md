@@ -4,7 +4,7 @@ deBug版本、判断主线程弹出Toast、log打印管理、Http网络请求（
 BaseActivity/BaseFragment、一下常用的自定义控件、MVVM等。封装了很多简化的工具类
 可以满足大部分需求。      
         
-使用很简单：xTools.xxxUtil().method();
+使用很简单：XTools.xxxUtil().method();
         
              
 一、依赖包和相关配置
