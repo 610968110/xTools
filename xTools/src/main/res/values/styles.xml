@@ -1,7 +1,6 @@
 <resources>
 
-    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-    </style>
+    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
     <style name="AppTheme_TranslucentBar" parent="AppThemeNoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
@@ -25,7 +24,7 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
-    <style name="Theme_MyDialog" parent="@android:style/Theme.Dialog">
+    <style name="Theme_MyDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>

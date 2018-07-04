@@ -46,25 +46,21 @@ module的build文件添加：
 ====
 
 ```Java     
-        XTools xTools = new XTools.Builder()        
-                        //打印log         
-                        .log(true)      
-                        //设置log的tag     
-                        .logTag("xys")      
-                        //设置显示log的级别        
-                        .logLevel(xLogUtil.LEVEL_VERBOSE)       
-                        //设置crashLog的文件sd卡存储路径     
-                        .errLogFilePath("xTools")       
-                        //设置crashLog的文件存储名      
-                        .errLogFileName("ERR")      
-                        //设置crashLog的打印
-                        //第一个参数是打印到文件，第二个参数是打印到IDE        
-                        .errLogFile(false, true)              
-                        // 是否输出log到文件    
-                        // 文件在sd卡上的路径       
-                        // 第三个参数:加密的key，打印到file的log是否加密(des+base64非对称加密) null为不加密        
-                        .logPrintFile(true, "xTools", "lbx")               
-                        .build(this);             
+        boolean debug = XTools.ApkUtil().isApkInDebug(this);
+        XTools xTools = new XTools.Builder()
+                        .log(/*是否打印log*/true)
+                        .logTag(/*设置log的tag*/"xys")
+                        .logLevel(/*设置显示log的级别*/debug ? LEVEL_VERBOSE : LEVEL_NONE)
+                        .errLogFilePath(/*设置crashLog的文件存储路径*/"xTools")
+                        .errLogFileName(/*设置crashLog的文件存储名*/"crash")
+                        .errLogFile(
+                                /*是否打印到文件*/true,
+                                /*是否打印到log*/debug)
+                        .logPrintFile(
+                                /*是否打印log到文件*/true,
+                                /*打印log文件在sd卡下的路径*/"xTools/log", 
+                                /*打印到file的log是否加密(des+base64对称加密), null为不加密*/ "lbx")
+                        .build(this);         
         //初始化           
         xTools.init();          
 ```     

@@ -17,7 +17,6 @@ import android.util.AttributeSet;
 
 import lbx.xtoollib.R;
 import lbx.xtoollib.XTools;
-import lbx.xtoollib.phone.xLogUtil;
 
 
 /**
@@ -254,7 +253,6 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
             dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
         }
         mShaderMatrix.setScale(scale, scale);
-        xLogUtil.e("dx:" + dx);
         mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth, (int) (dy + 0.5f) + mBorderWidth);
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }

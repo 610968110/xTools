@@ -15,7 +15,6 @@ import lbx.xtoollib.R;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
 import lbx.xtoollib.phone.GetPathFromUri4kitkat;
-import lbx.xtoollib.phone.xLogUtil;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
@@ -101,7 +100,6 @@ public class WebPhotoActivity extends BaseActivity {
         }
         //拍照所存路径
         mPictureFile = new File(pFile + File.separator + "IvMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
-        xLogUtil.e("拍照所存路径:" + mPictureFile.getAbsolutePath());
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //7.0及以上
         if (Build.VERSION.SDK_INT > 23) {
