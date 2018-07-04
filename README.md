@@ -1,7 +1,15 @@
-
+        
+xTools是一个在三方框架上和androidApi上进行二次封装的框架，里面包含很多工具类，如检查apk的
+deBug版本、判断主线程弹出Toast、log打印管理、Http网络请求（RxAndroid2+Retrofit2）、
+BaseActivity/BaseFragment、一下常用的自定义控件、MVVM等。封装了很多简化的工具类
+可以满足大部分需求。      
+        
+使用很简单：xTools.xxxUtil().method();
+        
+             
 一、依赖包和相关配置
 ====
-        
+            
         
 需要权限：
 ````Xml
