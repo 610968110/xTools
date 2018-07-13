@@ -1,8 +1,13 @@
 package lbx.xtools;
 
+import android.os.Environment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
+import java.io.File;
+
+import io.reactivex.disposables.Disposable;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.listener.DownloadCallBack;
 import lbx.xtoollib.listener.FingerPrintCallback;
 import lbx.xtoollib.listener.OnHttpObservableCallBack;
 import lbx.xtoollib.phone.xLogUtil;
@@ -52,5 +57,41 @@ public class Util {
                         xLogUtil.e("onFailure:" + t);
                     }
                 });
+    }
+
+    public static void download() {
+        String url = "http://dl001.liqucn.com/upload/2018/291/s/com.ss.android.article.news_6.8.0_liqucn.com.apk";
+        final String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        XTools.HttpUtil().singleDownload(url, path, new DownloadCallBack() {
+            @Override
+            public void onStart(Disposable d, String url, File file) {
+                xLogUtil.e("onStart:" + d);
+            }
+
+            @Override
+            public void onProgress(float progress, float current, float total) {
+                xLogUtil.e("onProgress:" + progress);
+            }
+
+            @Override
+            public void onExistence(String url, File file) {
+                xLogUtil.e("onExistence:" + file.getAbsolutePath());
+            }
+
+            @Override
+            public void onSuccess(String url, File file) {
+                xLogUtil.e("onSuccess:" + file.getAbsolutePath());
+            }
+
+            @Override
+            public void onError(String err, String url, File file) {
+                xLogUtil.e("onError:" + err);
+            }
+
+            @Override
+            public void onFinish(boolean success, String url, File file) {
+                xLogUtil.e("onFinish:" + Thread.currentThread().getName());
+            }
+        });
     }
 }

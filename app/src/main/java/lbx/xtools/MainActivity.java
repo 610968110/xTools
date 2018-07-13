@@ -56,6 +56,8 @@ public class MainActivity extends BaseActivity {
 //        Util.fingerCheck();
         //post请求
 //        Util.post();
+        //下载
+//        Util.download();
     }
 
     public void choose(View view) {

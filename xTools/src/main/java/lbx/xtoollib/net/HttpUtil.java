@@ -30,16 +30,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.listener.DownloadCallBack;
 import lbx.xtoollib.listener.OnHttpFlowableCallBack;
 import lbx.xtoollib.listener.OnHttpObservableCallBack;
 import lbx.xtoollib.listener.OnUploadCallBack;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -208,45 +207,16 @@ public class HttpUtil {
                 });
     }
 
-    public <T extends IFileUploadService> void upLoad(String url, Class<T> clazz, File file, String key, String desc, OnUploadCallBack<T> callBack) {
-        if (callBack == null) {
-            callBack = OnUploadCallBack.DEFAULT_CALLBACK;
-        }
-        // 创建 RequestBody，用于封装构建RequestBody
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        // MultipartBody.Part 和后端约定好Key
-        MultipartBody.Part body = MultipartBody.Part.createFormData(key, file.getName(), requestFile);
-        // 添加描述
-        RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"), desc);
-        IFileUploadService service = getRetrofit(url, clazz);
-        Observable<T> upload = service.upload(description, body);
-        final OnUploadCallBack<T> finalCallBack = callBack;
-        upload.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .onTerminateDetach()
-                .subscribe(new Observer<T>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        finalCallBack.onSubscribe(d);
-                    }
+    public void upLoad(String url, File file, String key, String desc, OnUploadCallBack<ResponseBody> callBack) {
+        UploadTask.upLoad(url, file, key, desc, callBack);
+    }
 
-                    @Override
-                    public void onNext(T t) {
-                        finalCallBack.onSuccess(t);
-                        finalCallBack.onFinish(true);
-                    }
+    public void singleDownload(String url, String filePath, DownloadCallBack callback) {
+        singleDownload(url, filePath, url.substring(url.lastIndexOf("/") + 1, url.length()), callback);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        finalCallBack.onFailure(e);
-                        finalCallBack.onFinish(false);
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+    public void singleDownload(String url, String filePath, String fileName, DownloadCallBack callback) {
+        DownLoadTask.singleDownload(url, filePath, fileName, callback);
     }
 
 }

@@ -3,6 +3,9 @@ package lbx.xtoollib.res;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import lbx.xtoollib.XTools;
 
 
@@ -12,21 +15,28 @@ import lbx.xtoollib.XTools;
  */
 public class SpUtil {
 
-    private static final String SP_CONFIG_NAME = "config";
-    private static final int MODE = Context.MODE_PRIVATE;
-
-    private static SharedPreferences mSp;
+    private SharedPreferences mSp;
     private static SpUtil INSTANCE;
+    private static Map<String, SpUtil> mMap = new HashMap<>();
 
     public static SpUtil getInstance() {
         if (INSTANCE == null) {
             synchronized (SpUtil.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new SpUtil(XTools.getApplicationContext().getSharedPreferences(SP_CONFIG_NAME, MODE));
+                    INSTANCE = new SpUtil(XTools.getApplicationContext().getSharedPreferences("config", Context.MODE_PRIVATE));
                 }
             }
         }
         return INSTANCE;
+    }
+
+    public synchronized SpUtil newInstance(String name) {
+        SpUtil spUtil = mMap.get(name);
+        if (spUtil == null) {
+            spUtil = new SpUtil(XTools.getApplicationContext().getSharedPreferences(name, Context.MODE_PRIVATE));
+            mMap.put(name, spUtil);
+        }
+        return spUtil;
     }
 
     private SpUtil() {
@@ -34,7 +44,7 @@ public class SpUtil {
     }
 
     private SpUtil(SharedPreferences sp) {
-        SpUtil.mSp = sp;
+        this.mSp = sp;
     }
 
     public boolean putBoolean(String key, boolean b) {

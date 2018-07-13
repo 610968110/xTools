@@ -140,6 +140,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
         super.onDestroy();
     }
+
     public void saveFinish() {
         super.onBackPressed();
     }

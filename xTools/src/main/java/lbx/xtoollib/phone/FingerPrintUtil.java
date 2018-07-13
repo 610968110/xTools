@@ -42,6 +42,10 @@ public class FingerPrintUtil {
     }
 
     public CancellationSignal check(FingerPrintCallback callback) {
+        return check(null, callback);
+    }
+
+    public CancellationSignal check(FingerprintManagerCompat.CryptoObject object, FingerPrintCallback callback) {
         if (mCancellationSignal == null) {
             mCancellationSignal = new CancellationSignal();
         }
@@ -49,7 +53,7 @@ public class FingerPrintUtil {
             callback = FingerPrintCallback.DEFAULT;
         }
         final FingerPrintCallback finalCallback = callback;
-        mFingerprintManager.authenticate(null, 0, mCancellationSignal, new AuthenticationCallback() {
+        mFingerprintManager.authenticate(object, 0, mCancellationSignal, new AuthenticationCallback() {
             //多次尝试都失败会走onAuthenticationError。会停止响应一段时间。提示尝试次数过多。请稍后再试。
             @Override
             public void onAuthenticationError(int errMsgId, CharSequence errString) {

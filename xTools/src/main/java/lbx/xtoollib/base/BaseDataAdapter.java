@@ -72,30 +72,24 @@ public abstract class BaseDataAdapter<M, N extends ViewDataBinding, T extends Ba
     protected void setClickListener(View view, boolean itemClick, boolean itemLongClick, final int position) {
         final M m = mList.get(position);
         if (itemClick) {
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    RecyclerView recycleView = getRecycleView();
-                    OnItemClickListener<M> onItemClickListener = getOnItemClickListener();
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(recycleView, recycleView == null ? 0 : recycleView.getId(), position, m);
-                    }
+            view.setOnClickListener(v -> {
+                RecyclerView recycleView = getRecycleView();
+                OnItemClickListener<M> onItemClickListener1 = getOnItemClickListener();
+                if (onItemClickListener1 != null) {
+                    onItemClickListener1.onItemClick(recycleView, recycleView == null ? 0 : recycleView.getId(), position, m);
                 }
             });
         } else {
             view.setOnClickListener(null);
         }
         if (itemLongClick) {
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    RecyclerView recycleView = getRecycleView();
-                    OnItemClickListener<M> onItemClickListener = getOnItemClickListener();
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemLongClick(recycleView, recycleView == null ? 0 : recycleView.getId(), position, m);
-                    }
-                    return true;
+            view.setOnLongClickListener(v -> {
+                RecyclerView recycleView = getRecycleView();
+                OnItemClickListener<M> onItemClickListener12 = getOnItemClickListener();
+                if (onItemClickListener12 != null) {
+                    onItemClickListener12.onItemLongClick(recycleView, recycleView == null ? 0 : recycleView.getId(), position, m);
                 }
+                return true;
             });
         } else {
             view.setOnLongClickListener(null);

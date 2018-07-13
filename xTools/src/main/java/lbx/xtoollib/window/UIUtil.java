@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import lbx.xtoollib.R;
@@ -217,5 +218,9 @@ public class UIUtil {
                 }
             });
         }
+    }
+
+    public String getText(TextView textView) {
+        return textView.getText().toString().trim();
     }
 }

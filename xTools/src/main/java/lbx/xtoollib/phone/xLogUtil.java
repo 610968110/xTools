@@ -17,6 +17,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -66,6 +68,7 @@ public class xLogUtil {
 
     private static SecurityUtil mSecurityUtil;
     private static String DEFAULT_FILE_PATH = "xTools";
+    private static ExecutorService service = Executors.newFixedThreadPool(1);
 
     /**
      * log是否打印到文件
@@ -117,82 +120,107 @@ public class xLogUtil {
     /**
      * 以级别为 d 的形式输出LOG
      */
-    public static void v(String msg) {
-        if (mDebuggable >= LEVEL_VERBOSE) {
-            String[] cut = cut(msg);
-            for (String s : cut) {
-                Log.v(mTag, s);
+    public static void v(final String msg) {
+        service.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (mDebuggable >= LEVEL_VERBOSE) {
+                    String[] cut = cut(msg);
+                    for (String s : cut) {
+                        Log.v(mTag, s);
+                    }
+                }
+                if (isPrintFile) {
+                    writeInFilePath("** v **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+                }
             }
-        }
-        if (isPrintFile) {
-            writeInFilePath("** v **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-        }
+        });
     }
 
     /**
      * 以级别为 d 的形式输出LOG
      */
-    public static void d(String msg) {
-        if (mDebuggable >= LEVEL_DEBUG) {
-            String[] cut = cut(msg);
-            for (String s : cut) {
-                Log.d(mTag, s);
+    public static void d(final String msg) {
+        service.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (mDebuggable >= LEVEL_DEBUG) {
+                    String[] cut = cut(msg);
+                    for (String s : cut) {
+                        Log.d(mTag, s);
+                    }
+                }
+                if (isPrintFile) {
+                    writeInFilePath("** d **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+                }
             }
-        }
-        if (isPrintFile) {
-            writeInFilePath("** d **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-        }
+        });
     }
 
     /**
      * 以级别为 i 的形式输出LOG
      */
-    public static void i(String msg) {
-        if (mDebuggable >= LEVEL_INFO) {
-            String[] cut = cut(msg);
-            for (String s : cut) {
-                Log.i(mTag, s);
+    public static void i(final String msg) {
+        service.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (mDebuggable >= LEVEL_INFO) {
+                    String[] cut = cut(msg);
+                    for (String s : cut) {
+                        Log.i(mTag, s);
+                    }
+                }
+                if (isPrintFile) {
+                    writeInFilePath("** i **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+                }
             }
-        }
-        if (isPrintFile) {
-            writeInFilePath("** i **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-        }
+        });
     }
 
     /**
      * 以级别为 w 的形式输出LOG
      */
-    public static void w(String msg) {
-        if (mDebuggable >= LEVEL_WARN) {
-            String[] cut = cut(msg);
-            for (String s : cut) {
-                Log.w(mTag, s);
+    public static void w(final String msg) {
+        service.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (mDebuggable >= LEVEL_WARN) {
+                    String[] cut = cut(msg);
+                    for (String s : cut) {
+                        Log.w(mTag, s);
+                    }
+                }
+                if (isPrintFile) {
+                    writeInFilePath("** w **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+                }
             }
-        }
-        if (isPrintFile) {
-            writeInFilePath("** w **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-        }
+        });
     }
 
     /**
      * 以级别为 e 的形式输出LOG
      */
-    public static void e(String msg) {
-        if (mDebuggable >= LEVEL_ERROR) {
-            String[] cut = cut(msg);
-            for (String s : cut) {
-                Log.e(mTag, s);
+    public static void e(final String msg) {
+        service.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (mDebuggable >= LEVEL_ERROR) {
+                    String[] cut = cut(msg);
+                    for (String s : cut) {
+                        Log.e(mTag, s);
+                    }
+                }
+                if (isPrintFile) {
+                    writeInFilePath("** e **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+                }
             }
-        }
-        if (isPrintFile) {
-            writeInFilePath("** e **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-        }
+        });
     }
 
     /**
      * 以级别为 w 的形式输出Throwable
      */
-    public void w(Throwable tr) {
+    public void w(final Throwable tr) {
         if (mDebuggable >= LEVEL_WARN) {
             Log.w(mTag, "", tr);
         }
@@ -202,11 +230,8 @@ public class xLogUtil {
      * 以级别为 w 的形式输出LOG信息和Throwable
      */
     public void w(String msg, Throwable tr) {
-        if (mDebuggable >= LEVEL_WARN && null != msg) {
-            String[] cut = cut(msg);
-            for (String s : cut) {
-                Log.w(mTag, s, tr);
-            }
+        if (mDebuggable >= LEVEL_WARN) {
+            Log.w(mTag, msg, tr);
         }
     }
 
@@ -224,10 +249,7 @@ public class xLogUtil {
      */
     public void e(String msg, Throwable tr) {
         if (mDebuggable >= LEVEL_ERROR && null != msg) {
-            String[] cut = cut(msg);
-            for (String s : cut) {
-                Log.e(mTag, s, tr);
-            }
+            Log.e(mTag, msg, tr);
         }
     }
 
@@ -291,10 +313,9 @@ public class xLogUtil {
      * @param log  需要存储的log
      * @param tag  标签
      * @param path 路径
-     * @return 存储结果
      */
-    public static String writeInFilePath(String log, String tag, String path) {
-        return writeInFilePath(log, tag, path, false);
+    public static void writeInFilePath(String log, String tag, String path) {
+        writeInFilePath(log, tag, path, false);
     }
 
     /**
@@ -304,10 +325,9 @@ public class xLogUtil {
      * @param tag  标签
      * @param path 路径
      * @param des  是否des加密
-     * @return 存储结果
      */
-    private static String writeInFilePath(String log, String tag, String path, boolean des) {
-        return writeInFilePath(log, tag, path, des ? mSecurityUtil : null);
+    private static void writeInFilePath(String log, String tag, String path, boolean des) {
+        writeInFilePath(log, tag, path, des ? mSecurityUtil : null);
     }
 
 
@@ -317,9 +337,8 @@ public class xLogUtil {
      * @param log  需要存储的log
      * @param tag  标签
      * @param path 路径
-     * @return 存储结果
      */
-    private static synchronized String writeInFilePath(String log, String tag, String path, SecurityUtil securityUtil) {
+    private static synchronized void writeInFilePath(final String log, final String tag, final String path, final SecurityUtil securityUtil) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH", Locale.CHINA);
         String name = format.format(new Date());
         File pathF = new File(path);
@@ -344,12 +363,8 @@ public class xLogUtil {
         try {
             s = new FileWriter(file, true);
             s.write("\n" + logs + "#lbx.xTools#");
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return "FileNotFoundException:" + e.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "IOException:" + e.toString();
         } finally {
             if (s != null) {
                 try {
@@ -359,7 +374,6 @@ public class xLogUtil {
                 }
             }
         }
-        return "success";
     }
 
     private static String[] cut(String s) {
