@@ -2,6 +2,7 @@ package lbx.xtoollib.res;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class SpUtil {
     private SharedPreferences mSp;
     private static SpUtil INSTANCE;
     private static Map<String, SpUtil> mMap = new HashMap<>();
+    public static final String SPLIT = "#XTOOLS#";
 
     public static SpUtil getInstance() {
         if (INSTANCE == null) {
@@ -87,4 +89,53 @@ public class SpUtil {
     public boolean deleteInt(String key) {
         return mSp.edit().remove(key).commit();
     }
+
+    public boolean putStringArray(String key, String... array) {
+        int length = array.length;
+        StringBuilder builder = new StringBuilder();
+        builder.append("");
+        for (int i = 0; i < length; i++) {
+            builder.append(array[i]);
+            if (i != length - 1) {
+                builder.append(SPLIT);
+            }
+        }
+        return putString(key, builder.toString());
+    }
+
+    public String[] getStringArray(String key, String... array) {
+        String string = getString(key, "");
+        if (TextUtils.isEmpty(string)) {
+            return new String[0];
+        } else if (!string.contains(SPLIT)) {
+            return new String[]{string};
+        } else {
+            return string.split(SPLIT);
+        }
+    }
+
+    public boolean putIntArray(String key, int... array) {
+        String[] strings = new String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            strings[i] = String.valueOf(array[i]);
+        }
+        return putStringArray(key, strings);
+    }
+
+    public int[] getIntArray(String key) {
+        String string = getString(key, "");
+        if (TextUtils.isEmpty(string)) {
+            return new int[0];
+        } else if (!string.contains(SPLIT)) {
+            return new int[]{Integer.valueOf(string)};
+        } else {
+            String[] strings = string.split(SPLIT);
+            int[] ints = new int[string.length()];
+            for (int i = 0; i < strings.length; i++) {
+                ints[i] = Integer.valueOf(strings[i]);
+            }
+            return ints;
+        }
+    }
+
 }
