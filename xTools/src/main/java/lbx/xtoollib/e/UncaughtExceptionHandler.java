@@ -79,7 +79,7 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
         String result = getErr(ex);
         info += result;
         if (DEFAULT_PRINT) {
-            Log.e(DEFAULT_ERR_TAG, "未捕获异常 \n start：\n" + info + "\n end \n");
+            Log.e(DEFAULT_ERR_TAG, "未捕获异常 \n photoSelect：\n" + info + "\n end \n");
         }
         if (DEFAULT_SAVE) {
             saveFile(info, DEFAULT_FILE_PATH, DEFAULT_FILE_NAME);

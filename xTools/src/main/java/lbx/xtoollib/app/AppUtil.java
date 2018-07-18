@@ -5,11 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 import java.util.Iterator;
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.bean.AppBean;
+import lbx.xtoollib.listener.OnScanAppListener;
+import lbx.xtoollib.listener.OnScanByIntentAppListener;
+import lbx.xtoollib.task.ScanThreeAppTask;
 
 
 /**
@@ -185,5 +193,32 @@ public class AppUtil {
                     Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
         return intent;
+    }
+
+    public void scanThreadAppList(Context context, OnScanAppListener listener) {
+        ScanThreeAppTask scanThreeAppTask = new ScanThreeAppTask(context);
+        scanThreeAppTask.setOnLoadListener(listener);
+        scanThreeAppTask.execute();
+    }
+
+    /**
+     * @param context  context
+     * @param intent   intent
+     * @param listener listener
+     */
+    public void scanAppByIntent(Context context, Intent intent, OnScanByIntentAppListener listener) {
+        final PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> resolveList = pm.queryIntentActivities(intent, 0);
+        Flowable.fromIterable(resolveList)
+                .map(resolveInfo -> pm.getPackageInfo(resolveInfo.activityInfo.packageName, 0).applicationInfo)
+                .map(applicationInfo -> new AppBean(pm, applicationInfo))
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(appBeen -> {
+                    if (listener != null) {
+                        listener.onScanFinish(appBeen);
+                    }
+                });
     }
 }

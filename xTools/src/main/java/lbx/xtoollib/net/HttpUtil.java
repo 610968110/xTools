@@ -34,6 +34,8 @@ import lbx.xtoollib.listener.DownloadCallBack;
 import lbx.xtoollib.listener.OnHttpFlowableCallBack;
 import lbx.xtoollib.listener.OnHttpObservableCallBack;
 import lbx.xtoollib.listener.OnUploadCallBack;
+import lbx.xtoollib.task.DownLoadTask;
+import lbx.xtoollib.task.UploadTask;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

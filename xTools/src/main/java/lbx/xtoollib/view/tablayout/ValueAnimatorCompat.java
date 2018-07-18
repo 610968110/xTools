@@ -42,7 +42,7 @@ class ValueAnimatorCompat {
      */
     interface AnimatorListener {
         /**
-         * <p>Notifies the start of the animation.</p>
+         * <p>Notifies the photoSelect of the animation.</p>
          *
          * @param animator The started animation.
          */

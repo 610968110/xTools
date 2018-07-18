@@ -1120,7 +1120,7 @@ public class XTabLayout extends HorizontalScrollView {
     private void applyModeAndGravity() {
         int paddingStart = 0;
         if (mMode == MODE_SCROLLABLE) {
-            // If we're scrollable, or fixed at start, inset using padding
+            // If we're scrollable, or fixed at photoSelect, inset using padding
             paddingStart = Math.max(0, mContentInsetStart - mTabPaddingStart);
         }
         ViewCompat.setPaddingRelative(mTabStrip, paddingStart, 0, 0, 0);
@@ -1858,7 +1858,7 @@ public class XTabLayout extends HorizontalScrollView {
             super.onLayout(changed, l, t, r, b);
 
             if (mIndicatorAnimator != null && mIndicatorAnimator.isRunning()) {
-                // If we're currently running an animation, lets cancel it and start a
+                // If we're currently running an animation, lets cancel it and photoSelect a
                 // new animation with the remaining duration
                 mIndicatorAnimator.cancel();
                 final long duration = mIndicatorAnimator.getDuration();
@@ -1930,14 +1930,14 @@ public class XTabLayout extends HorizontalScrollView {
                 // Else, we'll just grow from the nearest edge
                 final int offset = dpToPx(MOTION_NON_ADJACENT_OFFSET);
                 if (position < mSelectedPosition) {
-                    // We're going end-to-start
+                    // We're going end-to-photoSelect
                     if (isRtl) {
                         startLeft = startRight = targetLeft - offset;
                     } else {
                         startLeft = startRight = targetRight + offset;
                     }
                 } else {
-                    // We're going start-to-end
+                    // We're going photoSelect-to-end
                     if (isRtl) {
                         startLeft = startRight = targetRight + offset;
                     } else {

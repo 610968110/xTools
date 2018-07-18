@@ -58,6 +58,8 @@ public class MainActivity extends BaseActivity {
 //        Util.post();
         //下载
 //        Util.download();
+        //mdm启动页面
+//        Util.startMdmActivity(this);
     }
 
     public void choose(View view) {

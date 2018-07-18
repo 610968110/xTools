@@ -10,6 +10,7 @@ import java.io.File;
 import lbx.xtoollib.app.ApkUtil;
 import lbx.xtoollib.app.AppUtil;
 import lbx.xtoollib.e.UncaughtExceptionHandler;
+import lbx.xtoollib.net.DownloadUtil;
 import lbx.xtoollib.net.HttpUtil;
 import lbx.xtoollib.net.NetConnectUtil;
 import lbx.xtoollib.phone.BluetoothUtil;
@@ -81,6 +82,7 @@ public class XTools {
     private static int mainThreadId;
     private static SecurityUtil mSecurity;
     private static FingerPrintUtil mFingerPrintUtil;
+    private static DownloadUtil mDownloadUtil;
 
     private XTools(Builder builder, Application app) {
         mApp = app;
@@ -301,6 +303,10 @@ public class XTools {
 
     public static FingerPrintUtil FingerPrintUtil() {
         return mFingerPrintUtil == null ? mFingerPrintUtil = FingerPrintUtil.getInstance() : mFingerPrintUtil;
+    }
+
+    public static DownloadUtil DownloadUtil() {
+        return mDownloadUtil == null ? mDownloadUtil = DownloadUtil.getInstance() : mDownloadUtil;
     }
 
     private UncaughtExceptionHandler getUncaughtExceptionHandler(Context context) {

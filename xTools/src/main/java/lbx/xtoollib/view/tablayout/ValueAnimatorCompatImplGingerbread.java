@@ -73,7 +73,7 @@ class ValueAnimatorCompatImplGingerbread extends ValueAnimatorCompat.Impl {
         mStartTime = SystemClock.uptimeMillis();
         dispatchAnimationUpdate();
         dispatchAnimationStart();
-        // Now start our animation ticker
+        // Now photoSelect our animation ticker
         sHandler.postDelayed(mRunnable, HANDLER_DELAY);
     }
 

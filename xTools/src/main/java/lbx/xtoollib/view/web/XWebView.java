@@ -1,7 +1,6 @@
 package lbx.xtoollib.view.web;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.CallSuper;
 import android.text.TextUtils;
@@ -84,7 +83,7 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
         super.setWebChromeClient(client);
     }
 
-    private void start() {
+    public void photoSelect() {
         WebPhotoActivity.start(getContext());
         WebPhotoActivity.setOnPhotoSelectListener(mListener);
     }
@@ -143,25 +142,25 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
     @Override
     public void onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
         mFilePathCallback = filePathCallback;
-        start();
+        photoSelect();
     }
 
     @Override
     public void openFileChooser(ValueCallback<Uri> upLoadMsg) {
         mFilePathCallback = upLoadMsg;
-        start();
+        photoSelect();
     }
 
     @Override
     public void openFileChooser(ValueCallback<Uri> upLoadMsg, String type) {
         mFilePathCallback = upLoadMsg;
-        start();
+        photoSelect();
     }
 
     @Override
     public void openFileChooser(ValueCallback<Uri> upLoadMsg, String type, String capture) {
         mFilePathCallback = upLoadMsg;
-        start();
+        photoSelect();
     }
 
     @Override
@@ -169,17 +168,8 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
         downloadByBrowser(url);
     }
 
-    private void downloadByBrowser(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse(url));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-            getContext().startActivity(intent);
-            XTools.UiUtil().toastInUI("开始下载");
-        } else {
-            XTools.UiUtil().toastInUI("下载失败");
-        }
+    public boolean downloadByBrowser(String url) {
+        return XTools.DownloadUtil().downloadByBrowser(getContext(), url);
     }
 
     public View getErrorView() {

@@ -1,15 +1,20 @@
 package lbx.xtools;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import java.io.File;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.bean.AppBean;
 import lbx.xtoollib.listener.DownloadCallBack;
 import lbx.xtoollib.listener.FingerPrintCallback;
 import lbx.xtoollib.listener.OnHttpObservableCallBack;
+import lbx.xtoollib.listener.OnScanByIntentAppListener;
 import lbx.xtoollib.phone.xLogUtil;
 
 /**
@@ -91,6 +96,17 @@ public class Util {
             @Override
             public void onFinish(boolean success, String url, File file) {
                 xLogUtil.e("onFinish:" + Thread.currentThread().getName());
+            }
+        });
+    }
+
+    public static void startMdmActivity(final Context context) {
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory("test");
+        XTools.AppUtil().scanAppByIntent(context, mainIntent, new OnScanByIntentAppListener() {
+            @Override
+            public void onScanFinish(List<AppBean> list) {
+                xLogUtil.e("list:" + list.size());
             }
         });
     }
