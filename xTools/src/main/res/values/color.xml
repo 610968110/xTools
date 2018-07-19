@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bottombar_item_textcolor_normal">#cccccc</color>
+    <color name="bottombar_item_textcolor_select">#A00000</color>
+</resources>

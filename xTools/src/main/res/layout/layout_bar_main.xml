@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#ffffff"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view_bottom_line"
+        android:layout_width="match_parent"
+        android:background="#E3E3E3"
+        android:layout_height="2px" />
+
+    <LinearLayout
+        android:id="@+id/ll_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/view_bottom_line"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+</RelativeLayout>

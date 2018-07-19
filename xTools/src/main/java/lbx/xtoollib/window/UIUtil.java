@@ -12,7 +12,6 @@ import android.os.SystemClock;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,13 +78,12 @@ public class UIUtil {
         return toast;
     }
 
+    public void toastInUI(final @StringRes int textId) {
+        toastInUI(XTools.ResUtil().getString(textId));
+    }
+
     public void toastInUI(final String text) {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                showToast(text);
-            }
-        };
+        Runnable r = () -> showToast(text);
         if (isRunOnUIThread()) {
             r.run();
         } else {
@@ -188,21 +186,12 @@ public class UIUtil {
         dialog = new Dialog(context, R.style.Theme_MyDialog);
         dialog.setContentView(R.layout.dialog_progress_layout);
         if (dialog != null && !dialog.isShowing()) {
-            runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.show();
-                }
-            });
+            runOnUIThread(() -> dialog.show());
         }
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                closeProgressDialog();
-                return true;
-            }
+        dialog.setOnKeyListener((dialog1, keyCode, event) -> {
+            closeProgressDialog();
+            return true;
         });
     }
 
@@ -211,12 +200,7 @@ public class UIUtil {
      */
     public void closeProgressDialog() {
         if (dialog != null && dialog.isShowing()) {
-            runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.dismiss();
-                }
-            });
+            runOnUIThread(() -> dialog.dismiss());
         }
     }
 

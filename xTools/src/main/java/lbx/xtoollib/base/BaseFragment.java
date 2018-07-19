@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.disposables.Disposable;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.bean.FragmentInfo;
 
 public abstract class BaseFragment extends Fragment {
 
@@ -28,6 +29,7 @@ public abstract class BaseFragment extends Fragment {
     private List<Disposable> mDisposables;
     private List<Subscription> mSubscriptions;
     private Unbinder mBind;
+    private FragmentInfo mFragmentInfo;
 
     @Nullable
     @Override
@@ -114,6 +116,14 @@ public abstract class BaseFragment extends Fragment {
             mSubscriptions.remove(subscription);
         }
         return mSubscriptions;
+    }
+
+    public FragmentInfo getFragmentInfo() {
+        return mFragmentInfo;
+    }
+
+    public void setmFragmentInfo(FragmentInfo fragmentInfo) {
+        this.mFragmentInfo = fragmentInfo;
     }
 
     @Override

@@ -149,7 +149,33 @@ xTools依赖的三方框架，pom会自动引用，若有版本变化需求请�
             </lbx.xtoollib.view.tablayout.XTabLayout>
 ````
 
-五、关于log解密
+五、关于XBottomBar
+====
+在项目中覆盖以下属性：
+````Xml
+<dimen name="bottom_bar_textview_height">16dp</dimen>
+<dimen name="bottom_bar_text_size">10dp</dimen>
+<dimen name="bottom_bar_img_size">22dp</dimen>
+<dimen name="bottom_bar_point_size">8dp</dimen>
+<dimen name="bottom_bar_point_text_size">6dp</dimen>
+<dimen name="bottom_bar_point_offset_x">2dp</dimen>
+<dimen name="bottom_bar_point_offset_y">2dp</dimen>
+<color name="bottombar_item_textcolor_normal">#cccccc</color>
+<color name="bottombar_item_textcolor_select">#A00000</color>
+````
+
+API：
+````Java
+mBottomBar = new BottomBar(this);
+//设置文字颜色
+mBottomBar.setTextStateColor(R.color.bottombar_item_textcolor_normal, R.color.bottombar_item_textcolor_select);
+//绑定viewpager  默认跳到HOME页面  TextView不为null会显示设置FragmentInfo的名字 boolean滚动动画
+mBottomBar.bind(mBinding.vpMain, (TextView) null, false, FragmentType.HOME.getPos());
+//显示消息点
+mBottomBar.showNoticePoint(pos);
+````
+
+六、关于log解密
 ====
 仅需要一行代码：
 ````Java

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_bottombar_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="@dimen/bottom_bar_img_size"
+            android:layout_height="@dimen/bottom_bar_img_size">
+
+            <ImageView
+                android:id="@+id/iv_bottom_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/tv_unread"
+                android:layout_width="@dimen/bottom_bar_point_size"
+                android:layout_height="@dimen/bottom_bar_point_size"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/unread_msg_bg"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:visibility="gone"
+                android:textSize="@dimen/bottom_bar_point_text_size"
+                android:translationY="@dimen/bottom_bar_point_offset_y"
+                android:translationX="@dimen/bottom_bar_point_offset_x" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_bottom_item"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_bar_textview_height"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:textColor="@color/bottombar_item_textcolor_normal"
+            android:textSize="@dimen/bottom_bar_text_size" />
+
+    </LinearLayout>
+
+</RelativeLayout>

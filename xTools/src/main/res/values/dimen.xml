@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_bar_textview_height">16dp</dimen>
+    <dimen name="bottom_bar_text_size">10dp</dimen>
+    <dimen name="bottom_bar_img_size">22dp</dimen>
+    <dimen name="bottom_bar_point_size">8dp</dimen>
+    <dimen name="bottom_bar_point_text_size">6dp</dimen>
+    <dimen name="bottom_bar_point_offset_x">2dp</dimen>
+    <dimen name="bottom_bar_point_offset_y">-12dp</dimen>
+</resources>
