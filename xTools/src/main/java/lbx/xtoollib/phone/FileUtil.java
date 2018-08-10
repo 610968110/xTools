@@ -35,7 +35,6 @@ public class FileUtil {
     private static CopyFileUtils COPY_FILE_UTILS;
     private static OpenFileUtil OPEN_FILE_UTIL;
 
-
     public static FileUtil getInstance() {
         if (INSTANCE == null) {
             synchronized (FileUtil.class) {

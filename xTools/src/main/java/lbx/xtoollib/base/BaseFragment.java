@@ -122,7 +122,7 @@ public abstract class BaseFragment extends Fragment {
         return mFragmentInfo;
     }
 
-    public void setmFragmentInfo(FragmentInfo fragmentInfo) {
+    public void setFragmentInfo(FragmentInfo fragmentInfo) {
         this.mFragmentInfo = fragmentInfo;
     }
 

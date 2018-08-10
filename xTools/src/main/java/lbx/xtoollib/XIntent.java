@@ -1,10 +1,12 @@
 package lbx.xtoollib;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,26 @@ public class XIntent extends Intent {
 
     public void start() {
         mContext.startActivity(this);
+    }
+
+    public void startForResult(int code) {
+        if (mContext instanceof Activity) {
+            ((Activity) mContext).startActivityForResult(this, code);
+        } else {
+            start();
+        }
+    }
+
+    public void startForResult(Activity activity, int code) {
+        activity.startActivityForResult(this, code);
+    }
+
+    public void startForResult(Fragment fragment, int code) {
+        fragment.startActivityForResult(this, code);
+    }
+
+    public void startForResult(android.app.Fragment fragment, int code) {
+        fragment.startActivityForResult(this, code);
     }
 
     @Override

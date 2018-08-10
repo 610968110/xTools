@@ -25,6 +25,7 @@ import lbx.xtoollib.phone.MeatDataUtil;
 import lbx.xtoollib.phone.ObjUtil;
 import lbx.xtoollib.phone.PermissionUtil;
 import lbx.xtoollib.phone.PhoneUtil;
+import lbx.xtoollib.phone.PropertiesUtil;
 import lbx.xtoollib.phone.SecurityUtil;
 import lbx.xtoollib.phone.SoftInputUtil;
 import lbx.xtoollib.phone.TimeUtil;
@@ -83,6 +84,7 @@ public class XTools {
     private static SecurityUtil mSecurity;
     private static FingerPrintUtil mFingerPrintUtil;
     private static DownloadUtil mDownloadUtil;
+    private static PropertiesUtil mPropertiesUtil;
 
     private XTools(Builder builder, Application app) {
         mApp = app;
@@ -307,6 +309,10 @@ public class XTools {
 
     public static DownloadUtil DownloadUtil() {
         return mDownloadUtil == null ? mDownloadUtil = DownloadUtil.getInstance() : mDownloadUtil;
+    }
+
+    public static PropertiesUtil PropertiesUtil() {
+        return mPropertiesUtil == null ? mPropertiesUtil = PropertiesUtil.getInstance() : mPropertiesUtil;
     }
 
     private UncaughtExceptionHandler getUncaughtExceptionHandler(Context context) {

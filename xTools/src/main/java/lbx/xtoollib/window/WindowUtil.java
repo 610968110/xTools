@@ -2,6 +2,7 @@ package lbx.xtoollib.window;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -19,6 +20,8 @@ import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import lbx.xtoollib.XTools;
 
 /**
  * @author lbx
@@ -95,7 +98,7 @@ public class WindowUtil {
     /**
      * 截取scrollview的屏幕
      */
-    public static Bitmap screenshot(ScrollView scrollView) {
+    public Bitmap screenshot(ScrollView scrollView) {
         int h = 0;
         Bitmap bitmap;
         for (int i = 0; i < scrollView.getChildCount(); i++) {
@@ -185,11 +188,22 @@ public class WindowUtil {
         return bigBitmap;
     }
 
-    private static Bitmap screenshot(WebView webView) {
+    public Bitmap screenshot(WebView webView) {
         Picture snapShot = webView.capturePicture();
         Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(), snapShot.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
         snapShot.draw(canvas);
         return bmp;
     }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        Resources resources = XTools.getApplicationContext().getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
 }

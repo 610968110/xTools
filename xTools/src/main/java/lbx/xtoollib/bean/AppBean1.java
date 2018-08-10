@@ -1,7 +1,7 @@
 package lbx.xtoollib.bean;
 
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,19 +33,20 @@ import lbx.xtoollib.XTools;
  * @date 2018/7/18.
  */
 
-public class AppBean implements Parcelable {
+public class AppBean1 implements Parcelable {
 
     private String name;
     private String pkg;
     private byte[] icon;
-    private ApplicationInfo applicationInfo;
+    private ResolveInfo resolveInfo;
     private String launchActivity;
 
-    public AppBean(PackageManager pm, ApplicationInfo applicationInfo) {
-        this.name = applicationInfo.loadLabel(pm).toString();
-        this.pkg = applicationInfo.packageName;
-        this.applicationInfo = applicationInfo;
-        Drawable icon = applicationInfo.loadIcon(pm);
+    public AppBean1(PackageManager pm, ResolveInfo resolveInfo) {
+        this.name = resolveInfo.loadLabel(pm).toString();
+        this.pkg = resolveInfo.activityInfo.packageName;
+        this.launchActivity = resolveInfo.activityInfo.name;
+        this.resolveInfo = resolveInfo;
+        Drawable icon = resolveInfo.loadIcon(pm);
         if (icon instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
             setBmp(bitmap);
@@ -55,23 +56,23 @@ public class AppBean implements Parcelable {
         }
     }
 
-    protected AppBean(Parcel in) {
+    protected AppBean1(Parcel in) {
         name = in.readString();
         pkg = in.readString();
         icon = in.createByteArray();
-        applicationInfo = in.readParcelable(ApplicationInfo.class.getClassLoader());
+        resolveInfo = in.readParcelable(ResolveInfo.class.getClassLoader());
         launchActivity = in.readString();
     }
 
-    public static final Creator<AppBean> CREATOR = new Creator<AppBean>() {
+    public static final Creator<AppBean1> CREATOR = new Creator<AppBean1>() {
         @Override
-        public AppBean createFromParcel(Parcel in) {
-            return new AppBean(in);
+        public AppBean1 createFromParcel(Parcel in) {
+            return new AppBean1(in);
         }
 
         @Override
-        public AppBean[] newArray(int size) {
-            return new AppBean[size];
+        public AppBean1[] newArray(int size) {
+            return new AppBean1[size];
         }
     };
 
@@ -115,12 +116,8 @@ public class AppBean implements Parcelable {
         this.launchActivity = launchActivity;
     }
 
-    public ApplicationInfo getApplicationInfo() {
-        return applicationInfo;
-    }
-
-    public void setApplicationInfo(ApplicationInfo applicationInfo) {
-        this.applicationInfo = applicationInfo;
+    public ResolveInfo getResolveInfo() {
+        return resolveInfo;
     }
 
     @Override
@@ -129,7 +126,7 @@ public class AppBean implements Parcelable {
                 "name='" + name + '\'' +
                 "launchActivity='" + launchActivity + '\'' +
                 ", pkg='" + pkg + '\'' +
-                ", applicationInfo='" + applicationInfo + '\'' +
+                ", resolveInfo='" + resolveInfo + '\'' +
                 '}';
     }
 
@@ -143,7 +140,7 @@ public class AppBean implements Parcelable {
         dest.writeString(name);
         dest.writeString(pkg);
         dest.writeByteArray(icon);
-        dest.writeParcelable(applicationInfo, flags);
+        dest.writeParcelable(resolveInfo, flags);
         dest.writeString(launchActivity);
     }
 }

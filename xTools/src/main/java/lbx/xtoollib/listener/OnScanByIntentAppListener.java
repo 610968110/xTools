@@ -2,7 +2,7 @@ package lbx.xtoollib.listener;
 
 import java.util.List;
 
-import lbx.xtoollib.bean.AppBean;
+import lbx.xtoollib.bean.AppBean1;
 
 public interface OnScanByIntentAppListener {
 
@@ -11,5 +11,5 @@ public interface OnScanByIntentAppListener {
      *
      * @param list 扫描的全部结果
      */
-    void onScanFinish(List<AppBean> list);
+    void onScanFinish(List<AppBean1> list);
 }

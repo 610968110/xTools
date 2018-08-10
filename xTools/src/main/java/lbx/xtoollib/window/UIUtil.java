@@ -6,6 +6,9 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -206,5 +209,11 @@ public class UIUtil {
 
     public String getText(TextView textView) {
         return textView.getText().toString().trim();
+    }
+
+    public Point makeCanversTextCenterPoint(String text, Paint paint, Rect viewBounds) {
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        return new Point((int) (viewBounds.centerX() - paint.measureText(text, 0, text.length()) / 2),
+                (int) (viewBounds.centerY() - fontMetrics.top / 2 - fontMetrics.bottom / 2));
     }
 }

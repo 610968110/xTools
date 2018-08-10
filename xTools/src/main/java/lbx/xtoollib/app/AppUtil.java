@@ -14,7 +14,7 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import lbx.xtoollib.XTools;
-import lbx.xtoollib.bean.AppBean;
+import lbx.xtoollib.bean.AppBean1;
 import lbx.xtoollib.listener.OnScanAppListener;
 import lbx.xtoollib.listener.OnScanByIntentAppListener;
 import lbx.xtoollib.task.ScanThreeAppTask;
@@ -210,8 +210,11 @@ public class AppUtil {
         final PackageManager pm = context.getPackageManager();
         List<ResolveInfo> resolveList = pm.queryIntentActivities(intent, 0);
         Flowable.fromIterable(resolveList)
-                .map(resolveInfo -> pm.getPackageInfo(resolveInfo.activityInfo.packageName, 0).applicationInfo)
-                .map(applicationInfo -> new AppBean(pm, applicationInfo))
+                .map(resolveInfo -> {
+                    AppBean1 appBean = new AppBean1(pm, resolveInfo);
+                    appBean.setLaunchActivity(resolveInfo.activityInfo.name);
+                    return appBean;
+                })
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -33,6 +33,7 @@ public abstract class BaseDataAdapter<M, N extends ViewDataBinding, T extends Ba
     public void onBindViewHolder(T holder, int position) {
         ViewDataBinding binding = holder.getBinding();
         dataBinding((N) binding, position, mList.get(position), holder);
+        setClickListener(binding.getRoot(), itemClickEnable(), itemLongClickEnable(), position);
         binding.executePendingBindings();
     }
 
@@ -58,6 +59,10 @@ public abstract class BaseDataAdapter<M, N extends ViewDataBinding, T extends Ba
     int itemLayout();
 
     public abstract void dataBinding(N binding, int position, M entity, T t);
+
+    public abstract boolean itemClickEnable();
+
+    public abstract boolean itemLongClickEnable();
 
     public RecyclerView getRecycleView() {
         return mRecycleView;
