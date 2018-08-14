@@ -132,8 +132,6 @@ public final class XHttpLoggingInterceptor implements Interceptor {
                 if (contentType != null) {
                     charset = contentType.charset(UTF8);
                 }
-
-//                xLogUtil.d("");
                 if (isPlaintext(buffer)) {
 //                    xLogUtil.d(buffer.readString(charset));
 //                    xLogUtil.d("--> END " + request.method()
@@ -170,13 +168,15 @@ public final class XHttpLoggingInterceptor implements Interceptor {
 
             if (!logBody || !HttpHeaders.hasBody(response)) {
                 xLogUtil.d(tag + "END HTTP  -->");
-            } else if (bodyEncoded(response.headers())) {
+            } else if (bodyEncoded(response.headers()) && "gzip".equalsIgnoreCase(bodyEncodedString(headers))) {
                 BufferedSource source = responseBody.source();
                 // Buffer the entire body.
                 source.request(Long.MAX_VALUE);
                 Buffer buffer = source.buffer();
-                InputStream stream = buffer.inputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new GZIPInputStream(stream), "utf-8"));
+                InputStream stream = buffer.clone().inputStream();
+                GZIPInputStream in = new GZIPInputStream(stream);
+                InputStreamReader inr = new InputStreamReader(in, "utf-8");
+                BufferedReader bufferedReader = new BufferedReader(inr);
                 int size = stream.available();
                 String body = "";
                 String line;
@@ -244,7 +244,11 @@ public final class XHttpLoggingInterceptor implements Interceptor {
 
     private boolean bodyEncoded(Headers headers) {
         String contentEncoding = headers.get("Content-Encoding");
-        xLogUtil.e("contentEncoding:" + contentEncoding);
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
+    }
+
+    private String bodyEncodedString(Headers headers) {
+        String contentEncoding = headers.get("Content-Encoding");
+        return contentEncoding != null ? contentEncoding : "";
     }
 }

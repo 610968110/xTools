@@ -36,10 +36,8 @@ import lbx.xtoollib.listener.OnHttpObservableCallBack;
 import lbx.xtoollib.listener.OnUploadCallBack;
 import lbx.xtoollib.task.DownLoadTask;
 import lbx.xtoollib.task.UploadTask;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -95,17 +93,14 @@ public class HttpUtil {
         if (tag != null) {
             builder.addNetworkInterceptor(new XHttpLoggingInterceptor(tag).setLevel(HttpLoggingInterceptor.Level.BODY));
         }
-        return builder.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request.Builder builder = chain.request().newBuilder();
-                if (headers != null) {
-                    for (String[] header : headers) {
-                        builder.addHeader(header[0], header[1]);
-                    }
+        return builder.addInterceptor(chain -> {
+            Request.Builder builder1 = chain.request().newBuilder();
+            if (headers != null) {
+                for (String[] header : headers) {
+                    builder1.addHeader(header[0], header[1]);
                 }
-                return chain.proceed(builder.build());
             }
+            return chain.proceed(builder1.build());
         }).build();
     }
 
