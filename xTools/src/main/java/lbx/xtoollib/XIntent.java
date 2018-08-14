@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 /**
  * .  ┏┓　　　┏┓
@@ -81,6 +86,27 @@ public class XIntent extends Intent {
 
     public void startForResult(android.app.Fragment fragment, int code) {
         fragment.startActivityForResult(this, code);
+    }
+
+    public void startService() {
+        mContext.startService(this);
+    }
+
+    public void bindService(ServiceConnection connection) {
+        bindService(connection, BIND_AUTO_CREATE);
+    }
+
+    public void bindService(ServiceConnection connection, int flags) {
+        mContext.bindService(this, connection, flags);
+    }
+
+    public void unbindService(ServiceConnection connection) {
+        mContext.unbindService(connection);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void startForegroundService() {
+        mContext.startForegroundService(this);
     }
 
     @Override

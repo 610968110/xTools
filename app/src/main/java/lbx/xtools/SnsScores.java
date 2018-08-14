@@ -17,10 +17,13 @@ import retrofit2.http.POST;
 public interface SnsScores {
     @Headers(value = {"HeadersName1:HeadersValues1", "HeadersName2:HeadersValues2"})
     @FormUrlEncoded
-    @POST("lzjw/login")
-    Observable<Result<LoginMainBean>> loginMain(@Field("gzbUserName") String gzbUserName,
-                                                @Field("gzbPassword") String gzbPassword,
-                                                @Field("imei") String imei,
-                                                @Field("versionName") String versionName,
-                                                @Field("versionCode") int versionCode);
+    @POST("auth")
+    Observable<Result<Config>> getConfigFromService(@Field("idCard") String idCard);
+
+    @FormUrlEncoded
+    @POST("api/authorization")
+    Observable<SnsLoginRequest> loginSns(@Field("username") String userName,
+                                         @Field("password") String password,
+                                         @Field("access_token") String accessToken,
+                                         @Field("method") String method);
 }

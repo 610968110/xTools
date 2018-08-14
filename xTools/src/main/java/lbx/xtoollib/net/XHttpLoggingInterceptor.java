@@ -15,11 +15,15 @@
  */
 package lbx.xtoollib.net;
 
+import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPInputStream;
 
 import lbx.xtoollib.phone.xLogUtil;
 import okhttp3.Connection;
@@ -118,7 +122,7 @@ public final class XHttpLoggingInterceptor implements Interceptor {
             if (!logBody || !hasRequestBody) {
 //                xLogUtil.d("--> END " + request.method());
             } else if (bodyEncoded(request.headers())) {
-//                xLogUtil.d("--> END " + request.method() + " (encoded body omitted)");
+//                xLogUtil.d(tag + "END  --> " + request.method() + " (encoded body omitted)");
             } else {
                 Buffer buffer = new Buffer();
                 requestBody.writeTo(buffer);
@@ -146,7 +150,7 @@ public final class XHttpLoggingInterceptor implements Interceptor {
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-//            xLogUtil.d("<-- HTTP FAILED: " + e);
+            xLogUtil.d("<-- HTTP FAILED: " + e);
             throw e;
         }
         long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
@@ -161,44 +165,52 @@ public final class XHttpLoggingInterceptor implements Interceptor {
         if (logHeaders) {
             Headers headers = response.headers();
             for (int i = 0, count = headers.size(); i < count; i++) {
-//                xLogUtil.d("aaaaa" + headers.name(i) + ": " + headers.value(i));
+                xLogUtil.d(tag + "DEFAULT_HEADERS  --> " + headers.name(i) + ": " + headers.value(i));
             }
 
             if (!logBody || !HttpHeaders.hasBody(response)) {
-//                xLogUtil.d("<-- END HTTP");
+                xLogUtil.d(tag + "END HTTP  -->");
             } else if (bodyEncoded(response.headers())) {
-//                xLogUtil.d("<-- END HTTP (encoded body omitted)");
+                BufferedSource source = responseBody.source();
+                // Buffer the entire body.
+                source.request(Long.MAX_VALUE);
+                Buffer buffer = source.buffer();
+                InputStream stream = buffer.inputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new GZIPInputStream(stream), "utf-8"));
+                int size = stream.available();
+                String body = "";
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    body = body + line;
+                }
+                bufferedReader.close();
+                xLogUtil.d(tag + "BODY  --> " + body);
+                xLogUtil.d(tag + "END HTTP  --> (" + size + "-byte body)");
             } else {
                 BufferedSource source = responseBody.source();
                 // Buffer the entire body.
                 source.request(Long.MAX_VALUE);
                 Buffer buffer = source.buffer();
-
                 Charset charset = UTF8;
                 MediaType contentType = responseBody.contentType();
                 if (contentType != null) {
                     try {
                         charset = contentType.charset(UTF8);
                     } catch (UnsupportedCharsetException e) {
-//                        xLogUtil.d("");
-//                        xLogUtil.d("Couldn't decode the response body; charset is likely malformed.");
-//                        xLogUtil.d("<-- END HTTP");
-
+                        xLogUtil.d(tag + "END HTTP  --> Couldn't decode the response body; charset is likely malformed");
                         return response;
                     }
                 }
 
                 if (!isPlaintext(buffer)) {
-//                    xLogUtil.d("");
-//                    xLogUtil.d("<-- END HTTP (binary " + buffer.size() + "-byte body omitted)");
+                    xLogUtil.d(tag + "END HTTP  --> (binary " + buffer.size() + "-byte body omitted)");
                     return response;
                 }
 
                 if (contentLength != 0) {
                     xLogUtil.d(tag + "BODY  --> " + buffer.clone().readString(charset));
                 }
-
-//                xLogUtil.d("<-- END HTTP (" + buffer.size() + "-byte body)");
+                xLogUtil.d(tag + "END HTTP   --> (" + buffer.size() + "-byte body)");
             }
         }
 
@@ -232,6 +244,7 @@ public final class XHttpLoggingInterceptor implements Interceptor {
 
     private boolean bodyEncoded(Headers headers) {
         String contentEncoding = headers.get("Content-Encoding");
+        xLogUtil.e("contentEncoding:" + contentEncoding);
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
     }
 }

@@ -46,17 +46,33 @@ public class Util {
     }
 
     public static void post() {
-        XTools.HttpUtil().send(XTools.HttpUtil().getRetrofit("http://20.124.143.141:8866/", SnsScores.class, "登录拉")
-                        .loginMain("110101199910101234", "101234", "", "0", 0),
-                new OnHttpObservableCallBack<Result<LoginMainBean>>() {
+        XTools.HttpUtil().send(XTools.HttpUtil().getRetrofit("http://20.1.11.184:8087/", SnsScores.class, "登录拉")
+                        .getConfigFromService("110101199910101237"),
+                new OnHttpObservableCallBack<Result<Config>>() {
                     @Override
-                    public void onSuccess(Result<LoginMainBean> bean) {
+                    public void onSuccess(Result<Config> bean) {
                         xLogUtil.e("onSuccess");
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
                         xLogUtil.e("onFailure:" + t);
+                    }
+                });
+    }
+
+    public static void postPhp() {
+        XTools.HttpUtil().send(XTools.HttpUtil().getRetrofit("http://20.1.11.190/", SnsScores.class, "PHP登录拉")
+                        .loginSns("110101199910101237@ydjw.com", "101237", "db69fc039dcbd2962cb4d28f5891aae1", "POST"),
+                new OnHttpObservableCallBack<SnsLoginRequest>() {
+                    @Override
+                    public void onSuccess(SnsLoginRequest snsLoginRequest) {
+                        xLogUtil.e("snsLoginRequest: success");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        xLogUtil.e("snsLoginRequest:" + t);
                     }
                 });
     }

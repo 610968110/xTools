@@ -56,6 +56,8 @@ public class MainActivity extends BaseActivity {
 //        Util.fingerCheck();
         //post请求
 //        Util.post();
+        //post请求
+        Util.postPhp();
         //下载
 //        Util.download();
         //mdm启动页面
