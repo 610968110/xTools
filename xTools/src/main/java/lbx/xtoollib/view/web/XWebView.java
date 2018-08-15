@@ -84,7 +84,7 @@ public class XWebView extends WebView implements XWebChromeClient.OnWebChromeCli
     }
 
     public void photoSelect() {
-        WebPhotoActivity.start(getContext());
+        WebPhotoActivity.getIntent(getContext()).start();
         WebPhotoActivity.setOnPhotoSelectListener(mListener);
     }
 

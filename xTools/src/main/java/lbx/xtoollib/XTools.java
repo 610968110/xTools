@@ -19,6 +19,7 @@ import lbx.xtoollib.phone.CloseUtil;
 import lbx.xtoollib.phone.FileUtil;
 import lbx.xtoollib.phone.FingerPrintUtil;
 import lbx.xtoollib.phone.IOUtils;
+import lbx.xtoollib.phone.LauncherUtil;
 import lbx.xtoollib.phone.MD5Utils;
 import lbx.xtoollib.phone.MathUtil;
 import lbx.xtoollib.phone.MeatDataUtil;
@@ -84,6 +85,7 @@ public class XTools {
     private static SecurityUtil mSecurity;
     private static FingerPrintUtil mFingerPrintUtil;
     private static DownloadUtil mDownloadUtil;
+    private static LauncherUtil mLauncherUtil;
     private static PropertiesUtil mPropertiesUtil;
 
     private XTools(Builder builder, Application app) {
@@ -313,6 +315,10 @@ public class XTools {
 
     public static PropertiesUtil PropertiesUtil() {
         return mPropertiesUtil == null ? mPropertiesUtil = PropertiesUtil.getInstance() : mPropertiesUtil;
+    }
+
+    public static LauncherUtil LauncherUtil() {
+        return mLauncherUtil == null ? mLauncherUtil = LauncherUtil.getInstance() : mLauncherUtil;
     }
 
     private UncaughtExceptionHandler getUncaughtExceptionHandler(Context context) {

@@ -3,7 +3,6 @@ package lbx.xtoollib.window;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -14,6 +13,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import lbx.xtoollib.XIntent;
 import lbx.xtoollib.XTools;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -82,9 +82,9 @@ public class ActivityUtil {
     }
 
     @SafeVarargs
-    public final <T extends AppCompatActivity> Intent startActivityWithTransition(
+    public final <T extends AppCompatActivity> XIntent startActivityWithTransition(
             Activity activity, Class<T> clazz, Pair<View, String>... pairs) {
-        Intent intent = new Intent(activity, clazz);
+        XIntent intent = new XIntent(activity, clazz);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP && pairs != null && pairs.length > 0) {
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
             ActivityCompat.startActivity(activity, intent, options.toBundle());

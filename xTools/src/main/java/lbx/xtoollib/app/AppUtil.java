@@ -13,6 +13,7 @@ import java.util.List;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import lbx.xtoollib.XIntent;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.bean.AppBean1;
 import lbx.xtoollib.listener.OnScanAppListener;
@@ -139,10 +140,7 @@ public class AppUtil {
     public boolean isRunOnUIThread() {
         // 获取当前线程id, 如果当前线程id和主线程id相同, 那么当前就是主线程
         int myTid = android.os.Process.myTid();
-        if (myTid == getMainThreadId()) {
-            return true;
-        }
-        return false;
+        return myTid == getMainThreadId();
     }
 
     /**
@@ -184,7 +182,7 @@ public class AppUtil {
         }
     }
 
-    public Intent getApp(Context context, String pkn) {
+    public XIntent getApp(Context context, String pkn) {
         PackageManager packageManager = context.getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(pkn);
         if (intent != null) {
@@ -192,7 +190,7 @@ public class AppUtil {
                     Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
                     Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
-        return intent;
+        return new XIntent(intent);
     }
 
     public void scanThreadAppList(Context context, OnScanAppListener listener) {
@@ -206,7 +204,7 @@ public class AppUtil {
      * @param intent   intent
      * @param listener listener
      */
-    public void scanAppByIntent(Context context, Intent intent, OnScanByIntentAppListener listener) {
+    public void scanAppByIntent(Context context, XIntent intent, OnScanByIntentAppListener listener) {
         final PackageManager pm = context.getPackageManager();
         List<ResolveInfo> resolveList = pm.queryIntentActivities(intent, 0);
         Flowable.fromIterable(resolveList)

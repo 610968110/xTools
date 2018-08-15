@@ -12,6 +12,7 @@ import android.view.View;
 import java.io.File;
 
 import lbx.xtoollib.R;
+import lbx.xtoollib.XIntent;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
 import lbx.xtoollib.phone.GetPathFromUri4kitkat;
@@ -28,10 +29,8 @@ public class WebPhotoActivity extends BaseActivity {
     public static final int REQUEST_CODE_CAMERA = 0x010;
     public static final int REQUEST_CODE_PICK_PHOTO = 0x011;
 
-    public static Intent start(Context context) {
-        Intent intent = new Intent(context, WebPhotoActivity.class);
-        context.startActivity(intent);
-        return intent;
+    public static XIntent getIntent(Context context) {
+        return new XIntent(context, WebPhotoActivity.class);
     }
 
     @Override

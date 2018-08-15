@@ -142,7 +142,7 @@ public class HttpUtil {
             listener = OnHttpFlowableCallBack.DEFAULT_CALLBACK;
         }
         final OnHttpFlowableCallBack<T> finalListener = listener;
-        flowable.subscribeOn(Schedulers.newThread())
+        flowable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onTerminateDetach()
                 .subscribe(new Subscriber<T>() {
@@ -176,7 +176,7 @@ public class HttpUtil {
             listener = OnHttpObservableCallBack.DEFAULT_CALLBACK;
         }
         final OnHttpObservableCallBack<T> finalListener = listener;
-        observable.subscribeOn(Schedulers.newThread())
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .onTerminateDetach()
                 .subscribe(new Observer<T>() {

@@ -8,6 +8,7 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import java.io.File;
 
 import io.reactivex.disposables.Disposable;
+import lbx.xtoollib.XIntent;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.listener.DownloadCallBack;
 import lbx.xtoollib.listener.FingerPrintCallback;
@@ -114,7 +115,7 @@ public class Util {
     }
 
     public static void startMdmActivity(final Context context) {
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        XIntent mainIntent = new XIntent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory("test");
         XTools.AppUtil().scanAppByIntent(context, mainIntent, list -> xLogUtil.e("list:" + list.size()));
     }
