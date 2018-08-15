@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 /**
  * @author lbx
@@ -63,5 +65,29 @@ public class ResUtil {
             dimen += resources.getDimensionPixelSize(id);
         }
         return dimen;
+    }
+
+    @NonNull
+    public String getClassName(Class clazz) {
+        String clazzName = "";
+        if (clazz != null) {
+            String name = clazz.getName();
+            if (!TextUtils.isEmpty(name) && name.contains(".")) {
+                clazzName = name.substring(name.lastIndexOf(".") + 1, name.length());
+            }
+        }
+        return clazzName;
+    }
+
+    @NonNull
+    public String getClassName(Object o) {
+        String clazzName = "";
+        if (o != null) {
+            String name = o.getClass().getName();
+            if (!TextUtils.isEmpty(name) && name.contains(".")) {
+                clazzName = name.substring(name.lastIndexOf(".") + 1, name.length());
+            }
+        }
+        return clazzName;
     }
 }

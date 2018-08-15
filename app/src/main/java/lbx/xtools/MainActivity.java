@@ -17,6 +17,7 @@ import java.io.File;
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
 import lbx.xtoollib.phone.SecurityUtil;
+import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtools.databinding.ActivityMainBinding;
 
 /**
@@ -57,11 +58,12 @@ public class MainActivity extends BaseActivity {
         //post请求
 //        Util.post();
         //post请求
-        Util.postPhp();
+//        Util.postPhp();
         //下载
 //        Util.download();
         //mdm启动页面
 //        Util.startMdmActivity(this);
+        xLogUtil.e(this, "测试");
     }
 
     public void choose(View view) {

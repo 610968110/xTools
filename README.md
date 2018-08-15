@@ -34,7 +34,7 @@ module的build文件添加：
 
 ````Xml 
     //本包的引入
-    compile "com.lbx:xtoolslib:2.0.5"
+    compile "com.lbx:xtoolslib:2.1"
 ````
         
         
@@ -181,3 +181,8 @@ mBottomBar.showNoticePoint(pos);
 ````Java
 StringBuilder builder = new SecurityUtil(key).decryptFile(file);
 ````
+
+#### 版本升级说明
+##### 2.6
+1、升级Log库，使用方法 `xLogUtil.e(this,"****");`重载方法的时候，会在Logcat
+中定位到打印log的位置;

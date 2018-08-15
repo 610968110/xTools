@@ -1,14 +1,10 @@
 package lbx.xtoollib.phone;
 
-import android.content.Context;
-import android.os.Environment;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -20,7 +16,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static android.content.Context.MODE_PRIVATE;
+import lbx.xtoollib.XTools;
 
 
 /**
@@ -117,22 +113,35 @@ public class xLogUtil {
         mSecurityUtil = security;
     }
 
+
     /**
      * 以级别为 d 的形式输出LOG
      */
     public static void v(final String msg) {
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (mDebuggable >= LEVEL_VERBOSE) {
-                    String[] cut = cut(msg);
-                    for (String s : cut) {
-                        Log.v(mTag, s);
-                    }
+        v(null, msg);
+    }
+
+    public static void v(final Object o, final String msg) {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        service.execute(() -> {
+            String clazz = XTools.ResUtil().getClassName(o);
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement s : stack) {
+                String str = s.toString();
+                if (str.contains(clazz)) {
+                    sb.append(str);
+                    sb.append(" --> ");
+                    sb.append("\n");
                 }
-                if (isPrintFile) {
-                    writeInFilePath("** v **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+            }
+            if (mDebuggable >= LEVEL_VERBOSE) {
+                String[] cut = cut(msg);
+                for (String s : cut) {
+                    Log.v(mTag, sb.toString() + s);
                 }
+            }
+            if (isPrintFile) {
+                writeInFilePath("** v **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
             }
         });
     }
@@ -141,38 +150,63 @@ public class xLogUtil {
      * 以级别为 d 的形式输出LOG
      */
     public static void d(final String msg) {
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (mDebuggable >= LEVEL_DEBUG) {
-                    String[] cut = cut(msg);
-                    for (String s : cut) {
-                        Log.d(mTag, s);
-                    }
+        d(null, msg);
+    }
+
+    public static void d(final Object o, final String msg) {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        service.execute(() -> {
+            String clazz = XTools.ResUtil().getClassName(o);
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement s : stack) {
+                String str = s.toString();
+                if (str.contains(clazz)) {
+                    sb.append(str);
+                    sb.append(" --> ");
+                    sb.append("\n");
                 }
-                if (isPrintFile) {
-                    writeInFilePath("** d **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+            }
+            if (mDebuggable >= LEVEL_DEBUG) {
+                String[] cut = cut(msg);
+                for (String s : cut) {
+                    Log.d(mTag, sb.toString() + s);
                 }
+            }
+            if (isPrintFile) {
+                writeInFilePath("** d **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
             }
         });
     }
+
 
     /**
      * 以级别为 i 的形式输出LOG
      */
     public static void i(final String msg) {
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (mDebuggable >= LEVEL_INFO) {
-                    String[] cut = cut(msg);
-                    for (String s : cut) {
-                        Log.i(mTag, s);
-                    }
+        i(null, msg);
+    }
+
+    public static void i(final Object o, final String msg) {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        service.execute(() -> {
+            String clazz = XTools.ResUtil().getClassName(o);
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement s : stack) {
+                String str = s.toString();
+                if (str.contains(clazz)) {
+                    sb.append(str);
+                    sb.append(" --> ");
+                    sb.append("\n");
                 }
-                if (isPrintFile) {
-                    writeInFilePath("** i **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+            }
+            if (mDebuggable >= LEVEL_INFO) {
+                String[] cut = cut(msg);
+                for (String s : cut) {
+                    Log.i(mTag, sb.toString() + s);
                 }
+            }
+            if (isPrintFile) {
+                writeInFilePath("** i **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
             }
         });
     }
@@ -181,18 +215,30 @@ public class xLogUtil {
      * 以级别为 w 的形式输出LOG
      */
     public static void w(final String msg) {
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (mDebuggable >= LEVEL_WARN) {
-                    String[] cut = cut(msg);
-                    for (String s : cut) {
-                        Log.w(mTag, s);
-                    }
+        w(null, msg);
+    }
+
+    public static void w(final Object o, final String msg) {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        service.execute(() -> {
+            String clazz = XTools.ResUtil().getClassName(o);
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement s : stack) {
+                String str = s.toString();
+                if (str.contains(clazz)) {
+                    sb.append(str);
+                    sb.append(" --> ");
+                    sb.append("\n");
                 }
-                if (isPrintFile) {
-                    writeInFilePath("** w **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+            }
+            if (mDebuggable >= LEVEL_WARN) {
+                String[] cut = cut(msg);
+                for (String s : cut) {
+                    Log.w(mTag, sb.toString() + s);
                 }
+            }
+            if (isPrintFile) {
+                writeInFilePath("** w **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
             }
         });
     }
@@ -201,110 +247,32 @@ public class xLogUtil {
      * 以级别为 e 的形式输出LOG
      */
     public static void e(final String msg) {
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (mDebuggable >= LEVEL_ERROR) {
-                    String[] cut = cut(msg);
-                    for (String s : cut) {
-                        Log.e(mTag, s);
-                    }
+        e(null, msg);
+    }
+
+    public static void e(final Object o, final String msg) {
+        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+        service.execute(() -> {
+            String clazz = o.getClass().getName();
+            StringBuilder sb = new StringBuilder();
+            for (StackTraceElement s : stack) {
+                String str = s.toString();
+                if (str.contains(clazz)) {
+                    sb.append(str);
+                    sb.append(" --> ");
+                    sb.append("\n");
                 }
-                if (isPrintFile) {
-                    writeInFilePath("** e **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
+            }
+            if (mDebuggable >= LEVEL_ERROR) {
+                String[] cut = cut(msg);
+                for (String s : cut) {
+                    Log.e(mTag, sb.toString() + s);
                 }
+            }
+            if (isPrintFile) {
+                writeInFilePath("** e **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
             }
         });
-    }
-
-    /**
-     * 以级别为 w 的形式输出Throwable
-     */
-    public void w(final Throwable tr) {
-        if (mDebuggable >= LEVEL_WARN) {
-            Log.w(mTag, "", tr);
-        }
-    }
-
-    /**
-     * 以级别为 w 的形式输出LOG信息和Throwable
-     */
-    public void w(String msg, Throwable tr) {
-        if (mDebuggable >= LEVEL_WARN) {
-            Log.w(mTag, msg, tr);
-        }
-    }
-
-    /**
-     * 以级别为 e 的形式输出Throwable
-     */
-    public void e(Throwable tr) {
-        if (mDebuggable >= LEVEL_ERROR) {
-            Log.e(mTag, "", tr);
-        }
-    }
-
-    /**
-     * 以级别为 e 的形式输出LOG信息和Throwable
-     */
-    public void e(String msg, Throwable tr) {
-        if (mDebuggable >= LEVEL_ERROR && null != msg) {
-            Log.e(mTag, msg, tr);
-        }
-    }
-
-    /**
-     * log写入data文件夹
-     *
-     * @param c        context
-     * @param fileName 文件名
-     * @param log      需要存储的log
-     */
-    public static void writeInDataPath(Context c, String fileName, String log) {
-        try {
-            FileOutputStream fout = c.openFileOutput(fileName, MODE_PRIVATE);
-            byte[] bytes = log.getBytes();
-            fout.write(bytes);
-            fout.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * log写入SD卡
-     *
-     * @param log      需要存储的log
-     * @param fileName 文件名
-     */
-    public static String writeInSDCardPath(String log, String fileName) {
-        String path;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            path = Environment.getExternalStorageDirectory().getAbsolutePath();
-        } else {
-            return "没有SD卡";
-        }
-        File file = new File(path, fileName);
-        FileOutputStream s = null;
-        try {
-            s = new FileOutputStream(file);
-            s.write(log.getBytes());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return "FileNotFoundException:" + e.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "IOException:" + e.toString();
-        } finally {
-            if (s != null) {
-                try {
-                    s.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-        return "success";
     }
 
     /**
@@ -338,7 +306,7 @@ public class xLogUtil {
      * @param tag  标签
      * @param path 路径
      */
-    private static synchronized void writeInFilePath(final String log, final String tag, final String path, final SecurityUtil securityUtil) {
+    public static synchronized void writeInFilePath(final String log, final String tag, final String path, final SecurityUtil securityUtil) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH", Locale.CHINA);
         String name = format.format(new Date());
         File pathF = new File(path);
