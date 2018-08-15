@@ -16,8 +16,6 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import lbx.xtoollib.XTools;
-
 
 /**
  * @author lbx
@@ -122,28 +120,30 @@ public class xLogUtil {
     }
 
     public static void v(final Object o, final String msg) {
-        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        service.execute(() -> {
-            String clazz = XTools.ResUtil().getClassName(o);
-            StringBuilder sb = new StringBuilder();
-            for (StackTraceElement s : stack) {
-                String str = s.toString();
-                if (str.contains(clazz)) {
-                    sb.append(str);
-                    sb.append(" --> ");
-                    sb.append("\n");
+        if (mDebuggable >= LEVEL_VERBOSE) {
+            StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+            service.execute(() -> {
+                StringBuilder sb = new StringBuilder();
+                if (o != null) {
+                    String clazz = o.getClass().getName();
+                    for (StackTraceElement s : stack) {
+                        String str = s.toString();
+                        if (str.contains(clazz)) {
+                            sb.append(str);
+                            sb.append(" --> ");
+                            sb.append("\n");
+                        }
+                    }
                 }
-            }
-            if (mDebuggable >= LEVEL_VERBOSE) {
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.v(mTag, sb.toString() + s);
                 }
-            }
-            if (isPrintFile) {
-                writeInFilePath("** v **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-            }
-        });
+            });
+        }
+        if (isPrintFile) {
+            service.execute(() -> writeInFilePath("** v **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil));
+        }
     }
 
     /**
@@ -154,28 +154,30 @@ public class xLogUtil {
     }
 
     public static void d(final Object o, final String msg) {
-        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        service.execute(() -> {
-            String clazz = XTools.ResUtil().getClassName(o);
-            StringBuilder sb = new StringBuilder();
-            for (StackTraceElement s : stack) {
-                String str = s.toString();
-                if (str.contains(clazz)) {
-                    sb.append(str);
-                    sb.append(" --> ");
-                    sb.append("\n");
+        if (mDebuggable >= LEVEL_DEBUG) {
+            StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+            service.execute(() -> {
+                StringBuilder sb = new StringBuilder();
+                if (o != null) {
+                    String clazz = o.getClass().getName();
+                    for (StackTraceElement s : stack) {
+                        String str = s.toString();
+                        if (str.contains(clazz)) {
+                            sb.append(str);
+                            sb.append(" --> ");
+                            sb.append("\n");
+                        }
+                    }
                 }
-            }
-            if (mDebuggable >= LEVEL_DEBUG) {
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.d(mTag, sb.toString() + s);
                 }
-            }
-            if (isPrintFile) {
-                writeInFilePath("** d **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-            }
-        });
+            });
+        }
+        if (isPrintFile) {
+            service.execute(() -> writeInFilePath("** d **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil));
+        }
     }
 
 
@@ -187,28 +189,30 @@ public class xLogUtil {
     }
 
     public static void i(final Object o, final String msg) {
-        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        service.execute(() -> {
-            String clazz = XTools.ResUtil().getClassName(o);
-            StringBuilder sb = new StringBuilder();
-            for (StackTraceElement s : stack) {
-                String str = s.toString();
-                if (str.contains(clazz)) {
-                    sb.append(str);
-                    sb.append(" --> ");
-                    sb.append("\n");
+        if (mDebuggable >= LEVEL_INFO) {
+            StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+            service.execute(() -> {
+                StringBuilder sb = new StringBuilder();
+                if (o != null) {
+                    String clazz = o.getClass().getName();
+                    for (StackTraceElement s : stack) {
+                        String str = s.toString();
+                        if (str.contains(clazz)) {
+                            sb.append(str);
+                            sb.append(" --> ");
+                            sb.append("\n");
+                        }
+                    }
                 }
-            }
-            if (mDebuggable >= LEVEL_INFO) {
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.i(mTag, sb.toString() + s);
                 }
-            }
-            if (isPrintFile) {
-                writeInFilePath("** i **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-            }
-        });
+            });
+        }
+        if (isPrintFile) {
+            service.execute(() -> writeInFilePath("** i **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil));
+        }
     }
 
     /**
@@ -219,28 +223,30 @@ public class xLogUtil {
     }
 
     public static void w(final Object o, final String msg) {
-        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        service.execute(() -> {
-            String clazz = XTools.ResUtil().getClassName(o);
-            StringBuilder sb = new StringBuilder();
-            for (StackTraceElement s : stack) {
-                String str = s.toString();
-                if (str.contains(clazz)) {
-                    sb.append(str);
-                    sb.append(" --> ");
-                    sb.append("\n");
+        if (mDebuggable >= LEVEL_WARN) {
+            StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+            service.execute(() -> {
+                StringBuilder sb = new StringBuilder();
+                if (o != null) {
+                    String clazz = o.getClass().getName();
+                    for (StackTraceElement s : stack) {
+                        String str = s.toString();
+                        if (str.contains(clazz)) {
+                            sb.append(str);
+                            sb.append(" --> ");
+                            sb.append("\n");
+                        }
+                    }
                 }
-            }
-            if (mDebuggable >= LEVEL_WARN) {
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.w(mTag, sb.toString() + s);
                 }
-            }
-            if (isPrintFile) {
-                writeInFilePath("** w **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-            }
-        });
+            });
+        }
+        if (isPrintFile) {
+            service.execute(() -> writeInFilePath("** w **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil));
+        }
     }
 
     /**
@@ -251,28 +257,30 @@ public class xLogUtil {
     }
 
     public static void e(final Object o, final String msg) {
-        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        service.execute(() -> {
-            String clazz = o.getClass().getName();
-            StringBuilder sb = new StringBuilder();
-            for (StackTraceElement s : stack) {
-                String str = s.toString();
-                if (str.contains(clazz)) {
-                    sb.append(str);
-                    sb.append(" --> ");
-                    sb.append("\n");
+        if (mDebuggable >= LEVEL_ERROR) {
+            StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+            service.execute(() -> {
+                StringBuilder sb = new StringBuilder();
+                if (o != null) {
+                    String clazz = o.getClass().getName();
+                    for (StackTraceElement s : stack) {
+                        String str = s.toString();
+                        if (str.contains(clazz)) {
+                            sb.append(str);
+                            sb.append(" --> ");
+                            sb.append("\n");
+                        }
+                    }
                 }
-            }
-            if (mDebuggable >= LEVEL_ERROR) {
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.e(mTag, sb.toString() + s);
                 }
-            }
-            if (isPrintFile) {
-                writeInFilePath("** e **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil);
-            }
-        });
+            });
+        }
+        if (isPrintFile) {
+            service.execute(() -> writeInFilePath("** e **  " + msg, mTag, DEFAULT_FILE_PATH, mSecurityUtil));
+        }
     }
 
     /**
