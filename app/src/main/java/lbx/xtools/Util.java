@@ -114,7 +114,7 @@ public class Util {
         });
     }
 
-    public static void startMdmActivity(final Context context) {
+    public static void scanIntentApp(final Context context) {
         XIntent mainIntent = new XIntent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory("test");
         XTools.AppUtil().scanAppByIntent(context, mainIntent, list -> xLogUtil.e("list:" + list.size()));

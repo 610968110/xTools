@@ -56,8 +56,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public abstract int getLayoutID();
 
-    protected <T> T findView(int viewID) {
-        return (T) findViewById(viewID);
+    protected <T extends View> T findView(int viewId) {
+        return (T) findViewById(viewId);
     }
 
 
@@ -76,9 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    public void getDataBinding(ViewDataBinding binding) {
-
-    }
+    public abstract void getDataBinding(ViewDataBinding binding);
 
     public abstract void initView(View view);
 
@@ -125,23 +123,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onDestroy() {
         XTools.ActivityUtil().removeActivity(this);
         XTools.UiUtil().closeProgressDialog();
-        for (Disposable disposable : mDisposables) {
-            if (disposable != null && !disposable.isDisposed()) {
-                disposable.dispose();
-            }
-        }
-        for (Subscription subscription : mSubscriptions) {
-            if (subscription != null) {
-                subscription.cancel();
-            }
-        }
+        mDisposables.stream().filter(disposable -> disposable != null && !disposable.isDisposed()).forEach(Disposable::dispose);
+        mSubscriptions.stream().filter(subscription -> subscription != null).forEach(Subscription::cancel);
         if (mBind != null) {
             mBind.unbind();
         }
         super.onDestroy();
-    }
-
-    public void saveFinish() {
-        super.onBackPressed();
     }
 }

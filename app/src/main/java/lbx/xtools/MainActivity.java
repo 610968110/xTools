@@ -61,8 +61,8 @@ public class MainActivity extends BaseActivity {
 //        Util.postPhp();
         //下载
 //        Util.download();
-        //mdm启动页面
-//        Util.startMdmActivity(this);
+        //搜索intent
+//        Util.scanIntentApp(this);
         xLogUtil.e(this, "测试");
     }
 

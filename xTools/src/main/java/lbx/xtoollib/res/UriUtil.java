@@ -130,4 +130,16 @@ public class UriUtil {
     public Uri raw2Uri(int rawId) {
         return Uri.parse("android.resource://" + XTools.getApplicationContext().getPackageName() + "/" + rawId);
     }
+
+    public String uri2BmpPath(Context context, Uri uri) {
+        String path = "";
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
 }
