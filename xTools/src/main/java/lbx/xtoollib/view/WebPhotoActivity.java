@@ -2,6 +2,7 @@ package lbx.xtoollib.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.ViewDataBinding;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -36,6 +37,11 @@ public class WebPhotoActivity extends BaseActivity {
     @Override
     public int getLayoutID() {
         return R.layout.activity_web_phoeo;
+    }
+
+    @Override
+    public void getDataBinding(ViewDataBinding binding) {
+
     }
 
     @Override
