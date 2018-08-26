@@ -14,6 +14,7 @@
     <declare-styleable name="TabLayout">
         <attr name="tabIndicatorColor" format="color" />
         <attr name="tabIndicatorHeight" format="dimension" />
+        <attr name="tabIndicatorConner" format="dimension" />
         <attr name="tabContentStart" format="dimension" />
         <attr name="tabBackground" format="reference" />
         <attr name="tabMode">

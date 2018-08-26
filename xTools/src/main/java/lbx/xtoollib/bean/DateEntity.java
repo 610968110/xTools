@@ -17,6 +17,8 @@ import java.util.Locale;
 public class DateEntity implements Parcelable, Serializable {
 
     private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static String[] WEEK = {"星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    private static final int WEEKDAYS = 7;
 
     public int year;
     public int month;
@@ -26,6 +28,7 @@ public class DateEntity implements Parcelable, Serializable {
     public int second;
     public String timeFormat;
     public long millis;
+    public String weekString;
 
     public DateEntity() {
         this(System.currentTimeMillis());
@@ -50,6 +53,10 @@ public class DateEntity implements Parcelable, Serializable {
         second = calendar.get(Calendar.SECOND);
         millis = time;
         timeFormat = formatString(time, format);
+        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+        if (dayIndex >= 1 && dayIndex <= WEEKDAYS) {
+            weekString = WEEK[dayIndex - 1];
+        }
     }
 
     public DateEntity(int year, int month, int day) {
@@ -76,6 +83,10 @@ public class DateEntity implements Parcelable, Serializable {
         calendar.set(Calendar.MILLISECOND, 0);
         millis = calendar.getTimeInMillis();
         timeFormat = formatString(millis, format);
+        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+        if (dayIndex >= 1 && dayIndex <= WEEKDAYS) {
+            weekString = WEEK[dayIndex - 1];
+        }
     }
 
     public DateEntity(String data, String fomart) {
@@ -90,6 +101,10 @@ public class DateEntity implements Parcelable, Serializable {
             second = calendar.get(Calendar.SECOND);
             millis = calendar.getTimeInMillis();
             timeFormat = data;
+            int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayIndex >= 1 && dayIndex <= WEEKDAYS) {
+                weekString = WEEK[dayIndex - 1];
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -104,6 +119,7 @@ public class DateEntity implements Parcelable, Serializable {
         second = in.readInt();
         timeFormat = in.readString();
         millis = in.readLong();
+        weekString = in.readString();
     }
 
     public static final Creator<DateEntity> CREATOR = new Creator<DateEntity>() {
@@ -141,6 +157,7 @@ public class DateEntity implements Parcelable, Serializable {
                 ", second=" + second +
                 ", timeFormat='" + timeFormat + '\'' +
                 ", millis=" + millis +
+                ", weekString=" + weekString +
                 '}';
     }
 
@@ -159,5 +176,6 @@ public class DateEntity implements Parcelable, Serializable {
         dest.writeInt(second);
         dest.writeString(timeFormat);
         dest.writeLong(millis);
+        dest.writeString(weekString);
     }
 }

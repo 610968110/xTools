@@ -65,9 +65,7 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    public void getDataBinding(ViewDataBinding binding) {
-
-    }
+    public abstract void getDataBinding(ViewDataBinding binding);
 
     public abstract void initView(View view);
 
@@ -129,15 +127,21 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         XTools.UiUtil().closeProgressDialog();
-        for (Disposable disposable : mDisposables) {
-            if (disposable != null && !disposable.isDisposed()) {
-                disposable.dispose();
+        if (mDisposables != null) {
+            for (Disposable disposable : mDisposables) {
+                if (disposable != null && !disposable.isDisposed()) {
+                    disposable.dispose();
+                }
             }
+            mDisposables.clear();
         }
-        for (Subscription subscription : mSubscriptions) {
-            if (subscription != null) {
-                subscription.cancel();
+        if (mSubscriptions != null) {
+            for (Subscription subscription : mSubscriptions) {
+                if (subscription != null) {
+                    subscription.cancel();
+                }
             }
+            mSubscriptions.clear();
         }
         if (mBind != null) {
             mBind.unbind();

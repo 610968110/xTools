@@ -123,8 +123,23 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onDestroy() {
         XTools.ActivityUtil().removeActivity(this);
         XTools.UiUtil().closeProgressDialog();
-        mDisposables.stream().filter(disposable -> disposable != null && !disposable.isDisposed()).forEach(Disposable::dispose);
-        mSubscriptions.stream().filter(subscription -> subscription != null).forEach(Subscription::cancel);
+        if (mDisposables != null) {
+            for (Disposable d : mDisposables) {
+                if (d != null && !d.isDisposed()) {
+                    d.dispose();
+                }
+            }
+            mDisposables.clear();
+        }
+        XTools.UiUtil().closeProgressDialog();
+        if (mSubscriptions != null) {
+            for (Subscription s : mSubscriptions) {
+                if (s != null) {
+                    s.cancel();
+                }
+            }
+            mSubscriptions.clear();
+        }
         if (mBind != null) {
             mBind.unbind();
         }

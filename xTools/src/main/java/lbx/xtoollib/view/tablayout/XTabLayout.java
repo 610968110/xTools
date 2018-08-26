@@ -182,6 +182,7 @@ public class XTabLayout extends HorizontalScrollView {
     int mTabPaddingTop;
     int mTabPaddingEnd;
     int mTabPaddingBottom;
+    int mConnerSize;
 
     int mTabTextAppearance;
     ColorStateList mTabTextColors;
@@ -255,6 +256,8 @@ public class XTabLayout extends HorizontalScrollView {
                 mTabPaddingTop);
         mTabPaddingEnd = a.getDimensionPixelSize(R.styleable.TabLayout_tabPaddingEnd,
                 mTabPaddingEnd);
+        mConnerSize = a.getDimensionPixelSize(R.styleable.TabLayout_tabIndicatorConner,
+                0);
         mTabPaddingBottom = a.getDimensionPixelSize(R.styleable.TabLayout_tabPaddingBottom,
                 mTabPaddingBottom);
 
@@ -1986,7 +1989,7 @@ public class XTabLayout extends HorizontalScrollView {
                     int tabCenter = mIndicatorLeft + width / 2;
                     RectF oval3 = new RectF(tabCenter - mTabLineOffset, getHeight() - mSelectedIndicatorHeight,
                             mIndicatorRight - width / 2 + mTabLineOffset, getHeight());
-                    canvas.drawRoundRect(oval3, 30, 30, mSelectedIndicatorPaint);
+                    canvas.drawRoundRect(oval3, mConnerSize, mConnerSize, mSelectedIndicatorPaint);
                 }
             }
         }

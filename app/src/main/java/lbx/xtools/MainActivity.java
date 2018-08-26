@@ -16,6 +16,7 @@ import java.io.File;
 
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.base.BaseActivity;
+import lbx.xtoollib.bean.DateEntity;
 import lbx.xtoollib.phone.SecurityUtil;
 import lbx.xtoollib.phone.xLogUtil;
 import lbx.xtools.databinding.ActivityMainBinding;
@@ -63,7 +64,7 @@ public class MainActivity extends BaseActivity {
 //        Util.download();
         //搜索intent
 //        Util.scanIntentApp(this);
-        xLogUtil.e(this, "测试");
+        xLogUtil.e(this, new DateEntity(System.currentTimeMillis()).toString());
     }
 
     public void choose(View view) {

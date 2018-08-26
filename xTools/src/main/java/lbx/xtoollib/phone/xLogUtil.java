@@ -128,10 +128,11 @@ public class xLogUtil {
                     String clazz = o.getClass().getName();
                     for (StackTraceElement s : stack) {
                         String str = s.toString();
-                        if (str.contains(clazz)) {
+                        if (str.contains(clazz + ":")) {
                             sb.append(str);
                             sb.append(" --> ");
                             sb.append("\n");
+                            break;
                         }
                     }
                 }
