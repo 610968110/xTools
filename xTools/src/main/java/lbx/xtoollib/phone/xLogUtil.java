@@ -1,6 +1,7 @@
 package lbx.xtoollib.phone;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -123,19 +124,7 @@ public class xLogUtil {
         if (mDebuggable >= LEVEL_VERBOSE) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
-                StringBuilder sb = new StringBuilder();
-                if (o != null) {
-                    String clazz = o.getClass().getName();
-                    for (StackTraceElement s : stack) {
-                        String str = s.toString();
-                        if (str.contains(clazz + ":")) {
-                            sb.append(str);
-                            sb.append(" --> ");
-                            sb.append("\n");
-                            break;
-                        }
-                    }
-                }
+                StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.v(mTag, sb.toString() + s);
@@ -158,18 +147,7 @@ public class xLogUtil {
         if (mDebuggable >= LEVEL_DEBUG) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
-                StringBuilder sb = new StringBuilder();
-                if (o != null) {
-                    String clazz = o.getClass().getName();
-                    for (StackTraceElement s : stack) {
-                        String str = s.toString();
-                        if (str.contains(clazz)) {
-                            sb.append(str);
-                            sb.append(" --> ");
-                            sb.append("\n");
-                        }
-                    }
-                }
+                StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.d(mTag, sb.toString() + s);
@@ -193,18 +171,7 @@ public class xLogUtil {
         if (mDebuggable >= LEVEL_INFO) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
-                StringBuilder sb = new StringBuilder();
-                if (o != null) {
-                    String clazz = o.getClass().getName();
-                    for (StackTraceElement s : stack) {
-                        String str = s.toString();
-                        if (str.contains(clazz)) {
-                            sb.append(str);
-                            sb.append(" --> ");
-                            sb.append("\n");
-                        }
-                    }
-                }
+                StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.i(mTag, sb.toString() + s);
@@ -227,18 +194,7 @@ public class xLogUtil {
         if (mDebuggable >= LEVEL_WARN) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
-                StringBuilder sb = new StringBuilder();
-                if (o != null) {
-                    String clazz = o.getClass().getName();
-                    for (StackTraceElement s : stack) {
-                        String str = s.toString();
-                        if (str.contains(clazz)) {
-                            sb.append(str);
-                            sb.append(" --> ");
-                            sb.append("\n");
-                        }
-                    }
-                }
+                StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.w(mTag, sb.toString() + s);
@@ -261,18 +217,7 @@ public class xLogUtil {
         if (mDebuggable >= LEVEL_ERROR) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
-                StringBuilder sb = new StringBuilder();
-                if (o != null) {
-                    String clazz = o.getClass().getName();
-                    for (StackTraceElement s : stack) {
-                        String str = s.toString();
-                        if (str.contains(clazz)) {
-                            sb.append(str);
-                            sb.append(" --> ");
-                            sb.append("\n");
-                        }
-                    }
-                }
+                StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
                     Log.e(mTag, sb.toString() + s);
@@ -284,6 +229,23 @@ public class xLogUtil {
         }
     }
 
+    @NonNull
+    private static StringBuilder getStack(Object o, StackTraceElement[] stack) {
+        StringBuilder sb = new StringBuilder();
+        if (o != null) {
+            String clazz = o.getClass().getName();
+            for (StackTraceElement s : stack) {
+                String str = s.toString();
+                if (str.contains(clazz + ":")) {
+                    sb.append(str);
+                    sb.append(" --> ");
+                    sb.append("\n");
+                    break;
+                }
+            }
+        }
+        return sb;
+    }
     /**
      * 将log写入 自定义路径下的文件 文件名自动生成
      *
