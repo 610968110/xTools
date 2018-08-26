@@ -233,10 +233,11 @@ public class xLogUtil {
     private static StringBuilder getStack(Object o, StackTraceElement[] stack) {
         StringBuilder sb = new StringBuilder();
         if (o != null) {
-            String clazz = o.getClass().getName();
+            Class<?> aClass = o.getClass();
+            String clazz = aClass.getName();
             for (StackTraceElement s : stack) {
                 String str = s.toString();
-                if (str.contains(clazz + ":")) {
+                if (str.contains(clazz) && str.contains(aClass.getSimpleName() + ".java:")) {
                     sb.append(str);
                     sb.append(" --> ");
                     sb.append("\n");
@@ -246,6 +247,7 @@ public class xLogUtil {
         }
         return sb;
     }
+
     /**
      * 将log写入 自定义路径下的文件 文件名自动生成
      *
