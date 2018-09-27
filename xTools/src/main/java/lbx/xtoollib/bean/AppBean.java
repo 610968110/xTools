@@ -49,9 +49,6 @@ public class AppBean implements Parcelable {
         if (icon instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
             setBmp(bitmap);
-            if (bitmap != null) {
-                bitmap.recycle();
-            }
         }
     }
 

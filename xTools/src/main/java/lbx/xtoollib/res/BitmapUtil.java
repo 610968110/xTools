@@ -4,7 +4,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -116,9 +119,23 @@ public class BitmapUtil {
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
-    public Bitmap bitmap2StrByBase64(String bmp) {
+    public Bitmap strByBase642Bitmap(String bmp) {
         byte[] bytes = Base64.decode(bmp.getBytes(), Base64.DEFAULT);
         return byte2Bmp(bytes);
+    }
+
+    public Bitmap byteByBase642Bitmap(byte[] bytes) {
+        byte[] b = Base64.decode(bytes, Base64.DEFAULT);
+        return byte2Bmp(b);
+    }
+
+    public Bitmap base642Bitmap(String base64String) {
+        return base642Bitmap(Base64.decode(base64String, Base64.DEFAULT));
+    }
+
+    public Bitmap base642Bitmap(byte[] bytes) {
+        byte[] b = Base64.decode(bytes, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(b, 0, b.length);
     }
 
     /**
@@ -238,5 +255,22 @@ public class BitmapUtil {
             }
         }
         return b;
+    }
+
+    public Bitmap drawableToBitmap(Drawable drawable) {
+        // 取 drawable 的长宽
+        int w = drawable.getIntrinsicWidth();
+        int h = drawable.getIntrinsicHeight();
+        // 取 drawable 的颜色格式
+        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                : Bitmap.Config.RGB_565;
+        // 建立对应 bitmap
+        Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+        // 建立对应 bitmap 的画布
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, w, h);
+        // 把 drawable 内容画到画布中
+        drawable.draw(canvas);
+        return bitmap;
     }
 }

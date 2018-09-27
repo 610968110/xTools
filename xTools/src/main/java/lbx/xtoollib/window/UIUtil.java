@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import lbx.xtoollib.R;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.view.UnCancelDialog;
 
 
 public class UIUtil {
@@ -179,23 +180,29 @@ public class UIUtil {
      *
      * @param context context
      */
-    public void showProgressDialog(final Context context) {
+    public void showProgressDialog(final Context context, final boolean isAlert) {
         if (context == null || !(context instanceof Activity) || ((Activity) context).isDestroyed()) {
             return;
         }
         if (dialog != null && dialog.isShowing()) {
             return;
         }
-        dialog = new Dialog(context, R.style.Theme_MyDialog);
+        dialog = isAlert ? new UnCancelDialog(context, R.style.Theme_MyDialog) : new Dialog(context, R.style.Theme_MyDialog);
         dialog.setContentView(R.layout.dialog_progress_layout);
         if (dialog != null && !dialog.isShowing()) {
             runOnUIThread(() -> dialog.show());
         }
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnKeyListener((dialog1, keyCode, event) -> {
-            closeProgressDialog();
-            return true;
-        });
+        if (!isAlert) {
+            dialog.setOnKeyListener((dialog1, keyCode, event) -> {
+                closeProgressDialog();
+                return true;
+            });
+        }
+    }
+
+    public void showProgressDialog(final Context context) {
+        showProgressDialog(context, false);
     }
 
     /**

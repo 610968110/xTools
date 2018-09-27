@@ -151,4 +151,11 @@ public abstract class BaseDataAdapter<M, N extends ViewDataBinding, T extends Ba
 
     }
 
+    public List<M> getList() {
+        return mList;
+    }
+
+    public void setList(List<M> list) {
+        this.mList = list;
+    }
 }
