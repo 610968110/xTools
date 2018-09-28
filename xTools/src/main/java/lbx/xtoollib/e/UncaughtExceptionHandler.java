@@ -17,6 +17,7 @@ import java.lang.reflect.Field;
 
 import lbx.xtoollib.XTools;
 import lbx.xtoollib.phone.SecurityUtil;
+import lbx.xtoollib.phone.xLogUtil;
 
 
 /**
@@ -74,6 +75,7 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         ex.printStackTrace();
+        xLogUtil.e("****************************** CRASH ******************************");
         //收集崩溃日志
         String info = collectPhoneInfo(mContext);
         String result = getErr(ex);
