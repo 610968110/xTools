@@ -244,6 +244,27 @@ public class xLogUtil {
                     break;
                 }
             }
+            if (TextUtils.isEmpty(sb.toString())) {
+                String superClazz = "";
+                Class<?> superclass = aClass.getSuperclass();
+                while (superclass != null) {
+                    superClazz += superclass.getSimpleName() + ",";
+                    superclass = superclass.getSuperclass();
+                }
+                String[] split = superClazz.split(",");
+                kk:
+                for (StackTraceElement s : stack) {
+                    String str = s.toString();
+                    for (String sp : split) {
+                        if (str.contains(sp) && str.contains(sp + ".java:")) {
+                            sb.append(str);
+                            sb.append(" --> ");
+                            sb.append("\n");
+                            break kk;
+                        }
+                    }
+                }
+            }
         }
         return sb;
     }
