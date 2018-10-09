@@ -9,14 +9,9 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 
 import javax.net.ssl.SSLContext;
@@ -123,21 +118,13 @@ public class HttpUtil {
             trustManagerFactory.init(keyStore);
             sslContext.init(null, trustManagerFactory.getTrustManagers(), new SecureRandom());
             return sslContext.getSocketFactory();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public <T> void send(Flowable<T> flowable, OnHttpFlowableCallBack<T> listener) {
+    public <T> Flowable<T> send(Flowable<T> flowable, OnHttpFlowableCallBack<T> listener) {
         if (listener == null) {
             listener = OnHttpFlowableCallBack.DEFAULT_CALLBACK;
         }
@@ -169,9 +156,10 @@ public class HttpUtil {
 
                     }
                 });
+        return flowable;
     }
 
-    public <T> void send(Observable<T> observable, OnHttpObservableCallBack<T> listener) {
+    public <T> Observable<T> send(Observable<T> observable, OnHttpObservableCallBack<T> listener) {
         if (listener == null) {
             listener = OnHttpObservableCallBack.DEFAULT_CALLBACK;
         }
@@ -202,6 +190,7 @@ public class HttpUtil {
 
                     }
                 });
+        return observable;
     }
 
     public void upLoad(String url, File file, String key, String desc, OnUploadCallBack<ResponseBody> callBack) {
