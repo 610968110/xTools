@@ -64,8 +64,8 @@ xTools依赖的三方框架，pom会自动引用，若有版本变化需求请�
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     compile 'com.android.support:design:26.+'
-    compile 'com.google.dagger:dagger:2.+'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.+'
+    compile 'com.google.dagger:dagger:2.17'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
 ````
 
