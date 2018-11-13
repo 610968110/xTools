@@ -90,6 +90,18 @@ public class SpUtil {
         return mSp.edit().remove(key).commit();
     }
 
+    public boolean putFloat(String key, float i) {
+        return mSp.edit().putFloat(key, i).commit();
+    }
+
+    public float getFloat(String key, float i) {
+        return mSp.getFloat(key, i);
+    }
+
+    public boolean deleteFloat(String key) {
+        return mSp.edit().remove(key).commit();
+    }
+
     public boolean putStringArray(String key, String... array) {
         int length = array.length;
         StringBuilder builder = new StringBuilder();

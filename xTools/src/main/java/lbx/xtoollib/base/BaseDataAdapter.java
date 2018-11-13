@@ -60,9 +60,13 @@ public abstract class BaseDataAdapter<M, N extends ViewDataBinding, T extends Ba
 
     public abstract void dataBinding(N binding, int position, M entity, T t);
 
-    public abstract boolean itemClickEnable();
+    public boolean itemClickEnable() {
+        return false;
+    }
 
-    public abstract boolean itemLongClickEnable();
+    public boolean itemLongClickEnable() {
+        return false;
+    }
 
     public RecyclerView getRecycleView() {
         return mRecycleView;
