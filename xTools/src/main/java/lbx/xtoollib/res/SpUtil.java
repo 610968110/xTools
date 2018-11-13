@@ -77,8 +77,8 @@ public class SpUtil {
         return mSp.getInt(key, i);
     }
 
-    public long getLong(String key, long i) {
-        return mSp.getLong(key, i);
+    public long getLong(String key, long l) {
+        return mSp.getLong(key, l);
     }
 
 
