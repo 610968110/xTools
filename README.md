@@ -33,7 +33,7 @@ BaseActivity/BaseFragment、一下常用的自定义控件、MVVM等。封装了
 module的build文件添加：
 
 ````Xml 
-    //本包的引入
+    // 本包的引入
     compile "com.lbx:xTools:2.1.4"
 ````
         
