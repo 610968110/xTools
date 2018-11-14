@@ -67,6 +67,7 @@ xTools依赖的三方框架，pom会自动引用，若有版本变化需求请�
     compile 'com.google.dagger:dagger:2.17'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 ````
 
        

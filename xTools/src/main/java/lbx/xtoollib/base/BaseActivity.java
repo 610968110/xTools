@@ -122,7 +122,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onDestroy() {
         XTools.ActivityUtil().removeActivity(this);
-        XTools.UiUtil().closeProgressDialog();
+        if (closeProgressDialogWithDestroy()) {
+            XTools.UiUtil().closeProgressDialog();
+        }
         if (mDisposables != null) {
             for (Disposable d : mDisposables) {
                 if (d != null && !d.isDisposed()) {
@@ -144,5 +146,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             mBind.unbind();
         }
         super.onDestroy();
+    }
+
+    public boolean closeProgressDialogWithDestroy() {
+        return true;
     }
 }
