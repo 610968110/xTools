@@ -1,5 +1,6 @@
 package lbx.xtoollib.phone;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -140,6 +141,13 @@ public class FileUtil {
             savePathFile.mkdirs();
         }
         return path;
+    }
+
+    public void openSystemFileBrowser(Activity activity, int code) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        activity.startActivityForResult(intent, code);
     }
 
     public static class FileSizeUtil {

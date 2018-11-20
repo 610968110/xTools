@@ -87,6 +87,7 @@ public class XTools {
     private static DownloadUtil mDownloadUtil;
     private static LauncherUtil mLauncherUtil;
     private static PropertiesUtil mPropertiesUtil;
+    private boolean isInit;
 
     private XTools(Builder builder, Application app) {
         mApp = app;
@@ -107,6 +108,9 @@ public class XTools {
         getUncaughtExceptionHandler(app).setSecurityUtil(mSecurity);
     }
 
+    public boolean isInit() {
+        return isInit;
+    }
 
     public static class Builder {
 
@@ -185,6 +189,7 @@ public class XTools {
     }
 
     public void init() {
+        isInit = true;
         UiUtil().init(mApp);
         mainThreadId = Process.myTid();
     }
