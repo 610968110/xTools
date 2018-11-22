@@ -106,7 +106,7 @@ public class HttpUtil {
             keyStore.load(null, null);
             if (certificates != null) {
                 for (int i = 0; i < certificates.length; i++) {
-                    InputStream certificate = XTools.getApplication().getResources().openRawResource(certificates[i]);
+                    InputStream certificate = XTools.getApplicationContext().getResources().openRawResource(certificates[i]);
                     keyStore.setCertificateEntry(String.valueOf(i), certificateFactory.generateCertificate(certificate));
                     if (certificate != null) {
                         certificate.close();

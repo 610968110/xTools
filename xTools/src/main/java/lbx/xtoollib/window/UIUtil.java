@@ -2,7 +2,6 @@ package lbx.xtoollib.window;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,7 +29,7 @@ public class UIUtil {
 
     private static UIUtil INSTANCE;
 
-    private static Application mApp;
+    private static Context mApp;
     private static Handler mHandler;
     private static Toast emptyToast;
     private static Toast toast;
@@ -51,7 +50,7 @@ public class UIUtil {
     private UIUtil() {
     }
 
-    public void init(Application app) {
+    public void init(Context app) {
         mApp = app;
         mHandler = new Handler(Looper.getMainLooper());
     }

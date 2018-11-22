@@ -52,6 +52,7 @@ import static lbx.xtoollib.phone.xLogUtil.LEVEL_VERBOSE;
 
 public class XTools {
 
+    private static Context mAppContext;
     private static Application mApp;
     private static UIUtil UI_UTIL;
     private static ResUtil RES_UTIL;
@@ -87,10 +88,13 @@ public class XTools {
     private static DownloadUtil mDownloadUtil;
     private static LauncherUtil mLauncherUtil;
     private static PropertiesUtil mPropertiesUtil;
-    private boolean isInit;
+    private static boolean isInit;
 
-    private XTools(Builder builder, Application app) {
-        mApp = app;
+    private XTools(Builder builder, Context app) {
+        if (app instanceof Application) {
+            mApp = (Application) app;
+        }
+        mAppContext = app.getApplicationContext();
         if (!builder.log) {
             LogUtil().setDebuggable(LEVEL_NONE);
         } else {
@@ -108,7 +112,11 @@ public class XTools {
         getUncaughtExceptionHandler(app).setSecurityUtil(mSecurity);
     }
 
-    public boolean isInit() {
+    public static Application getApplication() {
+        return mApp;
+    }
+
+    public static boolean isInit() {
         return isInit;
     }
 
@@ -170,7 +178,7 @@ public class XTools {
             return this;
         }
 
-        public XTools build(Application app) {
+        public XTools build(Context app) {
             return new XTools(this, app);
         }
 
@@ -190,12 +198,8 @@ public class XTools {
 
     public void init() {
         isInit = true;
-        UiUtil().init(mApp);
+        UiUtil().init(mAppContext);
         mainThreadId = Process.myTid();
-    }
-
-    public static Application getApplication() {
-        return mApp;
     }
 
     public static Context getApplicationContext() {

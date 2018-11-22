@@ -190,7 +190,7 @@ public class AppUtil {
                     Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED |
                     Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
-        return new XIntent(intent);
+        return intent == null ? null : new XIntent(intent);
     }
 
     public void scanThreadAppList(Context context, OnScanAppListener listener) {

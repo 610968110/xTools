@@ -108,7 +108,7 @@ public class WebPhotoActivity extends BaseActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //7.0及以上
         if (Build.VERSION.SDK_INT > 23) {
-            Uri contentUri = getUriForFile(this, XTools.getApplication().getPackageName() + ".fileprovider", mPictureFile);
+            Uri contentUri = getUriForFile(this, XTools.getApplicationContext().getPackageName() + ".fileprovider", mPictureFile);
             grantUriPermission(getPackageName(), contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
         } else {
