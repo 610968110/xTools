@@ -34,7 +34,7 @@ module的build文件添加：
 
 ````Xml 
     // 本包的引入
-    compile "com.lbx:xTools:2.1.7"
+    compile "com.lbx:xTools:2.1.8"
 ````
         
         
