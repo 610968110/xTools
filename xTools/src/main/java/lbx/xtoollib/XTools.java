@@ -18,11 +18,10 @@ import lbx.xtoollib.phone.ChineseDateUtil;
 import lbx.xtoollib.phone.CloseUtil;
 import lbx.xtoollib.phone.FileUtil;
 import lbx.xtoollib.phone.FingerPrintUtil;
-import lbx.xtoollib.phone.IOUtils;
 import lbx.xtoollib.phone.LauncherUtil;
 import lbx.xtoollib.phone.MD5Utils;
 import lbx.xtoollib.phone.MathUtil;
-import lbx.xtoollib.phone.MeatDataUtil;
+import lbx.xtoollib.phone.MetaDataUtil;
 import lbx.xtoollib.phone.ObjUtil;
 import lbx.xtoollib.phone.PermissionUtil;
 import lbx.xtoollib.phone.PhoneUtil;
@@ -67,11 +66,10 @@ public class XTools {
     private static DrawableUtil mDrawableUtil;
     private static FileUtil mFileUtil;
     private static HttpUtil mHttpUtil;
-    private static IOUtils mIOUtils;
     private static xLogUtil mLogUtil;
     private static ApkUtil mApkUtil;
     private static MD5Utils mMD5Utils;
-    private static MeatDataUtil mMeatDataUtil;
+    private static MetaDataUtil mMetaDataUtil;
     private static NetConnectUtil mNetConnectTypeUtil;
     private static ObjUtil mObjUtil;
     private static PermissionUtil mPermissionUtil;
@@ -262,10 +260,6 @@ public class XTools {
         return mHttpUtil == null ? mHttpUtil = HttpUtil.getInstance() : mHttpUtil;
     }
 
-    public static IOUtils IOUtils() {
-        return mIOUtils == null ? mIOUtils = IOUtils.getInstance() : mIOUtils;
-    }
-
     public static xLogUtil LogUtil() {
         return mLogUtil == null ? mLogUtil = xLogUtil.getInstance() : mLogUtil;
     }
@@ -274,8 +268,8 @@ public class XTools {
         return mMD5Utils == null ? mMD5Utils = MD5Utils.getInstance() : mMD5Utils;
     }
 
-    public static MeatDataUtil MeatDataUtil() {
-        return mMeatDataUtil == null ? mMeatDataUtil = MeatDataUtil.getInstance() : mMeatDataUtil;
+    public static MetaDataUtil MeatDataUtil() {
+        return mMetaDataUtil == null ? mMetaDataUtil = MetaDataUtil.getInstance() : mMetaDataUtil;
     }
 
     public static NetConnectUtil NetConnectTypeUtil() {

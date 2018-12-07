@@ -97,16 +97,19 @@ public final class XHttpLoggingInterceptor implements Interceptor {
             requestStartMessage += " (" + requestBody.contentLength() + "-byte body)";
         }
         xLogUtil.d(tag + "HTTP  " + requestStartMessage);
+        if (hasRequestBody) {
+            xLogUtil.d(tag + "Request-Body -> " + requestBody.toString());
+        }
 
         if (logHeaders) {
             if (hasRequestBody) {
                 // Request body headers are only present when installed as a network interceptor. Force
                 // them to be included (when available) so there values are known.
                 if (requestBody.contentType() != null) {
-                    xLogUtil.d(tag + "Content-Type  --> " + requestBody.contentType());
+                    xLogUtil.d(tag + "Request-Content-Type  --> " + requestBody.contentType());
                 }
                 if (requestBody.contentLength() != -1) {
-                    xLogUtil.d(tag + "Content-Length  --> " + requestBody.contentLength());
+                    xLogUtil.d(tag + "Request-Content-Length  --> " + requestBody.contentLength());
                 }
             }
 

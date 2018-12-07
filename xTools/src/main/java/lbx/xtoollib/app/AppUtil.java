@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
@@ -196,8 +195,9 @@ public class AppUtil {
 
     public boolean isAppInstall(Context context, String pkn) {
         try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(pkn, 0);
-            return packageInfo != null;
+            ApplicationInfo info = context.getPackageManager()
+                    .getApplicationInfo(pkn, PackageManager.GET_UNINSTALLED_PACKAGES);
+            return info!=null;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

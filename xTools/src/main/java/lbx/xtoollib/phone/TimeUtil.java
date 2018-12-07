@@ -144,10 +144,8 @@ public class TimeUtil {
     }
 
     public String getHourString(long time, String format) {
-        boolean isToday = isToday(time);
-        boolean isYesterday = isYesterday(time);
-        return isToday ? formatTime(time, format) :
-                isYesterday ? "昨天" + formatTime(time, format) :
+        return isToday(time) ? formatTime(time, format) :
+                isYesterday(time) ? "昨天" + formatTime(time, format) :
                         formatTime(time, defaultFormat);
     }
 
