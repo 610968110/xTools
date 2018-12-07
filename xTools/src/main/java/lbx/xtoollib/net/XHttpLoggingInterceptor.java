@@ -98,7 +98,15 @@ public final class XHttpLoggingInterceptor implements Interceptor {
         }
         xLogUtil.d(tag + "HTTP  " + requestStartMessage);
         if (hasRequestBody) {
-            xLogUtil.d(tag + "Request-Body -> " + requestBody.toString());
+            Charset charset = UTF8;
+            MediaType contentType = requestBody.contentType();
+            if (contentType != null) {
+                charset = contentType.charset(UTF8);
+            }
+            Buffer buffer = new Buffer();
+            requestBody.writeTo(buffer);
+            String body = buffer.readString(charset);
+            xLogUtil.d(tag + "Request-Body --> " + body);
         }
 
         if (logHeaders) {
@@ -151,7 +159,7 @@ public final class XHttpLoggingInterceptor implements Interceptor {
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-            xLogUtil.d("<-- HTTP FAILED: " + e);
+            xLogUtil.d("HTTP FAILED --> " + e);
             throw e;
         }
         long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
