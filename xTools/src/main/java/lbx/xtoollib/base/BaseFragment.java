@@ -48,8 +48,15 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void inflate(LayoutInflater inflater, int layoutID, ViewGroup container, Bundle savedInstanceState, boolean b) {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, layoutID, container, b);
-        view = mViewDataBinding == null ? inflater.inflate(layoutID, container, b) : mViewDataBinding.getRoot();
+        if (layoutID != -1 && layoutID != 0) {
+            mViewDataBinding = DataBindingUtil.inflate(inflater, layoutID, container, b);
+            view = mViewDataBinding == null ? inflater.inflate(layoutID, container, b) :
+                    mViewDataBinding.getRoot();
+        }
+    }
+
+    public View getRootView() {
+        return view;
     }
 
     public abstract int getLayoutID();

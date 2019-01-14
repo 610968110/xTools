@@ -36,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         mSubscriptions = new ArrayList<>();
         beforeLayout();
         int layoutID = getLayoutID();
-        if (layoutID != -1) {
+        if (layoutID != -1 && layoutID != 0) {
             mViewDataBinding = DataBindingUtil.setContentView(this, layoutID);
         } else {
             setContentView(getLayout());

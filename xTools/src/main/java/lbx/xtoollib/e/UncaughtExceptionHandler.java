@@ -98,7 +98,9 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
             if (!file.exists() || !file.isDirectory()) {
                 file.mkdirs();
             }
-            stream = new FileOutputStream(new File(path, "crash_" + time + fileName + ".txt"));
+            File file1 = new File(path, "crash_" + time + fileName + ".txt");
+            xLogUtil.e("未捕获异常:" + file1.getName());
+            stream = new FileOutputStream(file1);
             byte[] encrypt;
             if (mSecurityUtil != null) {
                 try {

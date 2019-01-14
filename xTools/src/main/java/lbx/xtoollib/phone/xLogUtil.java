@@ -8,7 +8,6 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.SimpleDateFormat;
@@ -308,15 +307,13 @@ public class xLogUtil {
             pathF.mkdirs();
         }
         File file = new File(path, name);
-        format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS -> ", Locale.CHINA);
         String logTime = format.format(new Date());
         String logs = logTime + File.separator + tag + File.separator + log;
         if (securityUtil != null) {
             try {
                 //des加密
                 logs = new String(securityUtil.encrypt(logs.getBytes()), "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }

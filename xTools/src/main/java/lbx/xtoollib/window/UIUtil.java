@@ -144,7 +144,7 @@ public class UIUtil {
         return mApp.getApplicationContext();
     }
 
-    public static Handler getHandler() {
+    public Handler getHandler() {
         return mHandler;
     }
 

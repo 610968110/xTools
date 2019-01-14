@@ -34,7 +34,7 @@ module的build文件添加：
 
 ````Xml 
     // 本包的引入
-    compile "com.lbx:xTools:2.1.8"
+    compile "com.lbx:xTools:2.1.9"
 ````
         
         
@@ -187,5 +187,9 @@ StringBuilder builder = new SecurityUtil(key).decryptFile(file);
 ##### 2.1.0
 1、升级Log库，使用方法 `xLogUtil.e(this,"****");`重载方法的时候，会在Logcat
 中定位到打印log的位置;
-##### 2.1.3
+##### 2.1.3 - 2.1.7
 1、优化内部逻辑
+##### 2.1.8
+1、优化Http请求的的Log拦截器
+##### 2.1.9
+1、增加RxBus
