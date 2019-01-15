@@ -13,12 +13,16 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import lbx.xtoollib.R;
 import lbx.xtoollib.XTools;
@@ -35,6 +39,7 @@ public class UIUtil {
     private static Toast toast;
     private static Dialog dialog = null;
     private long[] mHits = new long[2];
+    private static Map<String, Handler> mHandlerMap;
 
     public static UIUtil getInstance() {
         if (INSTANCE == null) {
@@ -48,6 +53,7 @@ public class UIUtil {
     }
 
     private UIUtil() {
+        mHandlerMap = new HashMap<>();
     }
 
     public void init(Context app) {
@@ -137,11 +143,53 @@ public class UIUtil {
         return builder.setCancelable(false)
                 .setTitle(title)
                 .setMessage(text);
-
     }
 
     public Context getContext() {
         return mApp.getApplicationContext();
+    }
+
+    public Handler getHandlerByFragment(android.app.Fragment fragment) {
+        return getHandlerByTag(fragment);
+    }
+
+    public Handler getHandlerByFragment(Fragment fragment) {
+        return getHandlerByTag(fragment);
+    }
+
+    public Handler getHandlerByActivity(Activity activity) {
+        return getHandlerByTag(activity);
+    }
+
+    private Handler getHandlerByTag(Object o) {
+        String tag = o.getClass().getName();
+        Handler handler = mHandlerMap.get(tag);
+        if (handler == null) {
+            handler = new Handler(Looper.getMainLooper());
+            mHandlerMap.put(tag, handler);
+        }
+        return handler;
+    }
+
+    public void removeAllMessage(android.app.Fragment fragment) {
+        removeAllMessageByTag(fragment);
+    }
+
+    public void removeAllMessage(Fragment fragment) {
+        removeAllMessageByTag(fragment);
+    }
+
+    public void removeAllMessage(Activity activity) {
+        removeAllMessageByTag(activity);
+    }
+
+    private void removeAllMessageByTag(Object o) {
+        String tag = o.getClass().getName();
+        Handler handler = mHandlerMap.get(tag);
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            mHandlerMap.remove(tag);
+        }
     }
 
     public Handler getHandler() {

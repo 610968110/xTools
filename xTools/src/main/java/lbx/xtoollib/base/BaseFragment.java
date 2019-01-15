@@ -153,6 +153,7 @@ public abstract class BaseFragment extends Fragment {
         if (mBind != null) {
             mBind.unbind();
         }
+        XTools.UiUtil().removeAllMessage(this);
         super.onDestroy();
     }
 }

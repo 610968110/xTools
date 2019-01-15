@@ -145,6 +145,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         if (mBind != null) {
             mBind.unbind();
         }
+        XTools.UiUtil().removeAllMessage(this);
         super.onDestroy();
     }
 
