@@ -116,17 +116,25 @@ public class xLogUtil {
      * 以级别为 d 的形式输出LOG
      */
     public static void v(final String msg) {
-        v(null, msg);
+        v(mTag, msg);
+    }
+
+    public static void v(final String tag, final String msg) {
+        v(null, tag, msg);
     }
 
     public static void v(final Object o, final String msg) {
+        v(o, mTag, msg);
+    }
+
+    public static void v(final Object o, String tag, final String msg) {
         if (mDebuggable >= LEVEL_VERBOSE) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
                 StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
-                    Log.v(mTag, sb.toString() + s);
+                    Log.v(tag, sb.toString() + s);
                 }
             });
         }
@@ -139,17 +147,25 @@ public class xLogUtil {
      * 以级别为 d 的形式输出LOG
      */
     public static void d(final String msg) {
-        d(null, msg);
+        d(mTag, msg);
+    }
+
+    public static void d(final String tag, final String msg) {
+        d(null, tag, msg);
     }
 
     public static void d(final Object o, final String msg) {
+        d(o, mTag, msg);
+    }
+
+    public static void d(final Object o, String tag, final String msg) {
         if (mDebuggable >= LEVEL_DEBUG) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
                 StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
-                    Log.d(mTag, sb.toString() + s);
+                    Log.d(tag, sb.toString() + s);
                 }
             });
         }
@@ -163,17 +179,25 @@ public class xLogUtil {
      * 以级别为 i 的形式输出LOG
      */
     public static void i(final String msg) {
-        i(null, msg);
+        i(mTag, msg);
+    }
+
+    public static void i(final String tag, final String msg) {
+        i(null, tag, msg);
     }
 
     public static void i(final Object o, final String msg) {
+        i(o, mTag, msg);
+    }
+
+    public static void i(final Object o, String tag, final String msg) {
         if (mDebuggable >= LEVEL_INFO) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
                 StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
-                    Log.i(mTag, sb.toString() + s);
+                    Log.i(tag, sb.toString() + s);
                 }
             });
         }
@@ -186,17 +210,25 @@ public class xLogUtil {
      * 以级别为 w 的形式输出LOG
      */
     public static void w(final String msg) {
-        w(null, msg);
+        w(mTag, msg);
+    }
+
+    public static void w(final String tag, final String msg) {
+        w(null, tag, msg);
     }
 
     public static void w(final Object o, final String msg) {
+        w(o, mTag, msg);
+    }
+
+    public static void w(final Object o, String tag, final String msg) {
         if (mDebuggable >= LEVEL_WARN) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
                 StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
-                    Log.w(mTag, sb.toString() + s);
+                    Log.w(tag, sb.toString() + s);
                 }
             });
         }
@@ -208,18 +240,27 @@ public class xLogUtil {
     /**
      * 以级别为 e 的形式输出LOG
      */
+
     public static void e(final String msg) {
-        e(null, msg);
+        e(mTag, msg);
+    }
+
+    public static void e(final String tag, final String msg) {
+        e(null, tag, msg);
     }
 
     public static void e(final Object o, final String msg) {
+        e(o, mTag, msg);
+    }
+
+    public static void e(final Object o, String tag, final String msg) {
         if (mDebuggable >= LEVEL_ERROR) {
             StackTraceElement[] stack = Thread.currentThread().getStackTrace();
             service.execute(() -> {
                 StringBuilder sb = getStack(o, stack);
                 String[] cut = cut(msg);
                 for (String s : cut) {
-                    Log.e(mTag, sb.toString() + s);
+                    Log.e(tag, sb.toString() + s);
                 }
             });
         }
@@ -275,6 +316,7 @@ public class xLogUtil {
      * @param tag  标签
      * @param path 路径
      */
+
     public static void writeInFilePath(String log, String tag, String path) {
         writeInFilePath(log, tag, path, false);
     }
