@@ -381,6 +381,9 @@ public class xLogUtil {
         if (TextUtils.isEmpty(s) || s.length() == 0) {
             return new String[0];
         }
+        if (s.length() <= MAX) {
+            return new String[]{s};
+        }
         int length = s.length();
         int part = length / MAX;
         String[] cut = new String[length % MAX == 0 ? part : part + 1];
