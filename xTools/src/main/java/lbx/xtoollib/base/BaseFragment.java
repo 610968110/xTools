@@ -82,7 +82,6 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-
     protected <T> T findView(int viewID) {
         return (T) view.findViewById(viewID);
     }
@@ -132,8 +131,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        XTools.UiUtil().closeProgressDialog();
+    public void onDestroyView() {
         if (mDisposables != null) {
             for (Disposable disposable : mDisposables) {
                 if (disposable != null && !disposable.isDisposed()) {
@@ -154,6 +152,6 @@ public abstract class BaseFragment extends Fragment {
             mBind.unbind();
         }
         XTools.UiUtil().removeAllMessage(this);
-        super.onDestroy();
+        super.onDestroyView();
     }
 }
