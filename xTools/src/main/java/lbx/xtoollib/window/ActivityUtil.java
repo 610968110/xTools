@@ -7,7 +7,6 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -82,15 +81,20 @@ public class ActivityUtil {
     }
 
     @SafeVarargs
-    public final <T extends AppCompatActivity> XIntent startActivityWithTransition(
-            Activity activity, Class<T> clazz, Pair<View, String>... pairs) {
-        XIntent intent = new XIntent(activity, clazz);
+    public final void startActivityWithTransition(
+            Activity activity, XIntent intent, Pair<View, String>... pairs) {
+        startActivityWithTransitionForResult(activity, intent, -1, pairs);
+    }
+
+    @SafeVarargs
+    public final void startActivityWithTransitionForResult(
+            Activity activity, XIntent intent, int code, Pair<View, String>... pairs) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP && pairs != null && pairs.length > 0) {
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
             ActivityCompat.startActivity(activity, intent, options.toBundle());
+            ActivityCompat.startActivityForResult(activity, intent, code, options.toBundle());
         } else {
-            activity.startActivity(intent);
+            activity.startActivityForResult(intent, code);
         }
-        return intent;
     }
 }

@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -213,5 +215,15 @@ public class XIntent extends Intent {
     @Override
     public XIntent setComponent(ComponentName component) {
         return (XIntent) super.setComponent(component);
+    }
+
+    public XIntent startActivityWithTransition(Activity firstActivity, Pair<View, String>... pairs) {
+        XTools.ActivityUtil().startActivityWithTransition(firstActivity, this, pairs);
+        return this;
+    }
+
+    public XIntent startActivityWithTransitionForResult(Activity firstActivity, int code, Pair<View, String>... pairs) {
+        XTools.ActivityUtil().startActivityWithTransitionForResult(firstActivity, this, code, pairs);
+        return this;
     }
 }
