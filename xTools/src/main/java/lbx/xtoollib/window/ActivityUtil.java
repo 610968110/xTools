@@ -91,7 +91,6 @@ public class ActivityUtil {
             Activity activity, XIntent intent, int code, Pair<View, String>... pairs) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP && pairs != null && pairs.length > 0) {
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
-            ActivityCompat.startActivity(activity, intent, options.toBundle());
             ActivityCompat.startActivityForResult(activity, intent, code, options.toBundle());
         } else {
             activity.startActivityForResult(intent, code);
