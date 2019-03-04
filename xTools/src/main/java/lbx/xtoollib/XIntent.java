@@ -67,15 +67,16 @@ public class XIntent extends Intent {
     }
 
     public void start() {
-        mContext.startActivity(this);
+        start(mContext);
+    }
+
+    public void start(Context context) {
+        Context c = context == null ? mContext : context;
+        c.startActivity(this);
     }
 
     public void startForResult(int code) {
-        if (mContext instanceof Activity) {
-            ((Activity) mContext).startActivityForResult(this, code);
-        } else {
-            start();
-        }
+
     }
 
     public void startForResult(Activity activity, int code) {
@@ -91,24 +92,29 @@ public class XIntent extends Intent {
     }
 
     public void startService() {
-        mContext.startService(this);
+        startService(mContext);
     }
 
-    public void bindService(ServiceConnection connection) {
-        bindService(connection, BIND_AUTO_CREATE);
+    public void startService(Context context) {
+        Context c = context == null ? mContext : context;
+        c.startService(this);
     }
 
-    public void bindService(ServiceConnection connection, int flags) {
-        mContext.bindService(this, connection, flags);
+    public void bindService(Context context, ServiceConnection connection) {
+        bindService(context, connection, BIND_AUTO_CREATE);
     }
 
-    public void unbindService(ServiceConnection connection) {
-        mContext.unbindService(connection);
+    public void bindService(Context context, ServiceConnection connection, int flags) {
+        context.bindService(this, connection, flags);
+    }
+
+    public void unbindService(Context context, ServiceConnection connection) {
+        context.unbindService(connection);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void startForegroundService() {
-        mContext.startForegroundService(this);
+    public void startForegroundService(Context context) {
+        context.startForegroundService(this);
     }
 
     @Override

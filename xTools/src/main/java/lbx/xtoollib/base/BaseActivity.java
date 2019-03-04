@@ -133,7 +133,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             }
             mDisposables.clear();
         }
-        XTools.UiUtil().closeProgressDialog();
         if (mSubscriptions != null) {
             for (Subscription s : mSubscriptions) {
                 if (s != null) {
