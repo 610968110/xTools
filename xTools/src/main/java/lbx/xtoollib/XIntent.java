@@ -100,6 +100,15 @@ public class XIntent extends Intent {
         c.startService(this);
     }
 
+    public void stopService() {
+        stopService(mContext);
+    }
+
+    public void stopService(Context context) {
+        Context c = context == null ? mContext : context;
+        c.stopService(this);
+    }
+
     public void bindService(Context context, ServiceConnection connection) {
         bindService(context, connection, BIND_AUTO_CREATE);
     }
