@@ -3,6 +3,7 @@ package lbx.xtools;
 import android.app.Application;
 
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.e.UncaughtExceptionHandler;
 
 import static lbx.xtoollib.phone.xLogUtil.LEVEL_NONE;
 import static lbx.xtoollib.phone.xLogUtil.LEVEL_VERBOSE;
@@ -31,6 +32,7 @@ public class App extends Application {
                                 /*是否打印log到文件*/true,
                                 /*打印log文件在sd卡下的路径*/"xTools/log",
                                 /*打印到file的log是否加密(des+base64对称加密), null为不加密*/ "lbx")
+                .uncaughtExceptionHandler(/*设置全局异常捕获*/UncaughtExceptionHandler.DEFAULT)
                 .build(this);
         //初始化
         xTools.init();

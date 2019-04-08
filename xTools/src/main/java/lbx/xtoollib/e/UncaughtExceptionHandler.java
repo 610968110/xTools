@@ -27,29 +27,13 @@ import lbx.xtoollib.phone.xLogUtil;
  */
 public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-    private static Context mContext;
-    private static UncaughtExceptionHandler mHandler;
     private static String DEFAULT_FILE_NAME = "ERR";
     private static String DEFAULT_FILE_PATH = "xTools";
     private static String DEFAULT_ERR_TAG = "xys";
     private static boolean DEFAULT_SAVE = false;
     private static boolean DEFAULT_PRINT = false;
     private SecurityUtil mSecurityUtil;
-
-    public static UncaughtExceptionHandler getInstance(Context context) {
-        if (mHandler == null) {
-            synchronized (UncaughtExceptionHandler.class) {
-                if (mHandler == null) {
-                    mHandler = new UncaughtExceptionHandler(context);
-                }
-            }
-        }
-        return mHandler;
-    }
-
-    private UncaughtExceptionHandler(Context c) {
-        mContext = c;
-    }
+    public static final UncaughtExceptionHandler DEFAULT = new UncaughtExceptionHandler();
 
     public void setErrFileName(String defaultFileName) {
         DEFAULT_FILE_NAME = defaultFileName;
@@ -77,19 +61,35 @@ public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler
         ex.printStackTrace();
         xLogUtil.e("****************************** CRASH ******************************");
         //收集崩溃日志
-        String info = collectPhoneInfo(mContext);
+        String info = collectPhoneInfo(XTools.getApplicationContext());
         String result = getErr(ex);
         info += result;
         if (DEFAULT_PRINT) {
-            Log.e(DEFAULT_ERR_TAG, "未捕获异常 \n photoSelect：\n" + info + "\n end \n");
+            Log.e(DEFAULT_ERR_TAG, "未捕获异常 \n photoSelect：\n" +
+                    logSatart() + "\n" +
+                    info +
+                    logEnd() + "\n" +
+                    "\n end \n");
         }
         if (DEFAULT_SAVE) {
             saveFile(info, DEFAULT_FILE_PATH, DEFAULT_FILE_NAME);
         }
+        kill();
+    }
+
+    protected String logSatart() {
+        return "";
+    }
+
+    protected String logEnd() {
+        return "";
+    }
+
+    protected void kill() {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    private void saveFile(String info, String filepath, String fileName) {
+    protected void saveFile(String info, String filepath, String fileName) {
         String time = XTools.TimeUtil().formatNowTime();
         String path = XTools.FileUtil().getDefaultPath() + filepath + File.separator + "err";
         FileOutputStream stream = null;

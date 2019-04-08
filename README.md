@@ -34,7 +34,7 @@ module的build文件添加：
 
 ````Xml 
     // 本包的引入
-    compile "com.lbx:xTools:2.2.0"
+    compile "com.lbx:xTools:2.2.1"
 ````
         
         
@@ -89,6 +89,7 @@ xTools依赖的三方框架，pom会自动引用，若有版本变化需求请�
                                 /*是否打印log到文件*/true,
                                 /*打印log文件在sd卡下的路径*/"xTools/log", 
                                 /*打印到file的log是否加密(des+base64对称加密), null为不加密*/ "lbx")
+                        .uncaughtExceptionHandler(/*设置全局异常捕获*/UncaughtExceptionHandler.DEFAULT)
                         .build(this);         
         //初始化           
         xTools.init();          
@@ -193,3 +194,7 @@ StringBuilder builder = new SecurityUtil(key).decryptFile(file);
 1、优化Http请求的的Log拦截器
 ##### 2.1.9
 1、增加RxBus
+##### 2.2.0
+1、优化代码逻辑
+##### 2.2.1
+1、优化增加自定义异常捕获器

@@ -6,13 +6,16 @@ import android.os.Environment;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 
 import java.io.File;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import lbx.xtoollib.XIntent;
 import lbx.xtoollib.XTools;
+import lbx.xtoollib.bean.AppBean1;
 import lbx.xtoollib.listener.DownloadCallBack;
 import lbx.xtoollib.listener.FingerPrintCallback;
 import lbx.xtoollib.listener.OnHttpObservableCallBack;
+import lbx.xtoollib.listener.OnScanByIntentAppListener;
 import lbx.xtoollib.phone.xLogUtil;
 
 /**
@@ -117,6 +120,11 @@ public class Util {
     public static void scanIntentApp(final Context context) {
         XIntent mainIntent = new XIntent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory("test");
-        XTools.AppUtil().scanAppByIntent(context, mainIntent, list -> xLogUtil.e("list:" + list.size()));
+        XTools.AppUtil().scanAppByIntent(context, mainIntent, new OnScanByIntentAppListener() {
+            @Override
+            public void onScanFinish(List<AppBean1> list) {
+                xLogUtil.e("list:" + list.size());
+            }
+        });
     }
 }

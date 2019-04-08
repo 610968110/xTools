@@ -102,12 +102,13 @@ public class XTools {
         if (!builder.errLogFile && !builder.errLogCat) {
             return;
         }
-        Thread.setDefaultUncaughtExceptionHandler(getUncaughtExceptionHandler(app));
-        getUncaughtExceptionHandler(app).setErrFilePath(builder.errLogFilePath);
-        getUncaughtExceptionHandler(app).setErrFileName(builder.errLogFileName);
-        getUncaughtExceptionHandler(app).setErrPrintTag(builder.logTag);
-        getUncaughtExceptionHandler(app).log(builder.errLogFile, builder.errLogCat);
-        getUncaughtExceptionHandler(app).setSecurityUtil(mSecurity);
+        UncaughtExceptionHandler uncaughtExceptionHandler = getUncaughtExceptionHandler(builder);
+        Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
+        uncaughtExceptionHandler.setErrFilePath(builder.errLogFilePath);
+        uncaughtExceptionHandler.setErrFileName(builder.errLogFileName);
+        uncaughtExceptionHandler.setErrPrintTag(builder.logTag);
+        uncaughtExceptionHandler.log(builder.errLogFile, builder.errLogCat);
+        uncaughtExceptionHandler.setSecurityUtil(mSecurity);
     }
 
     public static Application getApplication() {
@@ -127,6 +128,7 @@ public class XTools {
         private String errLogFileName = "ERR";
         private boolean errLogFile = false;
         private boolean errLogCat = false;
+        private UncaughtExceptionHandler handler;
 
         public Builder() {
         }
@@ -176,6 +178,15 @@ public class XTools {
             return this;
         }
 
+        public UncaughtExceptionHandler getHandler() {
+            return handler;
+        }
+
+        public Builder uncaughtExceptionHandler(UncaughtExceptionHandler handler) {
+            this.handler = handler;
+            return this;
+        }
+
         public XTools build(Context app) {
             return new XTools(this, app);
         }
@@ -190,6 +201,7 @@ public class XTools {
                     ", errLogFileName='" + errLogFileName + '\'' +
                     ", errLogFile=" + errLogFile +
                     ", errLogCat=" + errLogCat +
+                    ", handler=" + handler +
                     '}';
         }
     }
@@ -324,9 +336,10 @@ public class XTools {
         return mLauncherUtil == null ? mLauncherUtil = LauncherUtil.getInstance() : mLauncherUtil;
     }
 
-    private UncaughtExceptionHandler getUncaughtExceptionHandler(Context context) {
+    private UncaughtExceptionHandler getUncaughtExceptionHandler(Builder builder) {
+        mUncaughtExceptionHandler = builder.getHandler();
         return mUncaughtExceptionHandler == null ?
-                mUncaughtExceptionHandler = UncaughtExceptionHandler.getInstance(context) :
+                mUncaughtExceptionHandler = UncaughtExceptionHandler.DEFAULT :
                 mUncaughtExceptionHandler;
     }
 }

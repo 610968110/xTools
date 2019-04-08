@@ -40,7 +40,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile project(':xTools')
-    compile 'com.lbx:xTools:2.1.9'
+//    compile 'com.lbx:xTools:2.2.2'
 
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
